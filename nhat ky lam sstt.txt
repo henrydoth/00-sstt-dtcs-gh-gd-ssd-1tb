@@ -1,0 +1,32 @@
+
+
+# Xử lý dữ liệu
+```{r}
+df_sav <- haven:: read_sav("sstt304_28_03_24.sav",  encoding = "WINDOWS-1258")
+write.csv(df_sav, "sstt304_clean.csv", fileEncoding = "UTF-8", row.names = FALSE)
+
+```
+
+```{r}
+df <- read.csv("sstt304_clean.csv", fileEncoding = "UTF-8", stringsAsFactors = FALSE)
+head(df)
+```
+
+```{r}
+
+#| label: Chọn bộ Test VnCo mới, và phân loại Sa sút trí tuệ theo tiêu chuẩn của MMSE 
+
+df <- df %>%
+  dplyr::filter(new.old.tests != 1) %>%
+  drop_na(mmse.new)
+
+```
+
+
+
+
+
+
+
+
+

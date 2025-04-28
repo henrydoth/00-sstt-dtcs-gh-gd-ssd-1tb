@@ -1,0 +1,95 @@
+{
+    "sources": [
+        {
+            "DOI": "10.1093/comjnl/27.2.97",
+            "ISSN": "0010-4620",
+            "URL": "https://doi.org/10.1093/comjnl/27.2.97",
+            "author": [
+                {
+                    "family": "Knuth",
+                    "given": "Donald E."
+                }
+            ],
+            "container-title": "Comput. J.",
+            "id": "knuth84",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        1984,
+                        5
+                    ]
+                ]
+            },
+            "page": "97-111",
+            "publisher": "Oxford University Press, Inc.",
+            "publisher-place": "USA",
+            "title": "Literate programming",
+            "type": "article-journal",
+            "volume": "27"
+        },
+        {
+            "author": [
+                {
+                    "family": "Nguyen",
+                    "given": "M. N."
+                }
+            ],
+            "id": "nguyen2021",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "Accessed on 28 December 2021",
+            "publisher": "https://www.statista.com/statistics/713671/vietnam-forecast-ageing-population/",
+            "title": "Share of ageing population in vietnam 2015",
+            "type": ""
+        },
+        {
+            "URL": "https://www.eastasiaforum.org/2017/01/25/vietnam-struggling-with-ageing-population/",
+            "author": [
+                {
+                    "family": "Tong",
+                    "given": "L."
+                }
+            ],
+            "id": "tong2017vietnam",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "note": "Accessed on 28 December 2021",
+            "title": "Vietnam struggling with ageing population",
+            "type": ""
+        },
+        {
+            "URL": "https://ageingasia.org/ageing-population-vietnam/#keyfacts",
+            "author": [
+                {
+                    "family": "International",
+                    "given": "HelpAge"
+                }
+            ],
+            "id": "helpage2019vietnam",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "note": "Accessed on 16 December 2021",
+            "title": "Ageing population in vietnam",
+            "type": ""
+        }
+    ],
+    "project_biblios": [
+        "references.bib"
+    ]
+}

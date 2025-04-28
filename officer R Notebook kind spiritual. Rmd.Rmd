@@ -1,0 +1,372 @@
+---
+title: "officer and Powerpoint "
+subtitle: <a name="home"></a>
+author: "Henry"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    code_download: true
+    code_folding: hide
+    toc: true
+    toc_float: false
+  word_document:
+    toc: true
+  pdf_document:
+    toc: true
+  word_documents:
+    toc: true
+always_allow_html: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include=FALSE}
+library(pacman)
+p_load(tidyverse,officer,haven, gt, flextable)
+
+```
+
+# General ideas before creating slide
+
+First we create a Powerpoint document by importing a pptx file as an R object. To make it most easy, I create my own powerpoint document based on my own template that is my style. Of course you can create your own template in Powerpoint office software. To do this, in Powerpoint software: file -\> new -\> blank presentation: in View tab choose Slide Master you can edit slide master as you wish then save file as any name such as template.pptx. Using read_pptx() notice that an argument is your template file.
+
+```{r include=FALSE}
+my_pres  <- read_pptx("template.pptx") 
+```
+
+## Layout summary
+
+```{r}
+layout_summary(my_pres )
+```
+
+This is Layout of my Powerpoint template Threre most important part of creating an powerpoint in R is to understand the structure of Layouts. My template file has 7 layout: Title Slide, Title and Content, Section Header, Two Content, Comparison, Title Only,
+
+## View Layout property
+
+It is very useful to uderstand the structure of layout_property of a template. An object named `lay_pro` is created
+
+```{r}
+lay_pro <- my_pres  %>%   officer::layout_properties() 
+haven::write_sav(lay_pro,"my_pres_layout.sav") # write sav read by SPSS about Layout and property
+```
+
+```{r eval=FALSE, include=FALSE}
+# Glympe at power point layout properties
+#Layout property is a "black-box" of Powerpoint slide master
+glimpse(lay_pro)
+lay_pro %>% gt()
+```
+
+## To know the layout summary
+
+```{r}
+layout_summary(my_pres )
+```
+
+```{r}
+glimpse(layout_summary(my_pres ))
+```
+
+## Layout properties
+
+```{r}
+z1 <- layout_properties(my_pres, layout = "Title Slide")
+z2 <- layout_properties(my_pres, layout = "Title and Content")
+z3 <- layout_properties(my_pres, layout = "Section Header")
+z4 <- layout_properties(my_pres, layout = "Two Content")
+z5 <- layout_properties(my_pres, layout = "Comparison")
+z6 <- layout_properties(my_pres, layout = "Title Only")
+z7 <- layout_properties(my_pres, layout = "Blank")
+#my_pres %>% layout_properties( layout = "Title and Content") %>% haven:: write_sav("my_pres_layout_properties.sav")
+
+```
+
+## layout of templates
+
+## 01. Title Slide
+
+```{r}
+ggplot(z1, aes(xmin = offx, ymin = -offy, xmax = offx + cx, ymax = -offy - cy)) + 
+  geom_rect(fill = "pink") + 
+  geom_text(aes(x = offx, y = -offy - cy/2, label = ph_label), 
+            color = "black", size = 3.5, hjust = 0) +
+  theme_void()
+```
+
+## 02. Title and Content
+
+```{r}
+ggplot(z2, aes(xmin = offx, ymin = -offy, xmax = offx + cx, ymax = -offy - cy)) + 
+  geom_rect(fill = "pink") + 
+  geom_text(aes(x = offx, y = -offy - cy/2, label = ph_label), 
+            color = "black", size = 3.5, hjust = 0) +
+  theme_void()
+```
+
+## 03. Section Header
+
+```{r}
+ggplot(z3, aes(xmin = offx, ymin = -offy, xmax = offx + cx, ymax = -offy - cy)) + 
+  geom_rect(fill = "pink") + 
+  geom_text(aes(x = offx, y = -offy - cy/2, label = ph_label), 
+            color = "black", size = 3.5, hjust = 0) +
+  theme_void()
+```
+
+## 04. Two Content
+
+```{r}
+ggplot(z4, aes(xmin = offx, ymin = -offy, xmax = offx + cx, ymax = -offy - cy)) + 
+  geom_rect(fill = "pink") + 
+  geom_text(aes(x = offx, y = -offy - cy/2, label = ph_label), 
+            color = "black", size = 3.5, hjust = 0) +
+  theme_void()
+```
+
+```{r}
+z4 %>% knitr::kable()
+```
+
+
+## 05. Comparison
+
+```{r}
+ggplot(z5, aes(xmin = offx, ymin = -offy, xmax = offx + cx, ymax = -offy - cy)) + 
+  geom_rect(fill = "pink") + 
+  geom_text(aes(x = offx, y = -offy - cy/2, label = ph_label), 
+            color = "black", size = 3.5, hjust = 0) +
+  theme_void()
+```
+
+## 06. Title Only
+
+```{r}
+ggplot(z6, aes(xmin = offx, ymin = -offy, xmax = offx + cx, ymax = -offy - cy)) + 
+  geom_rect(fill = "pink") + 
+  geom_text(aes(x = offx, y = -offy - cy/2, label = ph_label), 
+            color = "black", size = 3.5, hjust = 0) +
+  theme_void()
+```
+
+## 07. Blank
+
+```{r}
+ggplot(z7, aes(xmin = offx, ymin = -offy, xmax = offx + cx, ymax = -offy - cy)) + 
+  geom_rect(fill = "pink") + 
+  geom_text(aes(x = offx, y = -offy - cy/2, label = ph_label), 
+            color = "black", size = 3.5, hjust = 0) +
+  theme_void()
+```
+
+# Creat slides on Powerpoint based in your own template.
+
+After you have your own template on your working directory, you will add contents to the slide.
+
+Creae your own first slide of a PowerPoint presentation. Your purpose is to put contents onto the "Title slide". Notice that understanding properties of layout is very important since you should understand the type, placeholder and other properties of your first slide.
+
+```{r}
+z1 %>% knitr::kable()
+```
+
+## Create the first slide: ("Title Slide)
+
+-   We use `add_slide()` to create a slide, you also specify the layout of the slide, in this case I choe "Title Slide", because it is my first slide of powerpoint.
+
+-   Also use `add_slide()`function to put contents to place holder.
+
+-   Remember this slide: has two main placeholder: `Title 1` and `Subtitle 2` we should enter command as \`
+
+  -   With `Title 1`
+
+   ` my_pres <- ph_with(my_pres, value = " your Title text....", location = ph_location_type(type = "ctrTitle"))`
+   
+  -   With `Subtitle 2`
+
+  `my_pres <- ph_with(my_pres, value = " your subtile text....", location = ph_location_type(type = "subTitle"))`   
+
+```{r}
+my_pres  <- add_slide(my_pres , layout = "Title Slide", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = " Resiliense for caregivers of Dementia", location = ph_location_type(type = "ctrTitle")) # Main title
+
+my_pres <- ph_with(my_pres, value = " Dr Liem, Dr Loan", location = ph_location_type(type = "subTitle")) # subtitle
+
+```
+
+## Create the next slide: ("Title and Content")
+
+-   After creating "Title Slide", We create another slide, since I want to add contents to this slide I use `add_slide()`, however I choose "Title and Content".
+-   Also use `add_slide()`function to put contents to place holder however since we need to put a lot of texts with different kind of lists, so I use  `level_list()`function to create structure of headings and  `unordered_list()`function to write contents.
+
+```{r}
+ul <- unordered_list(
+  level_list = c(1, 2,  1, 2, 2),
+  str_list = c("Câu hỏi nghiên cứu", "Ở người chăm sóc bệnh nhân sa sút trí tuệ, chiến lược thích nghi với căng thẳng là gì.
+", "Mục tiêu", "Mô tả các đặc điểm thích nghi của người chăm sóc bệnh nhân sa sút trí tuệ.
+", "Mô tả chiến lược thích nghi của người chăm sóc bệnh nhân sa sút trí tuệ...
+"),
+  style = fp_text(color = "black", font.size = 0) )
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = "Research Question and Objectives", location = ph_location_type(type = "title"))
+my_pres <- ph_with(x = my_pres, value = ul, 
+               location = ph_location_type(type = "body") )
+
+
+```
+
+### Next slide of title and content
+
+### Next slide of title and content 3
+
+```{r}
+# add slide
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+# add title of slide
+my_pres <- ph_with(my_pres, value = "Objectives", location = ph_location_type(type = "title"))
+# add body of slide
+my_pres <- ph_with(my_pres, value = c("A novel model of resilience was tested in caregivers of people with mild-to-moderate dementia and was extended to explore whether including self-efficacy, optimism, and self-esteem improved its predictive value."), location = ph_location_type(type = "body"))
+# Add footer
+my_pres <- ph_with(my_pres, value = "https://doi.org/10.1186/s12877-023-04549-y", location = ph_location_type(type = "ftr"))
+# Add footer with date
+my_pres <- ph_with(my_pres, value = format(Sys.Date()), location = ph_location_type(type = "dt"))
+# Add infor to footer
+
+my_pres <- ph_with(my_pres, value = "slide thứ nhất", location = ph_location_type(type = "sldNum"))
+
+```
+
+## We put table inside
+
+```{r}
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+my_pres  <- on_slide(my_pres , index = 4)
+
+my_pres <- ph_with(my_pres, value = "Psychological resilience", location = ph_location_type(type = "title"))
+
+emp <- data.frame(name=c("Mild resilience", "Moderate resilience", "High resilience"), salary=c("Less than 50%", "50-75%", "More than 75%" )) # cteate a dataframe and make it to table 
+
+loc <- ph_location(
+  left=1.5,
+  top = 1.5,
+  width = 10,
+  height = 4,
+  rotation = 0,
+  bg="#333333"
+)
+
+my_pres  <- ph_with(my_pres , emp, location = loc)
+
+```
+
+## Add slide
+
+```{r}
+my_pres <- add_slide(my_pres, layout = 'Title and Content', master = 'Office Theme')
+
+my_pres <- ph_with(my_pres, value = "Sự thích nghi Resilient", location = ph_location_type(type = "title"))
+my_pres <- ph_with(my_pres, c(
+  "Tự động viên - self-appraisal",
+  "Sự chấp nhận Aceptance", 
+  "Hỗ trợ xã hội - Social support",
+  "Đời sống tâm linh- spirituality"
+    ), 
+          location = ph_location_type(type = "body") ) 
+```
+
+## Add more slide
+
+```{r}
+# add slide
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+# add title of slide
+my_pres <- ph_with(my_pres, value = "Current study", location = ph_location_type(type = "title"))
+# add body of slide
+my_pres <- ph_with(my_pres, value = c("The present study found that there are factors relating to the caregiver and to the person with dementia that affect how resilient a dementia caregiver may be.", "It is apparent that caregiver resilience is not solely due to the personal assets and resources of the caregiver but may also be affected by the level of dependence of the person with dementia.",  "Findings suggest that caregivers with high levels of neuroticism and low subjective caregiver competence"), location = ph_location_type(type = "body"))
+```
+
+# add ggplot
+
+```{r}
+library(ggplot2)
+gg_plot <- ggplot(data = iris ) +
+  geom_point(
+    mapping = aes(Sepal.Length, Petal.Length, color = Species),
+    size = 3) + theme_minimal()
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+
+my_pres <- ph_with(my_pres, value = "cho ggplot vô body", location = ph_location_type(type = "title"))
+
+  
+my_pres <- ph_with(x = my_pres, gg_plot, 
+   location = ph_location_type(type = "body") )
+
+```
+
+# add image
+
+
+```{r}
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+
+my_pres <- ph_with(my_pres, value = "Thêm hình", location = ph_location_type(type = "title"))
+
+img.file <- file.path( "i1.png" )
+my_pres <- ph_with(x = my_pres, external_img(img.file, width = 1.58*3, height = 0.79*3),
+   location = ph_location_type(type = "body"), use_loc_size = TRUE )
+
+
+```
+# add table
+
+```{r}
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+ 
+my_pres <- ph_with(my_pres, value = "Thêm bảng", location = ph_location_type(type = "title"))
+
+ft <- flextable(head(mtcars))
+ft <- set_table_properties(ft, width = 0.5, layout = "autofit")
+
+my_pres <- ph_with(x = my_pres, ft,   location = ph_location_type(type = "body")  )
+
+```
+
+
+# add table in the center
+
+
+
+```{r}
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+ 
+my_pres <- ph_with(my_pres, value = "Thêm bảng", location = ph_location_type(type = "title"))
+
+ft <- flextable(head(mtcars))
+ft <- set_table_properties(ft, width = 0.5, layout = "autofit")
+
+my_pres <- ph_with(x = my_pres, ft,   location = ph_location(width = 7, height = 5, newlabel = "hello") )  
+
+```
+
+
+
+# Export to pptx file
+
+```{r}
+print(my_pres , "document.pptx")
+```

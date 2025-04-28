@@ -1,0 +1,701 @@
+---
+  title: "ĐỀ TÀI CƠ SỞ SA SÚT TRÍ TUỆ"
+subtitle: "Neurocognitive tests"
+author: "BS.CK2. ĐỖ THANH LIÊM"
+format:
+  docx:
+  toc: true
+number-sections: false
+reference-doc: sstt_dtcs_quato_words_input.docx
+bibliography: sstt_reference.bib
+csl: ama.csl
+editor: visual
+---
+  
+  ```{r}
+#| include: false
+library(lubridate)
+current_datetime <- now()
+thu <- if (wday(current_datetime) == 1) "Chủ nhật" else paste("Thứ", wday(current_datetime) - 1)
+gio <- format(current_datetime, "%H:%M")
+ngay <- day(current_datetime)
+thang <- month(current_datetime)
+nam <- year(current_datetime)
+formatted_datetime <- paste0("vào lúc ", gio, ", ", thu, ", ngày ", ngay, " tháng ", thang, " năm ", nam)
+
+```
+
+::: {custom-style="CAN GIUA DAM 14 ONE"}
+LỜI NÓI ĐẦU
+:::
+  
+  Tôi xin trân trọng cám ơn gia đình, thầy cô, đồng nghiệp, các developers, đã tiếp sức cho tôi viết đề tài này.
+
+Đỗ Thanh Liêm
+```{=openxml}
+<w:p><w:r><w:br/></w:r></w:p>
+  ```
+
+![Heartfult Thanks](images/thank-you-message.jpg)
+```{=openxml}
+<w:p><w:r><w:br/></w:r></w:p>
+  ```
+
+::: {custom-style="Title"}
+Tạo bởi Đỗ Thanh Liêm vào `r formatted_datetime`
+:::
+  
+  # MÃ LỆNH
+  
+  ## Setup dữ liệu
+  
+  ```{r}
+#| label: Cài đặt cho dữ liệu (thư viện, fonts...)
+#| echo: true
+# thư viện
+library(pacman)
+pacman::p_load(dplyr, tidyr,readr,  haven, tidyverse, labelled, ggplot2, flextable, officer, officedown, lubridate, glue
+)
+# Thiết lập mặc định cho tất cả flextable
+set_flextable_defaults(
+  font.family = "Times New Roman",  # optional: consistent font
+  font.size = 11,
+  align = "center",
+  padding = 3,
+  theme_fun = theme_booktabs,
+  layout = "autofit",               # allows Word to adjust columns
+  width = 1                         # 100% of page width
+)
+# Set global ggplot theme
+theme_set(
+  theme_minimal(base_family = "Times New Roman") +
+    theme(
+      text = element_text(family = "Times New Roman"),         # applies to all text
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+      axis.title = element_text(size = 12),
+      axis.text = element_text(size = 11),
+      legend.text = element_text(size = 11),
+      legend.title = element_text(size = 11),
+      strip.text = element_text(size = 12)  # for facet titles
+    )
+)
+# Globally override default color and fill palettes
+scale_color_discrete <- function(...) scale_color_brewer(palette = "Set1", ...)
+scale_fill_discrete  <- function(...) scale_fill_brewer(palette = "Pastel2", ...)
+```
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| paged-print: false
+
+df_sav <- read_sav("sstt304_28_03_24.sav", encoding = "WINDOWS-1258")
+write.csv(df_sav, "sstt304_clean.csv", fileEncoding = "UTF-8", row.names = FALSE)
+```
+
+```{r}
+
+#| label: Chọn bộ Test VnCo mới, và phân loại Sa sút trí tuệ theo tiêu chuẩn của MMSE 
+
+df <-  read_csv("sstt304_clean.csv", locale = locale(encoding = "UTF-8")) 
+df <- df %>%
+  dplyr::filter(new.old.tests != 1) %>%
+  drop_na(mmse.new)
+
+```
+
+```{r}
+
+df <- df %>%
+  mutate(
+    # Tính năm khám và tuổi
+    year.visit = year(date.visit),
+    tuoi = year.visit - year.born,
+    gender = case_when(
+      gender == 1 ~ "Nam",
+      gender == 2 ~ "Nữ",
+      TRUE ~ NA_character_
+    ),
+    gender = factor(gender, levels = c("Nam", "Nữ")),
+    # Gán nhãn chẩn đoán
+    diagno = case_when(
+      diagno == 1 ~ "Suy giảm nhận thức nhẹ",
+      diagno == 2 ~ "Suy giảm nhận thức chủ quan",
+      diagno == 3 ~ "Alzheimer",
+      diagno == 4 ~ "Sa sút trí tuệ mạch máu",
+      diagno == 5 ~ "Sa sút trí tuệ thùy trán thái dương",
+      diagno == 7 ~ "Sa sút trí tuệ hỗn hợp",
+      diagno == 8 ~ "Sa sút trí tuệ do Parkinson",
+      diagno == 9 ~ "Sa sút trí tuệ khác",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  # Lọc người ≥40 tuổi & loại bỏ "Suy giảm nhận thức chủ quan"
+  filter(tuoi >= 40, diagno != "Suy giảm nhận thức chủ quan") %>%
+  
+  mutate(
+    # Phân nhóm tuổi
+    nhom_tuoi = case_when(
+      tuoi < 50 ~ "40–49",
+      tuoi < 60 ~ "50–59",
+      tuoi < 70 ~ "60–69",
+      tuoi < 80 ~ "70–79",
+      TRUE      ~ "80+"
+    ),
+    
+    # Sắp xếp lại thứ tự các mức chẩn đoán
+    diagno = factor(
+      diagno,
+      levels = c(
+        "Suy giảm nhận thức nhẹ",
+        "Alzheimer",
+        "Sa sút trí tuệ mạch máu",
+        "Sa sút trí tuệ hỗn hợp",
+        "Sa sút trí tuệ thùy trán thái dương",
+        "Sa sút trí tuệ do Parkinson",
+        "Sa sút trí tuệ khác"
+      )
+    ),
+    
+    # Gộp nhóm chẩn đoán: MCI vs Sa sút trí tuệ
+    phan_loan_roi_loan_nhan_thuc = case_when(
+      diagno == "Suy giảm nhận thức nhẹ" ~ "MCI",
+      !is.na(diagno) ~ "Sa sút trí tuệ",
+      TRUE ~ NA_character_
+    ),
+    phan_loan_roi_loan_nhan_thuc = factor(
+      phan_loan_roi_loan_nhan_thuc,
+      levels = c("MCI", "Sa sút trí tuệ")
+    )
+  )
+
+
+```
+
+## Đặc điểm mẫu nghiên cứu
+
+### Đặc điểm theo tuổi
+#### Bảng theo tuổi
+```{r}
+#| echo: false
+# Tính trung bình cho tuổi chèn inline codes
+mean_age <- round(mean(df$age, na.rm = TRUE), 1)
+sd_age   <- round(sd(df$age, na.rm = TRUE), 1)
+
+glue::glue("Tuổi trung bình: {mean_age} ± {sd_age} tuổi")
+
+age_summary_by_group <- df %>%
+  filter(!is.na(age), !is.na(phan_loan_roi_loan_nhan_thuc)) %>%
+  group_by(phan_loan_roi_loan_nhan_thuc) %>%
+  summarise(
+    mean_age = round(mean(age, na.rm = TRUE), 1),
+    sd_age   = round(sd(age, na.rm = TRUE), 1),
+    .groups = "drop"
+  )
+
+# Lấy kết quả cho từng nhóm
+mci <- age_summary_by_group %>% filter(phan_loan_roi_loan_nhan_thuc == "MCI")
+ssd <- age_summary_by_group %>% filter(phan_loan_roi_loan_nhan_thuc == "Sa sút trí tuệ")
+
+# In dạng glue
+glue("Tuổi trung bình nhóm MCI: {mci$mean_age} ± {mci$sd_age} tuổi")
+glue("Tuổi trung bình nhóm Sa sút trí tuệ: {ssd$mean_age} ± {ssd$sd_age} tuổi")
+
+```
+
+
+
+```{r}
+# 1. Tính các chỉ số mô tả
+table_tuoi <- df %>%
+  group_by(phan_loan_roi_loan_nhan_thuc) %>%
+  summarise(
+    `Trung bình ± SD` = sprintf("%.1f ± %.1f", mean(tuoi, na.rm = TRUE), sd(tuoi, na.rm = TRUE)),
+    `Trung vị (Q1–Q3)` = sprintf("%.1f (%s–%s)",
+                                 median(tuoi, na.rm = TRUE),
+                                 quantile(tuoi, 0.25, na.rm = TRUE),
+                                 quantile(tuoi, 0.75, na.rm = TRUE)),
+    `Min – Max` = sprintf("%d – %d", min(tuoi, na.rm = TRUE), max(tuoi, na.rm = TRUE)),
+    .groups = "drop"
+  ) %>%
+  pivot_longer(-phan_loan_roi_loan_nhan_thuc, names_to = "Chỉ số", values_to = "Giá trị") %>%
+  pivot_wider(names_from = phan_loan_roi_loan_nhan_thuc, values_from = "Giá trị")
+
+# 2. Tính p-value
+p_val <- t.test(tuoi ~ phan_loan_roi_loan_nhan_thuc, data = df)$p.value
+
+# 3. Thêm cột p-value cho mỗi chỉ số
+final_table <- table_tuoi %>%
+  mutate(`Giá trị p` = if_else(`Chỉ số` == "Trung bình ± SD", sprintf("%.3f", p_val), ""))
+
+# 4. Tạo bảng flextable
+ft_tuoi <- flextable(final_table) %>%
+  autofit() %>%
+  align(align = "center", part = "all") %>%
+  bold(i = 1, part = "header") %>%
+  set_caption("Bảng: So sánh tuổi giữa các nhóm nhận thức (có cột riêng cho p-value)")
+
+```
+
+
+
+```{r tbl-tuoi-flextable, echo=FALSE, results='asis'}
+ft_tuoi
+```
+
+#### Bảng theo nhóm tuổi
+```{r}
+# Bước 1: Đảm bảo đúng thứ tự nhóm tuổi
+df$nhom_tuoi <- factor(df$nhom_tuoi, levels = c("40–49", "50–59", "60–69", "70–79", "80+"))
+
+# Bước 2: Tạo bảng tần số và phần trăm theo chẩn đoán và nhóm tuổi
+table_freq <- df %>%
+  count(phan_loan_roi_loan_nhan_thuc, nhom_tuoi) %>%
+  group_by(phan_loan_roi_loan_nhan_thuc) %>%
+  mutate(percent = n / sum(n) * 100) %>%
+  ungroup() %>%
+  mutate(`Tần số (%)` = sprintf("%d (%.1f%%)", n, percent)) %>%
+  select(`Chẩn đoán` = phan_loan_roi_loan_nhan_thuc, `Nhóm tuổi` = nhom_tuoi, `Tần số (%)`) %>%
+  pivot_wider(
+    names_from = `Nhóm tuổi`,
+    values_from = `Tần số (%)`,
+    values_fill = "-"
+  )
+
+# Bước 3: Tính p-value từ bảng tần số
+chisq_data <- table(df$phan_loan_roi_loan_nhan_thuc, df$nhom_tuoi)
+p_val <- chisq.test(chisq_data)$p.value
+formatted_p <- ifelse(p_val < 0.001, "< 0.001", sprintf("%.3f", p_val))
+
+# Thêm cột "Giá trị p" vào dòng đầu tiên
+table_freq$`Giá trị p` <- c(formatted_p, rep("", nrow(table_freq) - 1))
+
+# Bước 4: Tạo bảng flextable và tô đậm nếu p < 0.05
+ft_freq_p <- flextable(table_freq) %>%
+  autofit() %>%
+  align(align = "center", part = "all") %>%
+  bold(i = 1, part = "header") %>%
+  bold(i = which(
+    table_freq$`Giá trị p` != "" &
+      table_freq$`Giá trị p` != "-" &
+      as.numeric(gsub("< ", "", table_freq$`Giá trị p`)) < 0.05
+  ),
+  j = "Giá trị p", part = "body") %>%
+  set_caption("Bảng: Tần số và tỷ lệ phần trăm nhóm tuổi theo chẩn đoán (tô đậm nếu p < 0.05)")
+```
+
+```{r}
+ft_freq_p
+```
+
+
+
+#### Biểu đồ theo tuổi
+```{r}
+tuoi_gp <- ggplot(df, aes(x = phan_loan_roi_loan_nhan_thuc, y = tuoi, fill = phan_loan_roi_loan_nhan_thuc)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7) +
+  geom_jitter(
+    aes(color = phan_loan_roi_loan_nhan_thuc),
+    width = 0.2, size = 1.5, alpha = 0.5
+  ) +
+  labs(
+    x = NULL,  
+    y = "Tuổi"
+  ) +
+  theme_minimal(base_family = "Times New Roman") +
+  theme(
+    legend.position = "none",
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 11)
+  )
+
+```
+
+```{r}
+tuoi_gp
+```
+### Biểu đồ theo nhóm tuổi
+```{r}
+df$nhom_tuoi <- factor(df$nhom_tuoi, levels = c("40–49", "50–59", "60–69", "70–79", "80+"))
+
+nhom_tuoi_gp <- ggplot(df, aes(x = nhom_tuoi, y = tuoi, fill = phan_loan_roi_loan_nhan_thuc)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7, position = position_dodge(width = 0.75)) +
+  labs(
+    x = "Nhóm tuổi",
+    y = "Tuổi",
+    fill = "Chẩn đoán"
+  ) +
+  theme_minimal(base_family = "Times New Roman") +
+  theme(
+    text = element_text(family = "Times New Roman"),  # <- ensures all text uses Times
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 11),
+    legend.title = element_text(size = 12),
+    legend.text = element_text(size = 11),
+    legend.position = "top"
+  )
+
+```
+
+```{r}
+nhom_tuoi_gp
+```
+
+### Đặc điểm giới tính
+```{r}
+# Tóm tắt dữ liệu giới tính theo nhóm nhận thức
+gioitinh_summary <- df %>%
+  count(phan_loan_roi_loan_nhan_thuc, gender) %>%
+  group_by(phan_loan_roi_loan_nhan_thuc) %>%
+  mutate(percent = n / sum(n) * 100) %>%
+  ungroup()
+
+# Bảng flextable: tần số + % + p-value
+table_gender <- gioitinh_summary %>%
+  mutate(`Tần số (%)` = sprintf("%d (%.1f%%)", n, percent)) %>%
+  select(`Chẩn đoán` = phan_loan_roi_loan_nhan_thuc, `Giới tính` = gender, `Tần số (%)`) %>%
+  pivot_wider(
+    names_from = `Giới tính`,
+    values_from = `Tần số (%)`,
+    values_fill = "-"
+  )
+
+# Tính p-value (Chi-squared test)
+chisq_gender <- table(df$phan_loan_roi_loan_nhan_thuc, df$gender)
+p_val_gender <- chisq.test(chisq_gender)$p.value
+formatted_p_gender <- ifelse(p_val_gender < 0.001, "< 0.001", sprintf("%.3f", p_val_gender))
+
+# Thêm dòng p-value
+table_gender$`Giá trị p` <- c(formatted_p_gender, rep("", nrow(table_gender) - 1))
+
+# Bảng flextable hoàn chỉnh
+ft_gender <- flextable(table_gender) %>%
+  autofit() %>%
+  align(align = "center", part = "all") %>%
+  bold(i = 1, part = "header") %>%
+  bold(i = which(
+    table_gender$`Giá trị p` != "" &
+      table_gender$`Giá trị p` != "-" &
+      as.numeric(gsub("< ", "", table_gender$`Giá trị p`)) < 0.05
+  ),
+  j = "Giá trị p", part = "body") %>%
+  set_caption("Bảng: Phân bố giới tính theo nhóm nhận thức (tô đậm nếu p < 0.05)") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  fontsize(size = 11, part = "all") %>%
+  set_table_properties(width = 1, layout = "autofit")  # 🔥 Fit to Word page
+
+# Biểu đồ ggplot: số lượng + % hiển thị trên cột
+gioitinh_bar_percent <- ggplot(gioitinh_summary, aes(x = phan_loan_roi_loan_nhan_thuc, y = n, fill = gender)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  geom_text(
+    aes(label = sprintf("%.1f%%", percent)),
+    position = position_dodge(width = 0.8),
+    vjust = -0.3,
+    size = 3.5,
+    family = "Times New Roman"
+  ) +
+  labs(
+    #title = "Phân bố giới tính theo nhóm nhận thức",
+    x = NULL,
+    y = "Số lượng bệnh nhân",
+    fill = "Giới tính"
+  ) +
+  theme_minimal(base_family = "Times New Roman") +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 11),
+    legend.title = element_text(size = 12),
+    legend.text = element_text(size = 11)
+  )
+
+```
+-Inline codes tiới tính
+
+```{r}
+# 1. Tóm tắt tỷ lệ nữ theo nhóm nhận thức
+gender_summary <- df %>%
+  count(phan_loan_roi_loan_nhan_thuc, gender) %>%
+  group_by(phan_loan_roi_loan_nhan_thuc) %>%
+  mutate(percent = n / sum(n) * 100) %>%
+  ungroup() %>%
+  filter(gender == "Nữ")  # chỉ lấy tỷ lệ nữ
+
+# 2. Hàm an toàn lấy phần trăm nữ cho từng nhóm
+lay_phan_tram_nu <- function(nhom) {
+  ket_qua <- gender_summary %>%
+    filter(phan_loan_roi_loan_nhan_thuc == nhom) %>%
+    pull(percent)
+  if (length(ket_qua) == 0) return(0) else return(round(ket_qua, 1))
+}
+
+# 3. Lấy phần trăm nữ theo nhóm
+nu_mci  <- lay_phan_tram_nu("MCI")
+nu_sstt <- lay_phan_tram_nu("Sa sút trí tuệ")
+
+# 4. Tính p-value từ kiểm định giới tính ~ nhóm nhận thức
+p_gender <- chisq.test(table(df$phan_loan_roi_loan_nhan_thuc, df$gender))$p.value
+
+# 5. Diễn giải theo p-value
+dien_giai_gt <- ifelse(
+  p_gender > 0.05,
+  glue("Sự khác biệt không có ý nghĩa thống kê với p = {sprintf('%.3f', p_gender)}."),
+  glue("Sự khác biệt có ý nghĩa thống kê với p = {sprintf('%.3f', p_gender)}.")
+)
+
+# 6. Câu mô tả cuối cùng (để dùng inline)
+cau_gioitinh_mota <- glue::glue(
+  "Trong nghiên cứu này, ở nhóm Suy giảm nhận thức nhẹ, nữ giới chiếm {nu_mci}%. ",
+  "Ở nhóm Sa sút trí tuệ, nữ giới chiếm {nu_sstt}%. ",
+  "{dien_giai_gt}"
+)
+
+```
+
+- Bảng theo giới tính
+
+```{r}
+ft_gender
+```
+
+
+- Biểu đồ theo giới tính
+
+```{r}
+gioitinh_bar_percent
+```
+
+::: {custom-style="CAN GIUA DAM 14 ONE"}
+ĐẶT VẤN ĐỀ
+:::
+  
+  Việt Nam là một trong các quốc gia có tốc độ già hóa dân số nhanh nhất thế giới. Người ta ước tính rằng hơn 10% dân số Việt Nam bao gồm những người từ 60 tuổi trở lên [@tong2017ageing], từ năm 2015 đến năm 2020, tỷ lệ dân số trên 65 tuổi ở Việt Nam tăng từ 6,7% lên 7,9% và sẽ tiếp tục cho thấy xu hướng tăng đến năm 2050 [@nguyen2021share]. Tỷ lệ dân số từ 60 tuổi trở lên dự kiến sẽ chiếm 20,4% tổng dân số Việt Nam vào năm 20383. Dựa trên các xu hướng nhân khẩu học này, dự kiến đến năm 2050, sẽ có 29 triệu người trên 60 tuổi, chiếm một phần ba dân số cả nước, trong đó những người trên 80 tuổi dự kiến sẽ chiếm ít nhất 6% toàn bộ dân số [@helpage2019vietnam].
+
+Cùng với việc già hóa dân số, tỉ lệ người sa sút trí tuệ cũng tăng lên, số người mắc chứng sa sút trí tuệ ước tính tăng gấp đôi sau mỗi 20 năm, từ 660.000 vào năm 2015 lên 1,2 triệu vào năm 2030 và 2,4 triệu vào năm 2050[@nguyen2020dementia]. Sa sút trí tuệ (SSTT) là một bệnh lý của não bộ, gây ra suy giảm chức năng nhận thức, hành vi và hoạt động sống của bệnh nhân. Sa sút trí tuệ là thuật ngữ rộng dùng để mô tả tình trạng mất trí nhớ, nhận thức, lý trí, kỹ năng xã hội và thể chất.
+
+Có nhiều loại sa sút trí tuệ bao gồm bệnh Alzheimer, sa sút trí tuệ mạch máu, sa sút trí tuệ trán thái dương và bệnh thể Lewy. Sa sút trí tuệ có thể xảy ra với bất kỳ ai, nhưng phổ biến hơn sau tuổi 65[@aihw2022dementia].
+
+Từ năm 2019 đến nay, Đơn vị Trí nhớ và Sa sút trí tuệ Bệnh viện 30-4 đã sử dụng bộ trắc nghiệm (Test) đánh giá chức năng thần kinh nhận thức Việt Nam (VnCA- Vietnamese Cognitive Assessment), Hội bệnh Alzheimer và Rối loạn thần kinh nhận thức Việt Nam (Vietnam Alzheimer Disease & Neurocognitive Disorders Association – VnADA), chuyên gia Trung tâm Bệnh thoái hóa thần kinh Đức (DZNE), Đơn vị Trí nhớ và Sa sút trí tuệ Bệnh viện 30-4 cùng phát triển.
+
+**Mục tiêu nghiên cứu của nhiệm vụ**
+  
+  -   Nghiên cứu mối tương quan của thang điểm MMSE với các test thần kinh nhận thức khác trong bộ Test thần kinh nhận thức tại Bệnh viện 30-4.
+
+-   Đánh giá hiệu quả ứng dụng của bộ Test thần kinh nhận thức trong chẩn đoán và điều trị Sa sút trí tuệ tại Bệnh viện 30-4
+
+# TỔNG QUANG TÀI LIỆU
+
+## Đại cương sa sút trí tuệ
+
+Đang ghi
+
+# ĐỐI TƯỢNG VÀ PHƯƠNG PHÁP NGHIÊN CỨU
+
+
+## Dân số mục tiêu:
+
+Bệnh nhân sa sút trí tuệ trong bối cảnh ngoại trú ở các khoa – phòng khám lâm sàng chuyên về trí nhớ và sa sút trí tuệ.
+
+## Dân số chọn mẫu:
+
+Bệnh nhân đến khám và điều trị tại phòng khám thuộc Đơn vị trí nhớ và sa sút trí tuệ, bệnh viện 30-4.
+
+### Cỡ mẫu:
+
+Cỡ mẫu tối thiểu cho nghiên cứu được xác định theo công thức ước lượng một tỷ lệ:
+  
+  $$
+  n = \frac{Z_{(1 - \alpha/2)}^2 \cdot p(1 - p)}{\varepsilon^2}
+$$
+  
+  Trong đó:
+  
+  -   $n$: cỡ mẫu cần thiết
+-   $\alpha$: mức ý nghĩa thống kê, chọn $\alpha = 0.05$
+  -   $Z_{(1 - \alpha/2)} = 1.96$: giá trị Z tương ứng với mức tin cậy 95%
+-   $p$: tỷ lệ điều trị hiệu quả. Theo nghiên cứu của Schroeder RW, tỷ lệ trắc nghiệm thần kinh nhận thức phát hiện bệnh nhân sa sút trí tuệ là **75%**, nên chọn $p = 0.75$
+  -   $\varepsilon = 0.05$: sai số chấp nhận trong nghiên cứu
+
+Thay vào công thức:
+  
+  $$
+  n = \frac{(1.96)^2 \cdot 0.75 \cdot (1 - 0.75)}{(0.05)^2} = \frac{3.8416 \cdot 0.1875}{0.0025} = \frac{0.7203}{0.0025} \approx 288.12
+$$
+  
+  **→ Cỡ mẫu cần thiết là ít nhất 288 bệnh nhân.**
+  
+  ### Kỹ thuật chọn mẫu:
+  
+  Đối với hồi cứu: Phương pháp chọn mẫu được sử dụng là phương pháp chọn mẫu dựa vào danh sách bệnh nhân đang điều trị tại khoa, đối chiếu các tiêu chuẩn chọn vào và tiêu chuẩn loại trừ với hồ sơ bệnh án có sẵn. Sau đó, trong số những bệnh nhân hoàn toàn phù hợp với tiêu chuẩn chọn vào và không có bất kỳ tiêu chuẩn loại trừ nào sẽ được chọn.
+
+Đối với tiến cứu, những bệnh nhân được chọn lựa sẽ được tiến hành xin đồng thuận tham gia nghiên cứu và thu thập số liệu vào ngày khám bệnh kế tiếp gần nhất.
+
+## Các biến số nghiên cứu
+
+```{r}
+#| include: false
+data <- data.frame(
+  Ten_bien = c(
+    "Tuổi", "Giới tính", "Tuổi khởi phát", "Thời gian phát hiện bệnh", 
+    "Trình độ học vấn", "Nghề nghiệp trước đây", "Tình trạng hôn nhân", 
+    "Tiền sử gia đình", "Bệnh đi kèm", "Thang MMSE", "Tiểu thang MMSE",
+    "Word List", "Digit span forward", "Digit span backward",
+    "TMT-A", "TMT-B", "Khảo sát sự lưu loát ngôn ngữ.",
+    "Trắc nghiệm vẽ đồng hồ", "Chẩn đoán", "Giai đoạn"
+  ),
+  Loai_bien = c(
+    "Định lượng", "Định tính", "Định tính", "Định lượng", 
+    "Định tính", "Định tính", "Định tính", "Định tính", "Định tính", 
+    "Định lượng", "Định lượng", "Định lượng", "Định lượng", "Định lượng", 
+    "Định tính", "Định tính", "Định lượng", "Định lượng", "Định tính", "Định tính"
+  ),
+  Gia_tri_don_vi = c(
+    "Năm", "Nam/Nữ", "Khởi phát sớm/khởi phát muộn", "Năm",
+    "Cấp 1, cấp 2, cấp 3, cao đẳng/đại học, không xác định", 
+    "Toàn thời gian, bán thời gian, về hưu", 
+    "Có chồng vợ, góa, ly thân/ly hôn", "Có bị SSTT", "Có, không", 
+    "Giá trị từ 0 - 30", "Tùy thuộc chức năng nhận thức", 
+    "Giá trị từ 0 – 30", "Giá trị từ 0 – 14", "Giá trị từ 0 – 12", 
+    "Thời gian đạt khi dưới 150 giây", "Thời gian đạt khi dưới 300 giây", 
+    "Số lượng các con vật người làm trắc nghiệm kể tên", 
+    "1 đến 6 điểm theo thang Shulman", "SCI, MCI và SSTT", 
+    "Giai đoạn nhẹ, trung bình, nặng"
+  )
+)
+
+```
+
+```{r}
+#| echo: false
+
+ft <- data %>%
+  flextable() %>%
+  set_header_labels(
+    Ten_bien = "Tên biến",
+    Loai_bien = "Loại biến",
+    Gia_tri_don_vi = "Giá trị / Đơn vị"
+  ) %>%
+  autofit() %>%
+  set_table_properties(width = 1, layout = "autofit") %>%
+  font(fontname = "Times New Roman", part = "all")  %>%
+  fontsize(size = 13, part = "all")
+
+ft
+
+```
+
+### Phương pháp tiến hành.
+
+Bệnh nhân tới khám tại Đơn vị trí nhớ và sa sút trí tuệ Bệnh viện 30-4 được Bác sĩ thần kinh chỉ định làm trắc nghiệm thần kinh nhận thức bởi các nhân viên Y tế được huấn luyện theo quy trình thực hiện bộ test chuẩn. - Phương pháp hồi cứu. Tra cứu hồ sơ bệnh án tất cả những bệnh nhân được khám tại đơn vị từ 4/2019 tới thời điểm nghiên cứu. Đánh giá lại bộ test nếu bệnh nhân tái khám trong thời gian nghiên cứu. - Phương pháp tiến cứu. Bệnh nhân đến khám trong thời gian nghiên cứu được thăm khám, làm test, chẩn đoán và đánh giá mức độ sa sút trí tuệ tên lâm sàng. Nghiên cứu đánh giá Đánh giá mối tương quan giữa MSSE và các test khác trong bộ Test thần kinh nhận thức khác, tỷ lệ hoàn thành Test thần kinh nhận thức đối với suy giảm nhận thức nhẹ và Sa sút trí tuệ. Đánh giá mối tương quan phân độ sa sút trí tuệ ở thang điểm MMSE và phân độ sa sút trí tuệ trên lâm sàng.
+
+## Phương pháp và công cụ đo lường, thu thập số liệu
+
+-   Nhập liệu và quản lý dữ liệu bằng phần mềm SPSS 20, xử lý số liệu bằng phần mềm R 4.2.3 (Packages sử dụng trong nghiên cứu: table1, dplyr, ggplot2, boot, simpleboot, afex.)
+-   Mô tả các biến định lượng: bằng trung bình, độ lệch chuẩn, giá trị nhỏ nhất, giá trị lớn nhất (phân bố chuẩn), hoặc trung vị và tứ phân vị (không phân phối chuẩn), sử dụng bootstrap 10.000 lượt để tính khoảng tin cậy 95%.
+-   Mô tả các biến định tính: bằng tần số và tỷ lệ phần trăm.
+-   So sánh giá trị trung bình ở các nhóm dùng kiểm định Independent Sample t-test..
+-   So sánh sự khác biệt giữa các tỷ lệ với các biến định tính dùng kiểm định Chi bình phương (χ2), hoặc kiểm định Fisher's Exact.
+-   Đánh giá mối liên quan các giữa biến định lượng: MMSE các trắc nghiệm khác, sử dụng hệ số tương quan Pearson (phân bố chuẩn), hoặc sử dụng hệ số tương quan Spearman (không phân phối chuẩn). Hệ số tương quan (r) được đánh giá như sau: • \|r\| ≥ 0, 7: Tương quan chặt • \|r\| = 0, 5- 0,7: Tương quan khá chặt • \|r\| ≥ 0, 3 – 0,5: Tương quan vừa • \|r\| \< 0,3: Tương quan yếu • \|r\| =0 Không tương quan
+-   Đánh giá mức độ hoàn thành làm Test thần kinh nhận thức bằng tần số và tỷ lệ phần trăm.
+-   Đánh giá mối liên quan các giữa phân loại bệnh theo MMSE và phân loại bệnh trên lâm sàng dùng kiểm định Chi bình phương (χ2), hoặc kiểm định Fisher's Exact. Đạo đức nghiên cứu
+-   Nghiên cứu được thông qua hội đồng Đạo đức đối với nghiên cứu Y sinh.
+-   Đây là nghiên cứu quan sát, không can thiệp vào quá trình điều trị bệnh nhân, các hoạt động chẩn đoán và điều trị hoàn toàn tuân theo phác đồ của Bệnh viện.
+-   Mọi thông tin liên quan đến bệnh nhân sẽ được bảo mật. Tác giả nghiên cứu tuân thủ quy trình nghiên cứu
+
+### Đạo đức trong nghiên cứu
+
+# KẾT QUẢ NGHIÊN CỨU
+
+## Đặc điểm mẫu của nghiên cứu
+
+### Tuổi
+- Bảng tuổi
+```{r tbl-tuoi_ketqua-flextable, echo=FALSE, results='asis'}
+ft_tuoi 
+```
+
+##### Ở nghiên cứu chúng tôi tuổi trung bình của mẫu là **`r glue::glue("{mean_age} ± {sd_age} tuổi")`**, trong đó tuổi nhóm MCI là **`r glue("{mci$mean_age} ± {mci$sd_age} tuổi")`**, Tuổi nhóm Sa sút trí tuệ là **`r glue("{ssd$mean_age} ± {ssd$sd_age} tuổi")`**.
+- Biểu đồ tuổi
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| paged-print: false
+tuoi_gp
+```
+##### Ở nghiên cứu chúng tôi tuổi nhóm MCI là **`r glue("{mci$mean_age} ± {mci$sd_age} tuổi")`**, Tuổi nhóm Sa sút trí tuệ là **`r glue("{ssd$mean_age} ± {ssd$sd_age} tuổi")`**.
+- Biểu đồ tuổi
+
+- Bảng nhóm tuổi
+```{r tbl-nhom_tuoi_ketqua-flextable, echo=FALSE, results='asis'}
+#| message: false
+#| warning: false
+#| paged-print: false
+ft_freq_p
+```
+
+
+- Biểu đồ nhóm tuổi
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| paged-print: false
+nhom_tuoi_gp
+```
+
+### Giới tính
+- Bảng theo giới tính
+
+```{r tbl-gioi_tinh_ketqua-flextable, echo=FALSE, results='asis'}
+ft_gender
+```
+##### `r cau_gioitinh_mota`
+
+
+- Biểu đồ theo giới tính
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| paged-print: false
+gioitinh_bar_percent
+```
+
+##### `r cau_gioitinh_mota`
+
+
+### Trình độ học vấn
+
+## Đánh giá hiệu quả ứng dụng
+
+Đặc điểm hiệu quả ứng dụng
+### Mức độ hoàn thành
+
+# BÀN LUẬN
+
+## Đặc điểm mẫu của nghiên cứu
+Ở nghiên cứu chúng tôiTuổi trung bình của mẫu là **`r glue::glue("{mean_age} ± {sd_age} tuổi")`**, trong đó tuổi nhóm MCI là **`r glue("{mci$mean_age} ± {mci$sd_age} tuổi")`**, Tuổi nhóm Sa sút trí tuệ là **`r glue("{ssd$mean_age} ± {ssd$sd_age} tuổi")`**.
+
+Theo nghiên cứu trước đây ..... Khác biệt này có thể do khác biệt về thiết kế nghiên cứu, cỡ mẫu và tỷ lệ các nhóm tuổi trong dân số nghiên cứu.
+
+### Điểm hạn chế
+
+### Tính mới
+
+### tính ứng dụng của đề tài
+
+::: {custom-style="CAN GIUA DAM 14 ONE"}
+KẾT LUẬN
+:::
+  
+  Mục tiêu 1 Mục tiêu 2
+
+::: {custom-style="CAN GIUA DAM 14 ONE"}
+TÀI LIỆU THAM KHẢO
+:::
+  

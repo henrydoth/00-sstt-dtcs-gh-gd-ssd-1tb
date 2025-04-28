@@ -1,0 +1,121 @@
+---
+title: "sstt ttcs gh gd liem"
+author: "Do Thanh Liem"
+format: html
+output:
+  html:
+    encoding: UTF-8
+editor: visual
+---
+
+## Dta analysis
+
+```{r}
+library(pacman)
+pacman:: p_load(haven, tidyverse,labelled, ggplot2, gt,flextable, table1, ggdist, ggstatsplot, kableExtra)
+
+```
+
+```{r}
+#| label: Dữ liệu thu thập bằng SPSS 20
+df <- haven:: read_sav("sstt304_28_03_24.sav", encoding = "latin1")
+```
+
+```{r}
+#| label: hàm tạo giá trị p 
+#| include: false
+
+
+pvalue <- function(x, ...) {
+  # Construct vectors of data y, and groups (strata) g
+  y <- unlist(x)
+  g <- factor(rep(1:length(x), times=sapply(x, length)))
+  if (is.numeric(y)) {
+    # For numeric variables, perform a standard 2-sample t-test
+    p <- t.test(y ~ g)$p.value
+  } else {
+    # For categorical variables, perform a chi-squared test of independence
+    p <- chisq.test(table(y, g))$p.value
+  }
+  # Format the p-value, using an HTML entity for the less-than sign.
+  # The initial empty string places the output on the line below the variable label.
+  c("", sub("<", "&lt;", format.pval(p, digits=3, eps=0.001)))
+}
+
+
+```
+
+```{r}
+#| label: Tuổi và Nhóm tuổi
+df <- df %>% mutate(year.visit=format(df$date.visit, format = "%Y")) %>% filter(!is.na(year.visit)) %>% mutate(age = as.numeric(year.visit) - year.born)%>% {var_label(.$age) = "Tuổi"; .} %>% filter(age>=40)%>% 
+  mutate(age.group=cut(age, breaks=c(-Inf,65, 70, 75, 80, Inf), labels=c("40-65","66-70", "71-75","76-80","> 80")))%>% {var_label(.$age.group) <- "Nhóm tuổi"; .}
+
+```
+
+```{r}
+#| label: Giới tính
+#df$gender     <- factor(df$ gender, levels= c(1,2), labels=c("Male", "Female"))
+
+df <- df %>% mutate(gender  = factor(gender, levels= c(1,2), labels=c("Nam giới", "Nữ giới"))) %>% {var_label(.$gender) <- "Giới tính"; .}
+
+```
+
+```{r}
+#| label: Trình độ học vấn
+#df$edu.level <- factor(df$edu.level, levels=c(1,2,3,4,5), labels=c("Junior", "Senior","High School","Univesity","Non-defined"))
+
+
+df <- df %>% mutate(edu.level  = factor(edu.level, levels= c(1,2,3,4,5), labels=c("Tiểu học", "Trung học cơ sở","Trung học phổ thông","Đại học","Non-defined"))) %>% {var_label(.$edu.level) <- "Trình độ học vấn "; .}
+
+df <- df %>%
+  mutate(edu.level2 = fct_recode(edu.level, 
+"Trung học" = "Trung học cơ sở", 
+"Trung học" = "Trung học phổ thông",
+"Cao đẳng, đại học" = "Đại học"))%>%
+  mutate(edu.level2 = na_if(edu.level2, "Non-defined"))
+
+
+```
+
+```{r}
+#df %>% select(edu.level2) %>% count(edu.level2)  %>% slice(1:3)
+
+ggplot(df %>% select(edu.level2) %>% count(edu.level2) %>% slice(1:3) %>%  mutate(pct = n/sum(n)) %>% mutate (edu.level2 = fct_reorder(edu.level2, n, .desc = T)), aes(edu.level2, n, fill = edu.level2))+
+    scale_fill_brewer(palette = "Set1")+
+  geom_bar(stat = "identity")+
+  geom_text(aes(label = paste0(sprintf("%1.1f", pct*100), "%")), position = position_stack(vjust = 0.5))+
+  xlab("Trình độ học vấn")+ ylab("Tần số")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = "none")
+
+
+
+```
+
+```{r}
+#| label: Chọn bộ Test VnCo mới, và phân loại Sa sút trí tuệ theo tiêu chuẩn của MMSE 
+
+df <- df %>% filter(new.old.tests != 1) %>% drop_na(mmse.new) # filter newly adapted tests 
+df <- df %>% mutate(mmse.group=cut(mmse.new, breaks=c(-Inf,9, 18, 24,27,Inf), labels=c("SSTT nặng", "Trung bình","Nhẹ", "Suy giảm nhận thức chủ quan", "Bình thường"))) %>% {var_label(.$mmse.group)="Phân độ bệnh theo MMSE"; .}
+
+```
+
+```{r}
+
+
+df$group     <- factor(df$ group, levels= c(1,2), labels=c("MCI", "Dementia"))
+df$TMT.A.comp     <- factor(df$ TMT.A.comp, levels= c(0, 1, 2), labels=c("Unable to do", "Uncomplete", "complete"))
+df$TMT.B.comp     <- factor(df$ TMT.B.comp, levels= c(0, 1, 2), labels=c("Unable to do", "Uncomplete", "complete"))
+
+
+```
+
+```{r}
+
+table1(~age+age.group+gender+edu.level + edu.level2,data=df)
+
+```
+
+```{r}
+table1(~mmse.new+mmse.group,data=df)
+```

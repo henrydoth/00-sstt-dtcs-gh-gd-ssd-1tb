@@ -1,0 +1,17 @@
+"0",""
+"0","#| label: Chọn bộ Test VnCo mới, và phân loại Sa sút trí tuệ theo tiêu chuẩn của MMSE "
+"0",""
+"0","df <-  read_csv(""sstt304_clean.csv"") "
+"2","[1mRows: [22m[34m548[39m [1mColumns: [22m[34m104[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m   (5): id.document, name, note, note_sstt, thuoc
+[32mdbl[39m  (98): id, staff, edu.level, gender, year.born, pulse, bp.sys, bp....
+[34mdate[39m  (1): date.visit"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","df <- df %>%"
+"0","    dplyr::filter(new.old.tests != 1) %>%"
+"0","    drop_na(mmse.new)"
+"0",""

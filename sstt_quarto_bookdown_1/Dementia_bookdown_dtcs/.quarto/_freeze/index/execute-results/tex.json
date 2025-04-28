@@ -1,0 +1,19 @@
+{
+  "hash": "bbbf1fbda2a9e74a4bd40bc9ed76cca7",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Preface {.unnumbered}\n\nThis is my first project I would like to present in Alzheimer confence. Acutually I am very lucky to be part of a member in neurocognitve leader in my Hospital, my mission is to detect cognitive and memory disorders in Demented people in my Dementia unit\n\nThis is my first Quarto book, I may lerarn from website <https://quarto.org/docs/books>.\n\nI also use the c R studio chunk codes to intergrate with R studio\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {
+      "knitr": [
+        "{\"type\":\"list\",\"attributes\":{},\"value\":[]}"
+      ]
+    },
+    "preserve": null,
+    "postProcess": false
+  }
+}

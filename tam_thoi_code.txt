@@ -1,0 +1,428 @@
+## Tạo slide báo cáo
+
+```{r}
+my_pres  <- read_pptx("sstt_SLIDE_input.pptx") 
+
+myftr <- "Bệnh viện 30-4"
+```
+
+### Kiểm tra layout
+
+```{r}
+#| label: kiem tra layout
+#| echo: true
+layout_summary(my_pres)
+
+glimpse(layout_summary(my_pres))
+# Inspect layout structure
+knitr::kable(layout_summary(my_pres))
+
+# Inspect properties of a specific layout
+knitr::kable(layout_properties(my_pres, layout = "Title and Content", master = "Office Theme"))
+
+
+```
+
+### Slide tiêu đề
+
+```{r}
+#| include: false
+# Tạo slide tiêu đề
+# Add title slide
+my_pres <- add_slide(my_pres, layout = "Title Slide", master = "Office Theme")
+
+# Add title and subtitle
+my_pres <- ph_with(my_pres, value = "Hiệu quả chẩn đoán và điều trị bộ test thần kinh nhận thức",
+                   location = ph_location_type(type = "ctrTitle"))
+my_pres <- ph_with(my_pres, value = "BS.CK2. Đỗ Thanh Liêm - Đơn vị trí nhớ và sa sút trí tuệ BV 30-4", 
+                   location = ph_location_type(type = "subTitle"))
+
+# Add footer
+my_pres <- ph_with(my_pres, value = "ĐV chủ trì: Khoa Tâm thần kinh", location = ph_location_type(type = "ftr"))
+# Add footer with date
+my_pres <- ph_with(my_pres, value = format(Sys.Date(), "%d/%m/%Y"), location = ph_location_type(type = "dt"))
+# Add infor to footer
+
+my_pres <- ph_with(my_pres, value = "Đề tài cấp cơ sở", location = ph_location_type(type = "sldNum"))
+```
+
+## Slide nội dung báo cáo
+
+```{r}
+#| include: false
+ul <- unordered_list(
+  level_list = c(1, 1, 1,1 ),
+  str_list = c("Đặt vấn đề", "Đối tượng và phương pháp nghiên cứu", "Kết quả - Bàn luận", "Kết luận"),
+  style = fp_text(color = "black", font.size = 0) )
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = "Nội dung trình bày", location = ph_location_type(type = "title"))
+my_pres <- ph_with(x = my_pres, value = ul, 
+               location = ph_location_type(type = "body") )
+
+
+```
+
+### Slide mục tiêu nghiên cứu.
+
+```{r}
+#| include: false
+ul <- unordered_list(
+  level_list = c(1, 2,  1, 2, 2),
+  str_list = c("Câu hỏi nghiên cứu", "Giá trí chẩn đoán và điều trị bộ test là gì?", "Mục tiêu", "Nghiên cứu mối tương quan của thang điểm MMSE với các test thần kinh nhận thức khác trong bộ Test thần kinh nhận thức tại Bệnh viện 30-4.", "Đánh giá hiệu quả ứng dụng của bộ Test thần kinh nhận thức trong chẩn đoán và điều trị Sa sút trí tuệ tại Bệnh viện 30-4"),
+  style = fp_text(color = "black", font.size = 0) )
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = "Câu hỏi NC, mục tiêu", location = ph_location_type(type = "title"))
+my_pres <- ph_with(x = my_pres, value = ul, 
+               location = ph_location_type(type = "body") )
+
+
+```
+
+### Slide đặt vấn đê
+
+```{r}
+#| label: slide dat van de
+#| include: false
+# add slide
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+# add title of slide
+my_pres <- ph_with(my_pres, value = "Đặt vấn đề", location = ph_location_type(type = "title"))
+# add body of slide
+my_pres <- ph_with(my_pres, value = c("SSTT là một bệnh lý của não bộ, gây ra suy giảm chức năng nhận thức, hành vi và hoạt động sống của bệnh nhân.",
+  "Từ năm 2019 đến nay, Đơn vị Trí nhớ và Sa sút trí tuệ Bệnh viện 30-4 đã sử dụng bộ trắc nghiệm  đánh giá chức năng thần kinh nhận thức Việt Nam (VnCA)",
+  "Phát hiện, đánh giá đúng mức những thay đổi sớm nhất về hành vi và nhận thức của bệnh nhân giúp các nhà lâm sàng chẩn đoán sớm, tối ưu hóa chiến lược điều trị, góp phần giảm thiểu gánh nặng bệnh tật do SSTT gây ra"), location = ph_location_type(type = "body"))
+
+
+```
+
+### Slide đối tượng và phương pháp nghiên cứu
+
+```{r}
+#| label: slide doi tuong va phuong phap nghien cuu
+#| echo: true
+ul <- unordered_list(
+  level_list = c(1, 2,  1, 2, 2,2, 1, 2, 2, 2),
+  str_list = c("Thiết kế ngiên cứu", "Mô tả cắt ngang", "Tiêu chuẩn chọn", "Bệnh nhân đến khám tại Đơn vị trí nhớ và SSTT ", "Từ 40 tuổi trở lên", "Có than phiền về trí nhớ hoặc nhận thức","Tiêu chuẩn loại trừ", "Không hợp tác", "Bệnh nhân đang bị mê sảng, lú lẫn cấp", "Suy giảm nhận thức không do nguyên nhân tâm thần kinh khác" ),
+  style = fp_text(color = "black", font.size = 0) )
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = "Đối tượng và phương pháp nghiên cúu", location = ph_location_type(type = "title"))
+my_pres <- ph_with(x = my_pres, value = ul, 
+               location = ph_location_type(type = "body") )
+
+
+```
+
+### Slides Tiến độ lấy mẫu 🍃
+
+```{r}
+#| label: tien do lay mau
+#| eval: false
+#| include: false
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+
+my_pres <- ph_with(my_pres, value = "Tiến độ lấy mẫu", location = ph_location_type(type = "title"))
+
+emp <- as.data.frame(df %>% count(year) %>%  mutate(percentage = round((n / sum(n)) * 100),  1))
+
+
+
+
+loc <- ph_location(
+  left=1.5,
+  top = 1.5,
+  width = 10,
+  height = 4,
+  rotation = 0,
+  bg="#333333"
+)
+
+my_pres  <- ph_with(my_pres , emp, location = loc)
+
+```
+
+### Slide vai trò test thần kinh nhận thức🌹
+
+```{r}
+#| label: slide vai tro test than kinh nhan thuc
+# add slide
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+# add title of slide
+my_pres <- ph_with(my_pres, value = "Vai trò test thần kinh nhận thức", location = ph_location_type(type = "title"))
+# add body of slide
+my_pres <- ph_with(my_pres, value = c("Việc phân tích tốt các thang điểm tâm thần kinh này hỗ trợ các bác sĩ lâm sàng trong việc chẩn đoán, chẩn đoán phân biệt thể bệnh" ,  "xác định lĩnh vực nhận thức bị khiếm khuyết, mức độ nặng","Chọn lựa các phương pháp can thiệp nhận thức không dùng thuốc như tập luyện nhận thức (cognitive training), phục hồi nhận thức (cognitive rehabilitation), kích thích nhận thức (cognitive stimulation); theo dõi diễn tiến khiếm khuyết nhận thức đặc biệt trong các trường hợp than phiền giảm nhận thức chủ quan (subjective cognitive impairment), suy giảm nhận thức nhẹ (mild cognitive impairment)."), location = ph_location_type(type = "body"))
+```
+
+# add ggplot
+
+```{r}
+#| eval: false
+#| include: false
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+
+my_pres <- ph_with(my_pres, value = "cho ggplot vô body", location = ph_location_type(type = "title"))
+
+  
+my_pres <- ph_with(x = my_pres, tien_do_2024_thang_gp, 
+   location = ph_location_type(type = "body") )
+
+```
+
+#### add table 
+```{r}
+#| label: slide dac diem gioi tinh
+#| eval: false
+#| include: false
+my_pres <- add_slide(my_pres, layout = "Title and Content", master = "Office Theme") #them slides
+my_pres <- ph_with(my_pres, value = "Đặc điểm giới tính -giữa ", location = ph_location_type(type = "title")) #them title
+
+# summary bang
+gender_summary <- df %>%
+  group_by(gender) %>%
+  summarise(
+    Count = n(),
+    Percentage = round((n() / nrow(df)) * 100, 1)
+  ) %>%
+  ungroup()
+
+# Create and format the flextable
+ft <- flextable(gender_summary) %>%
+  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%")  %>%
+  fontsize(size = 18, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 18, part = "body") %>%   autofit()
+
+ft <- width(ft, width = 5, unit = "cm")
+
+# Get slide dimensions in inches
+slide_dims <- slide_size(my_pres)
+slide_width <- slide_dims$width
+slide_height <- slide_dims$height
+
+# Get flextable dimensions
+table_dims <- dim(ft)
+table_width <- sum(table_dims$widths)
+table_height <- sum(table_dims$heights)
+
+# Calculate positions to center the table
+left_pos <- (slide_width - table_width) / 2
+top_pos <- (slide_height - table_height) / 2
+
+
+# Add the flextable to the slide at the calculated position
+my_pres <- ph_with(my_pres, value = ft, location = ph_location(left = left_pos, top = top_pos))
+
+
+
+```
+# add đặc điểm theo  tuổi ggplot 
+
+```{r}
+#| label: slide tuoi ggplot
+#| echo: true
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+
+my_pres <- ph_with(my_pres, value = "BIỂU ĐỒ ĐẶC DIỂM THEO TUỔI ", location = ph_location_type(type = "title"))
+
+  
+my_pres <- ph_with(x = my_pres, tuoi_gp, 
+   location = ph_location_type(type = "body") )
+
+```
+
+
+
+
+# add table 
+```{r}
+#| label: slide chua dung
+#| eval: false
+#| include: false
+
+my_pres <- add_slide(my_pres, layout = "Title and Content", master = "Office Theme") #them slides
+my_pres <- ph_with(my_pres, value = "Đặc điểm theo tuổi ", location = ph_location_type(type = "title")) #them title
+
+# summary bang
+gender_summary <- df %>%
+  group_by(gender) %>%
+  summarise(
+    Count = n(),
+    Percentage = round((n() / nrow(df)) * 100, 1)
+  ) %>%
+  ungroup()
+
+# Create and format the flextable
+ft <- flextable(gender_summary) %>%
+  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%")  %>%
+  fontsize(size = 18, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 18, part = "body") %>%   autofit()
+
+ft <- width(ft, width = 5, unit = "cm")
+
+# Get slide dimensions in inches
+slide_dims <- slide_size(my_pres)
+slide_width <- slide_dims$width
+slide_height <- slide_dims$height
+
+# Get flextable dimensions
+table_dims <- dim(ft)
+table_width <- sum(table_dims$widths)
+table_height <- sum(table_dims$heights)
+
+# Calculate positions to center the table
+left_pos <- (slide_width - table_width) / 2
+top_pos <- (slide_height - table_height) / 2
+
+
+# Add the flextable to the slide at the calculated position
+my_pres <- ph_with(my_pres, value = ft, location = ph_location(left = left_pos, top = top_pos))
+
+
+
+```
+# Thêm bảng 2 nội dung 🌹
+
+```{r}
+#| label: slide tuoi flex ggplo 2
+#| echo: true
+
+my_pres <- add_slide(my_pres, layout = "Two Content", master = "Office Theme") #them slides
+my_pres <- ph_with(my_pres, value = "Đặc điểm  tuổi  (Bảng và biểu đồ) ", location = ph_location_type(type = "title")) #them title
+
+
+# Create and format the flextable
+ft_tuoi <- ft_tuoi %>%
+  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%")  %>%
+  fontsize(size = 16, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 16, part = "body") %>%   autofit()
+
+ft_tuoi <- width(ft_tuoi, width = 3, unit = "cm")
+
+# Dat bieu do ben phai
+my_pres <- ph_with( my_pres,  value = tuoi_gp
+,   location = ph_location_label(ph_label = "Content Placeholder 3"))
+
+
+# Dat bang ben T
+
+my_pres <- ph_with( my_pres,  value = ft_tuoi,   location = ph_location_label(ph_label = "Content Placeholder 2"))
+
+```
+
+# Thêm bảng 2 nội dung 🌹🌹
+
+```{r}
+#| label: slide tuoi flex ggplo 2 inline
+#| echo: true
+# 🟦 Thêm slide mới kiểu Two Content
+my_pres <- add_slide(my_pres, layout = "Two Content", master = "Office Theme")
+
+# 🟦 Chèn tiêu đề
+my_pres <- ph_with(my_pres, value = "Đặc điểm tuổi (Bảng và biểu đồ)", location = ph_location_type(type = "title"))
+
+# 🟦 Format bảng flextable
+ft_tuoi <- ft_tuoi %>%
+  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%") %>%
+  fontsize(size = 16, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg(bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 16, part = "body") %>% autofit() %>%
+  width(width = 3, unit = "cm")
+
+# 🟦 Chèn bảng vào bên trái
+my_pres <- ph_with(my_pres, value = ft_tuoi, location = ph_location_left())
+
+# 🟦 Chèn biểu đồ (tuoi_gp) vào bên phải
+my_pres <- ph_with(my_pres, value = dml(ggobj = tuoi_gp), location = ph_location_right())
+
+# 🟦 Chèn mô tả biểu đồ bên dưới (ngay dưới biểu đồ)
+my_pres <- ph_with(
+  my_pres,
+  value = inline_bieudo_tuoi_ketqua,
+  location = ph_location(
+    left = 5.5, top = 5.5, width = 4, height = 1
+  )
+)
+
+```
+
+
+# Thêm bảng 2 nội dung
+
+```{r}
+#| eval: false
+#| include: false
+my_pres <- add_slide(my_pres, layout = "Two Content", master = "Office Theme") #them slides
+my_pres <- ph_with(my_pres, value = "Đặc điểm giới tính (Bản và biểu đồ) ", location = ph_location_type(type = "title")) #them title
+
+# summary bang
+gender_summary <- df %>%
+  group_by(gender) %>%
+  summarise(
+    Count = n(),
+    Percentage = round((n() / nrow(df)) * 100, 1)
+  ) %>%
+  ungroup()
+
+# Create and format the flextable
+ft <- flextable(gender_summary) %>%
+  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%")  %>%
+  fontsize(size = 16, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 16, part = "body") %>%   autofit()
+
+ft <- width(ft, width = 3, unit = "cm")
+
+# Dat bieu do ben phai
+my_pres <- ph_with( my_pres,  value = gioi_tinh_gp
+,   location = ph_location_label(ph_label = "Content Placeholder 3"))
+
+
+# Dat bang ben T
+
+my_pres <- ph_with( my_pres,  value = ft,   location = ph_location_label(ph_label = "Content Placeholder 2"))
+
+
+
+
+```
+
+## bảng 2
+
+```{r}
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+ 
+my_pres <- ph_with(my_pres, value = "Thêm bảng nữa", location = ph_location_type(type = "title"))
+
+ft <- flextable(head(mtcars))
+ft <- set_table_properties(ft, width = 1, layout = "autofit")
+
+my_pres <- ph_with(x = my_pres, ft,   location = ph_location_type(type = "body")  )
+
+```
+
+# Export to pptx file
+
+```{r}
+print(my_pres , "sstt_dtcs_SLIDE_output.pptx")
+```
+
+
+
+
+
+

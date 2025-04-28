@@ -1,0 +1,67 @@
+---
+title: "Acupuncture for Treatment of Lower Back Pain"
+subtitle: "RCT Study"
+author: "Dr. Liem"
+
+format:
+  docx:
+    toc: true
+    number-sections: false
+    reference-doc: style-reference.docx
+bibliography: references.bib
+csl: apa.csl
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(officer)
+library(officedown)
+library(flextable)
+```
+
+## Abstract
+
+In this study, we analyze the efficiency of acupuncture for treatment of lower back pain compared to a control group receiving sham acupuncture in a randomized controlled trial (RCT) [@do2017acupuncture]. Hello
+
+## Methods
+
+Participants were randomly assigned to receive either real acupuncture (treatment group) or sham acupuncture (control group). Pain levels were measured using the Visual Analog Scale (VAS) before and after treatment.
+
+## Results
+
+# Dataset
+
+# Dataset
+
+```{r}
+df <- data.frame(
+  Name = c("patient 1", "patient 2", "patient 3", "patient 4", "patient 5", "patient 6"),
+  Group = c("treatment", "control", "treatment", "treatment", "control", "control"),
+  VAS_Pre = c(9, 8, 7, 6, 7, 5),
+  VAS_Post = c(4, 7, 3, 2, 6, 4)
+) %>%
+  mutate(VAS_Change = VAS_Pre - VAS_Post)
+```
+
+# Table
+
+```{r}
+flextable(df) |>
+  set_caption("VAS Scores Before and After Treatment") |>
+  theme_booktabs() |>
+  autofit()
+```
+
+```{r}
+# Bar Plot
+ggplot(df, aes(x = Name, y = VAS_Change, fill = Group)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  labs(
+    title = "VAS Change After Treatment",
+    x = "Patient",
+    y = "VAS Change (Pre - Post)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```

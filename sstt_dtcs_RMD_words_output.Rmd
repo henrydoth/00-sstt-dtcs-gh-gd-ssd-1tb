@@ -1,0 +1,79 @@
+---
+title: "ĐỀ TÀI CƠ SỞ SA SÚT TRÍ TUỆ"
+subtitle: "Neurocognitive tests"
+author: "BS.CK2. ĐỖ THANH LIÊM"
+output: 
+  officedown::rdocx_document:
+    toc: true
+    number_sections: false
+bibliography: sstt_reference.bib
+csl: ama.csl
+encoding: UTF-8
+---
+
+```{r setup, include=FALSE}
+library(flextable)
+library(magrittr)
+library(officer)
+library(glue)
+library(ggplot2)
+library(scales)
+
+# Thiết lập locale tiếng Việt phù hợp hệ điều hành
+if (.Platform$OS.type == "windows") {
+  Sys.setlocale("LC_ALL", "Vietnamese")
+} else {
+  Sys.setlocale("LC_NUMERIC", "vi_VN.UTF-8")
+}
+
+options(
+  ggplot2.continuous.labels = scales::label_number(decimal.mark = ",", big.mark = ".")
+)
+
+# Định dạng theme + font + màu mặc định cho ggplot2
+theme_set(
+  theme_minimal(base_family = "Times New Roman") +
+    theme(
+      text = element_text(family = "Times New Roman"),
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+      axis.title = element_text(size = 12),
+      axis.text = element_text(size = 11),
+      legend.title = element_text(size = 12),
+      legend.text = element_text(size = 11),
+      strip.text = element_text(size = 12)
+    )
+)
+
+# Định dạng màu mặc định
+scale_color_discrete <- function(...) scale_color_brewer(palette = "Set1", ...)
+scale_fill_discrete  <- function(...) scale_fill_brewer(palette = "Pastel2", ...)
+
+# Hàm inline format số
+vn_format <- function(x, digits = 1) {
+  format(round(x, digits), decimal.mark = ",", big.mark = ".", nsmall = digits)
+}
+
+# Hàm tạo flextable định dạng tiếng Việt
+ft_vn <- function(df, ...) {
+  flextable(df) %>%
+    colformat_num(decimal.mark = ",", big.mark = ".", na_str = "-") %>%
+    autofit() %>%
+    set_table_properties(width = 1, layout = "autofit", ...)
+}
+```
+
+```{r demo-ggplot, echo=TRUE}
+# Ví dụ minh họa biểu đồ ggplot2 dùng theme & màu mặc định
+df <- data.frame(
+  nhóm = rep(c("MCI", "Sa sút trí tuệ"), each = 5),
+  giá_trị = c(61, 64, 66, 67, 68, 69, 71, 72, 73, 74),
+  nhóm_tuổi = rep(c("50–59", "60–69", "70–79", "80+", "80+"), 2)
+)
+
+ggplot(df, aes(x = nhóm_tuổi, y = giá_trị, fill = nhóm)) +
+  geom_col(position = position_dodge()) +
+  labs(
+    title = "So sánh giá trị theo nhóm tuổi",
+    x = "Nhóm tuổi", y = "Giá trị"
+  )
+```

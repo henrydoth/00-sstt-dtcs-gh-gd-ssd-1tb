@@ -1,0 +1,586 @@
+---
+title: "Sstt_2 Dtcs gh gd QT 2025 v2"
+author: "Do Thanh Liem"
+format: html
+editor: visual
+---
+
+## Quarto
+
+```{r}
+library(pacman)
+pacman:: p_load(haven, tidyverse,labelled, ggplot2, gt,flextable, table1, ggdist,ggpubr, ggstatsplot, kableExtra,officer)
+
+```
+
+```{r}
+#| label: Dữ liệu thu thập bằng SPSS 20
+df <- haven:: read_sav("sstt304_28_03_24.sav", encoding = "latin1")
+```
+
+```{r}
+
+#| label: Chọn bộ Test VnCo mới, và phân loại Sa sút trí tuệ theo tiêu chuẩn của MMSE 
+
+df <- df %>%
+  dplyr::filter(new.old.tests != 1) %>%
+  drop_na(mmse.new)
+
+```
+
+## Hàm p
+
+```{r}
+#| label: hàm tạo giá trị p 
+#| include: false
+
+
+pvalue <- function(x, ...) {
+  # Construct vectors of data y, and groups (strata) g
+  y <- unlist(x)
+  g <- factor(rep(1:length(x), times=sapply(x, length)))
+  if (is.numeric(y)) {
+    # For numeric variables, perform a standard 2-sample t-test
+    p <- t.test(y ~ g)$p.value
+  } else {
+    # For categorical variables, perform a chi-squared test of independence
+    p <- chisq.test(table(y, g))$p.value
+  }
+  # Format the p-value, using an HTML entity for the less-than sign.
+  # The initial empty string places the output on the line below the variable label.
+  c("", sub("<", "&lt;", format.pval(p, digits=3, eps=0.001)))
+}
+
+
+```
+
+## Làm sạch dữ liệu (mutate, label)
+
+```{r}
+#| label: Tuoi va nhom tuoi
+df <- df %>% mutate(year.visit=format(df$date.visit, format = "%Y")) %>% filter(!is.na(year.visit)) %>% mutate(age = as.numeric(year.visit) - year.born)%>% {var_label(.$age) = "Tuổi"; .} %>% filter(age>=40)%>% 
+  mutate(age.group=cut(age, breaks=c(-Inf,65, 70, 75, 80, Inf), labels=c("40-65","66-70", "71-75","76-80","> 80")))%>% {var_label(.$age.group) <- "Nhóm tuổi"; .}
+```
+
+## Báo cáo tiến độ lấy mẫu
+
+```{r}
+
+ df <- df %>% mutate (month.year = format(as.Date(date.visit), "%Y-%m"), year = format(as.Date(date.visit), "%Y") )
+
+
+```
+
+# Tiến độ.
+
+```{r}
+tien_do_nam_gp <- ggplot(df %>% count(year) %>%  mutate(percentage = (n / sum(n)) * 100), aes(x = year, y = n, fill = factor(year))) +  geom_col() +  geom_text(aes(label = paste0(n, " (", round(percentage, 1), "%)")),       vjust = -0.5, size = 5) +  labs(    x = "Year", y = "Count") +   theme(legend.position = "none",       # Remove legend
+        panel.background = element_blank(),  # Remove panel background
+        plot.background = element_blank(),   # Remove plot background
+        panel.grid = element_blank()) 
+
+tien_do_nam_gp 
+
+ggsave("tien_do_nam_gp.svg", plot = tien_do_nam_gp, width = 6, height = 4, dpi = 300)
+```
+
+# Tiến độ 2024 tháng
+
+```{r}
+tien_do_2024_thang_gp <- ggplot(
+  df %>% 
+    filter(year == "2024") %>%  
+    count(month.year) %>%  
+    mutate(percentage = (n / sum(n)) * 100), 
+  aes(x = month.year, y = n, fill = factor(month.year))
+) +  
+  geom_col() +  
+  geom_text(aes(label = paste0(n, " (", round(percentage, 1), "%)")), 
+            vjust = -0.5, size = 5) +  
+  labs(x = "Year", y = "Count") +   
+  theme(
+    legend.position = "none",      
+    panel.background = element_blank(),  
+    plot.background = element_blank(),   
+    panel.grid = element_blank()         
+  )
+
+
+tien_do_2024_thang_gp 
+```
+
+```{r}
+#| label: Giới tính
+#df$gender     <- factor(df$ gender, levels= c(1,2), labels=c("Male", "Female"))
+
+df <- df %>% mutate(gender  = factor(gender, levels= c(1,2), labels=c("Nam giới", "Nữ giới"))) %>% {var_label(.$gender) <- "Giới tính"; .}
+
+```
+
+## Phân độ MMSE
+
+```{r}
+df <- df %>% mutate(mmse.group=cut(mmse.new, breaks=c(-Inf,9, 18, 24,27,Inf), labels=c("SSTT nặng", "Trung bình","Nhẹ", "Suy giảm nhận thức chủ quan", "Bình thường"))) %>% {var_label(.$mmse.group)="Phân độ bệnh theo MMSE"; .}
+
+```
+
+```{r}
+
+
+df$group     <- factor(df$ group, levels= c(1,2), labels=c("MCI", "Dementia"))
+df$TMT.A.comp     <- factor(df$ TMT.A.comp, levels= c(0, 1, 2), labels=c("Unable to do", "Uncomplete", "complete"))
+df$TMT.B.comp     <- factor(df$ TMT.B.comp, levels= c(0, 1, 2), labels=c("Unable to do", "Uncomplete", "complete"))
+
+
+```
+
+# Đặc điểm bệnh nhân
+
+## Bảng giới tính
+
+```{r}
+#| label: Bảng giới tính
+gioi_tinh_tab <- table1(~gender,data=df, 
+       caption = "Bảng 02: Biễu diễn giới tính")
+gioi_tinh_tab
+```
+
+```{r}
+#| label: Trình độ học vấn
+
+
+df <- df %>% mutate(edu.level  = factor(edu.level, levels= c(1,2,3,4,5), labels=c("Tiểu học", "Trung học cơ sở","Trung học phổ thông","Đại học","Non-defined"))) %>% {var_label(.$edu.level) <- "Trình độ học vấn "; .}
+
+df <- df %>%
+  mutate(edu.level2 = fct_recode(edu.level, 
+"Trung học" = "Trung học cơ sở", 
+"Trung học" = "Trung học phổ thông",
+"Cao đẳng, đại học" = "Đại học"))%>%
+  mutate(edu.level2 = na_if(edu.level2, "Non-defined"))
+
+
+```
+
+## Biểu đồ giới tính
+
+```{r}
+gioi_tinh_gp <- ggdonutchart(df %>% select(gender) %>% count(gender) %>% slice(1:2) , "n", label = "gender",
+             color = "white",fill = "gender"
+ ) +
+  geom_text(aes(label = scales::percent(n/sum(n))),
+            position = position_stack(vjust = 0.5), size = 5)+
+  guides(fill=guide_legend(title="Giới tính"))+
+  scale_fill_discrete(labels=c("Nam","Nữ")) +
+    theme(
+    legend.position = "none",      
+    panel.background = element_blank(),  
+    plot.background = element_blank(),   
+    panel.grid = element_blank()         
+  )
+
+gioi_tinh_gp
+
+```
+
+## Bảng trình độ học vấn
+
+```{r}
+
+table1(~edu.level + edu.level2,data=df)
+
+
+```
+
+## Biểu đồ trình độ học vấn.
+
+```{r}
+
+ggplot(df %>% select(edu.level2) %>% count(edu.level2) %>% slice(1:3) %>%  mutate(pct = n/sum(n)) %>% mutate (edu.level2 = fct_reorder(edu.level2, n, .desc = T)), aes(edu.level2, n, fill = edu.level2))+
+    scale_fill_brewer(palette = "Set1")+
+  geom_bar(stat = "identity")+
+  geom_text(aes(label = paste0(sprintf("%1.1f", pct*100), "%")), position = position_stack(vjust = 0.5))+
+  xlab("Trình độ học vấn")+ ylab("Tần số")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = "none")
+
+
+
+```
+
+```{r}
+table1(~mmse.new+mmse.group,data=df)
+```
+
+# Biểu đồ phân bố theo tuổi
+
+```{r}
+ggplot(df,aes(x=gender, y=age, fill=gender)) + 
+  ## add half-violin from {ggdist} package
+  ggdist::stat_halfeye(
+    ## custom bandwidth
+    adjust = .3, 
+    ## adjust height
+    width = .6, 
+    ## dich bieu do may
+    justification = -.25, 
+    ## remove slab interval
+    .width = 0, 
+    point_colour = NA
+  ) + 
+  geom_boxplot(
+    width = .18, 
+    ## remove outliers
+    outlier.color = NA ## `outlier.shape = NA` works as well
+  ) +
+  ## add dot plots from {ggdist} package
+  ggdist::stat_dots(
+    ## orientation to the left
+    side = "left", 
+    ## move geom to the left
+    justification = 1.1, 
+    ## adjust grouping (binning) of observations 
+    binwidth = .75,
+    alpha = 0.5
+  ) + 
+  ## remove white space on the left
+  coord_cartesian(xlim = c(1.2, NA))+
+  theme(legend.position = "none")+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=3, color="purple", position = position_dodge2(width = 0.75, preserve = "single")) +
+  geom_text(x= 2.5, y= 30, label = "t-test, p > 0.05") +
+  scale_x_discrete(labels = c('Nam','Nữ'))+
+  xlab(" Giới tính") + 
+  ylab("Tuổi (năm)")
+
+```
+
+# Phân độ SSTT theo MMSE
+
+```{r}
+tuoi_gp <- ggplot(df, aes(mmse.group, fill=mmse.group)) +    geom_bar()+  geom_text(aes(label = scales::percent(round((..count..)/sum(..count..),2)),             y= ((..count..)/sum(..count..))), stat="count",         vjust = -.75)+   theme(legend.position = "none")+   theme(axis.title.x=element_blank())+   scale_x_discrete(labels = c('SSTT Nặng','SSTT Trung bình', 'SSTT Nhẹ','Có thể MCI','SCI-Bình thường'))+   xlab("Phân độ SSTT theo thang điểm MMSE")+   ylab("Số lượng (n)") 
+tuoi_gp
+```
+
+# Mối quan hệ giữa giới tính và điểm MMSE
+
+```{r}
+df %>% ggplot(aes(age, mmse.new, fill=gender))+geom_point(aes(col=gender))+theme(legend.position = "right")+
+   geom_smooth(aes(x = age, y = mmse.new, group=gender, fill = gender), se = TRUE, method='lm')+
+  scale_fill_discrete(name="Giới tính",
+                         breaks=c("Male", "Female"),
+                         labels=c("Nam", "Nữ"))+
+
+  xlab("Tuổi")+
+  ylab("Điểm MMSE")
+```
+
+# So sánh các test chuyên biệt giữa SSTT và MCI
+
+```{r}
+df_di <- df %>% filter(mmse.new <=27) %>% mutate(mmse.dia = cut(mmse.new, breaks = c(-Inf, 24, +Inf), labels = c("Sa sút trí tuệ", "Suy giảm nhận thức nhẹ")) )
+
+table1(~Im.recall1+de.recall1+de.reg1+de.reg1+TMT.A.time+TMT.B.time+DS.forward1+DS.backrward1+animal.test1+clock.drawing1|mmse.dia, topclass = "Rtable1-zebra", extra.col = list("P-value" = pvalue), overall = F,data=df_di)
+```
+
+## Tạo slide báo cáo
+
+```{r}
+my_pres  <- read_pptx("template.pptx") 
+
+myftr <- "Bệnh viện 30-4"
+```
+
+### Kiểm tra layout
+
+```{r}
+layout_summary(my_pres)
+
+glimpse(layout_summary(my_pres))
+# Inspect layout structure
+knitr::kable(layout_summary(my_pres))
+
+# Inspect properties of a specific layout
+knitr::kable(layout_properties(my_pres, layout = "Title and Content", master = "Office Theme"))
+
+
+```
+
+### Slide tiêu đề
+
+```{r}
+# Tạo slide tiêu đề
+# Add title slide
+my_pres <- add_slide(my_pres, layout = "Title Slide", master = "Office Theme")
+
+# Add title and subtitle
+my_pres <- ph_with(my_pres, value = "Hiệu quả chẩn đoán và điều trị bộ test thần kinh nhận thức",
+                   location = ph_location_type(type = "ctrTitle"))
+my_pres <- ph_with(my_pres, value = "BS.CK2. Đỗ Thanh Liêm - Đơn vị trí nhớ và sa sút trí tuệ BV 30-4", 
+                   location = ph_location_type(type = "subTitle"))
+
+# Add footer
+my_pres <- ph_with(my_pres, value = "ĐV chủ trì: Khoa Tâm thần kinh", location = ph_location_type(type = "ftr"))
+# Add footer with date
+my_pres <- ph_with(my_pres, value = format(Sys.Date(), "%d/%m/%Y"), location = ph_location_type(type = "dt"))
+# Add infor to footer
+
+my_pres <- ph_with(my_pres, value = "Đề tài cấp cơ sở", location = ph_location_type(type = "sldNum"))
+```
+
+## Slide nội dung báo cáo
+
+```{r}
+ul <- unordered_list(
+  level_list = c(1, 1, 1,1 ),
+  str_list = c("Đặt vấn đề", "Đối tượng và phương pháp nghiên cứu", "Kết quả - Bàn luận", "Kết luận"),
+  style = fp_text(color = "black", font.size = 0) )
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = "Nội dung trình bày", location = ph_location_type(type = "title"))
+my_pres <- ph_with(x = my_pres, value = ul, 
+               location = ph_location_type(type = "body") )
+
+
+```
+
+## Slide mục tiêu nghiên cứu.
+
+```{r}
+ul <- unordered_list(
+  level_list = c(1, 2,  1, 2, 2),
+  str_list = c("Câu hỏi nghiên cứu", "Giá trí chẩn đoán và điều trị bộ test là gì?", "Mục tiêu", "Nghiên cứu mối tương quan của thang điểm MMSE với các test thần kinh nhận thức khác trong bộ Test thần kinh nhận thức tại Bệnh viện 30-4.", "Đánh giá hiệu quả ứng dụng của bộ Test thần kinh nhận thức trong chẩn đoán và điều trị Sa sút trí tuệ tại Bệnh viện 30-4"),
+  style = fp_text(color = "black", font.size = 0) )
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = "Câu hỏi NC, mục tiêu", location = ph_location_type(type = "title"))
+my_pres <- ph_with(x = my_pres, value = ul, 
+               location = ph_location_type(type = "body") )
+
+
+```
+
+### Slide đặt vấn đê
+
+```{r}
+# add slide
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+# add title of slide
+my_pres <- ph_with(my_pres, value = "Đặt vấn đề", location = ph_location_type(type = "title"))
+# add body of slide
+my_pres <- ph_with(my_pres, value = c("SSTT là một bệnh lý của não bộ, gây ra suy giảm chức năng nhận thức, hành vi và hoạt động sống của bệnh nhân.",
+  "Từ năm 2019 đến nay, Đơn vị Trí nhớ và Sa sút trí tuệ Bệnh viện 30-4 đã sử dụng bộ trắc nghiệm  đánh giá chức năng thần kinh nhận thức Việt Nam (VnCA)",
+  "Phát hiện, đánh giá đúng mức những thay đổi sớm nhất về hành vi và nhận thức của bệnh nhân giúp các nhà lâm sàng chẩn đoán sớm, tối ưu hóa chiến lược điều trị, góp phần giảm thiểu gánh nặng bệnh tật do SSTT gây ra"), location = ph_location_type(type = "body"))
+
+
+```
+
+### Slide đối tượng và phương pháp nghiên cứu
+
+```{r}
+ul <- unordered_list(
+  level_list = c(1, 2,  1, 2, 2,2, 1, 2, 2, 2),
+  str_list = c("Thiết kế ngiên cứu", "Mô tả cắt ngang", "Tiêu chuẩn chọn", "Bệnh nhân đến khám tại Đơn vị trí nhớ và SSTT ", "Từ 40 tuổi trở lên", "Có than phiền về trí nhớ hoặc nhận thức","Tiêu chuẩn loại trừ", "Không hợp tác", "Bệnh nhân đang bị mê sảng, lú lẫn cấp", "Suy giảm nhận thức không do nguyên nhân tâm thần kinh khác" ),
+  style = fp_text(color = "black", font.size = 0) )
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+my_pres <- ph_with(my_pres, value = "Đối tượng và phương pháp nghiên cúu", location = ph_location_type(type = "title"))
+my_pres <- ph_with(x = my_pres, value = ul, 
+               location = ph_location_type(type = "body") )
+
+
+```
+
+### Slides Tiến độ lấy mẫu
+
+```{r}
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+
+my_pres <- ph_with(my_pres, value = "Tiến độ lấy mẫu", location = ph_location_type(type = "title"))
+
+emp <- as.data.frame(df %>% count(year) %>%  mutate(percentage = round((n / sum(n)) * 100),  1))
+
+
+
+
+loc <- ph_location(
+  left=1.5,
+  top = 1.5,
+  width = 10,
+  height = 4,
+  rotation = 0,
+  bg="#333333"
+)
+
+my_pres  <- ph_with(my_pres , emp, location = loc)
+
+```
+
+## Slide vai trò test thần kinh nhận thức
+
+```{r}
+# add slide
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+# add title of slide
+my_pres <- ph_with(my_pres, value = "Vai trò test thần kinh nhận thức", location = ph_location_type(type = "title"))
+# add body of slide
+my_pres <- ph_with(my_pres, value = c("Việc phân tích tốt các thang điểm tâm thần kinh này hỗ trợ các bác sĩ lâm sàng trong việc chẩn đoán, chẩn đoán phân biệt thể bệnh" ,  "xác định lĩnh vực nhận thức bị khiếm khuyết, mức độ nặng","Chọn lựa các phương pháp can thiệp nhận thức không dùng thuốc như tập luyện nhận thức (cognitive training), phục hồi nhận thức (cognitive rehabilitation), kích thích nhận thức (cognitive stimulation); theo dõi diễn tiến khiếm khuyết nhận thức đặc biệt trong các trường hợp than phiền giảm nhận thức chủ quan (subjective cognitive impairment), suy giảm nhận thức nhẹ (mild cognitive impairment)."), location = ph_location_type(type = "body"))
+```
+
+# add ggplot
+
+```{r}
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+
+my_pres <- ph_with(my_pres, value = "cho ggplot vô body", location = ph_location_type(type = "title"))
+
+  
+my_pres <- ph_with(x = my_pres, tien_do_2024_thang_gp, 
+   location = ph_location_type(type = "body") )
+
+```
+
+# add table @schroeder_neuropsychological_2019
+
+```{r}
+my_pres <- add_slide(my_pres, layout = "Title and Content", master = "Office Theme") #them slides
+my_pres <- ph_with(my_pres, value = "Đặc điểm giới tính -giữa ", location = ph_location_type(type = "title")) #them title
+
+# summary bang
+gender_summary <- df %>%
+  group_by(gender) %>%
+  summarise(
+    Count = n(),
+    Percentage = round((n() / nrow(df)) * 100, 1)
+  ) %>%
+  ungroup()
+
+# Create and format the flextable
+ft <- flextable(gender_summary) %>%
+  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%")  %>%
+  fontsize(size = 18, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 18, part = "body") %>%   autofit()
+
+ft <- width(ft, width = 5, unit = "cm")
+
+# Get slide dimensions in inches
+slide_dims <- slide_size(my_pres)
+slide_width <- slide_dims$width
+slide_height <- slide_dims$height
+
+# Get flextable dimensions
+table_dims <- dim(ft)
+table_width <- sum(table_dims$widths)
+table_height <- sum(table_dims$heights)
+
+# Calculate positions to center the table
+left_pos <- (slide_width - table_width) / 2
+top_pos <- (slide_height - table_height) / 2
+
+
+# Add the flextable to the slide at the calculated position
+my_pres <- ph_with(my_pres, value = ft, location = ph_location(left = left_pos, top = top_pos))
+
+
+
+```
+
+# Thêm bảng 2 nội dung
+
+```{r}
+#| echo: true
+my_pres <- add_slide(my_pres, layout = "Two Content", master = "Office Theme") #them slides
+my_pres <- ph_with(my_pres, value = "Đặc điểm giới tính (Bản và biểu đồ) ", location = ph_location_type(type = "title")) #them title
+
+# summary bang
+gender_summary <- df %>%
+  group_by(gender) %>%
+  summarise(
+    Count = n(),
+    Percentage = round((n() / nrow(df)) * 100, 1)
+  ) %>%
+  ungroup()
+
+# Create and format the flextable
+ft <- flextable(gender_summary) %>%
+  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%")  %>%
+  fontsize(size = 16, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 16, part = "body") %>%   autofit()
+
+ft <- width(ft, width = 3, unit = "cm")
+
+# Dat bieu do ben phai
+my_pres <- ph_with( my_pres,  value = gioi_tinh_gp
+,   location = ph_location_label(ph_label = "Content Placeholder 3"))
+
+
+# Dat bang ben T
+
+my_pres <- ph_with( my_pres,  value = ft,   location = ph_location_label(ph_label = "Content Placeholder 2"))
+
+
+
+
+```
+
+## bảng 2
+
+```{r}
+
+
+my_pres  <- add_slide(my_pres , layout = "Title and Content", master = "Office Theme")
+
+ 
+my_pres <- ph_with(my_pres, value = "Thêm bảng nữa", location = ph_location_type(type = "title"))
+
+ft <- flextable(head(mtcars))
+ft <- set_table_properties(ft, width = 1, layout = "autofit")
+
+my_pres <- ph_with(x = my_pres, ft,   location = ph_location_type(type = "body")  )
+
+```
+
+# Export to pptx file
+
+```{r}
+print(my_pres , "dtcs_sstt_quarto.pptx")
+```
+
+# Tạo file words báo cáo
+
+```{r}
+read_docx() %>% 
+  
+  body_add_par("Table of Contents", style = "heading 1") %>% 
+  body_add_toc(level = 2) %>% 
+  body_add_par("Table of figures", style = "heading 1") %>% 
+  body_add_toc(style = "Image Caption") %>% 
+  body_add_par("Table of tables", style = "heading 1") %>% 
+  body_add_toc(style = "Table Caption") %>%
+
+
+
+
+  body_add_par(value = "BÁO CÁO TÓM TẮT NGHIÊN CỨU", style = "Normal") %>% 
+  body_add_par(value = "BS.CK2 Đỗ Thanh Liêm", style = "centered") %>% 
+  
+  
+  body_add_par(value = "Tổng quan về suy giảm nhận thức và bệnh sa sút trí tuệ, vai trò của test thần kinh nhận thức.", style = "heading 1") %>% 
+  body_add_par(value = "Vai trò của phân tích test thần kinh nhận thức.", style = "heading 2") %>% 
+  body_add_par(value = "Các nghiên cứu trong nước liên quan ", style = "heading 3") %>% 
+  
+  body_add_par(value = "Báo cáo tiến độ ", style = "heading 3") %>%  
+  body_add_img("i1.png", height = 3, width = 4.39, style = "centered") %>%
+  
+  body_add_gg(value = gioi_tinh_gp , style = "centered") %>%
+  
+  print(target = "sstt_dtcs_2025.docx")
+```

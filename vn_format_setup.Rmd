@@ -1,0 +1,32 @@
+---
+title: "Thiết lập định dạng tiếng Việt"
+output: officedown::rdocx_document
+encoding: UTF-8
+---
+
+```{r setup, include=FALSE}
+# Thiết lập locale tiếng Việt phù hợp hệ điều hành
+if (.Platform$OS.type == "windows") {
+  Sys.setlocale("LC_ALL", "Vietnamese")
+} else {
+  Sys.setlocale("LC_NUMERIC", "vi_VN.UTF-8")
+}
+
+# Thiết lập nhãn trục ggplot2 theo kiểu Việt (dấu phẩy)
+options(
+  ggplot2.continuous.labels = scales::label_number(decimal.mark = ",", big.mark = ".")
+)
+
+# Hàm định dạng số dùng inline
+vn_format <- function(x, digits = 1) {
+  format(round(x, digits), decimal.mark = ",", big.mark = ".", nsmall = digits)
+}
+
+# Hàm tạo flextable định dạng tiếng Việt
+ft_vn <- function(df, ...) {
+  flextable(df) %>%
+    colformat_num(decimal.mark = ",", big.mark = ".", na_str = "-") %>%
+    autofit() %>%
+    set_table_properties(width = 1, layout = "autofit", ...)
+}
+```

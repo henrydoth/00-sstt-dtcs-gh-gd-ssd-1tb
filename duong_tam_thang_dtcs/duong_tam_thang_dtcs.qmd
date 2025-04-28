@@ -1,0 +1,147 @@
+---
+title: "RCT: Yangxin Tang vs. Acupuncture"
+subtitle: "Comparison of Sleep Quality (PSQI Outcome)"
+author: "YHCT Team"
+
+format:
+  docx:
+    toc: true
+    number-sections: false
+    reference-doc: sstt_dtcs_quato_words_input.docx
+bibliography: duong_tam_thang.bib
+csl: apa.csl
+editor: visual
+---
+
+
+```{r}
+library(pacman)
+pacman::p_load(
+  officedown, haven, tidyverse, labelled, ggplot2,
+  gt, flextable, kableExtra, officer, lubridate, glue
+)
+
+# Generate formatted datetime string
+current_datetime <- now()
+thu <- if (wday(current_datetime) == 1) "Chủ nhật" else paste("Thứ", wday(current_datetime) - 1)
+gio <- format(current_datetime, "%H:%M")
+ngay <- day(current_datetime)
+thang <- month(current_datetime)
+nam <- year(current_datetime)
+formatted_datetime <- paste0("vào lúc ", gio, ", ", thu, ", ngày ", ngay, " tháng ", thang, " năm ", nam)
+
+```
+## Simulate PSQI data
+
+```{r}
+## Set seed and sample size
+set.seed(123)
+n <- 48
+
+## Simulate data
+data <- tibble(
+  group = rep(c("Yangxin", "Acupuncture"), each = n),
+  ## Baseline means are close to ensure no significant difference
+  pre_PSQI = c(rnorm(n, mean = 14, sd = 2), rnorm(n, mean = 14.2, sd = 2)),
+  ## Post-treatment: Yangxin improves more
+  post_PSQI = c(rnorm(n, mean = 7.5, sd = 2), rnorm(n, mean = 10.5, sd = 2))
+)
+
+## Baseline comparison
+baseline_test <- wilcox.test(pre_PSQI ~ group, data = data)
+
+## Post-treatment comparison
+post_test <- wilcox.test(post_PSQI ~ group, data = data)
+
+## Paired tests within groups
+yangxin_test <- wilcox.test(
+  data %>% filter(group == "Yangxin") %>% pull(pre_PSQI),
+  data %>% filter(group == "Yangxin") %>% pull(post_PSQI),
+  paired = TRUE
+)
+
+acupuncture_test <- wilcox.test(
+  data %>% filter(group == "Acupuncture") %>% pull(pre_PSQI),
+  data %>% filter(group == "Acupuncture") %>% pull(post_PSQI),
+  paired = TRUE
+)
+
+## Summary table
+results <- tibble(
+  Comparison = c(
+    "Baseline: Yangxin vs Acupuncture",
+    "Post-treatment: Yangxin vs Acupuncture",
+    "Yangxin: Pre vs Post",
+    "Acupuncture: Pre vs Post"
+  ),
+  `p-value` = c(
+    baseline_test$p.value,
+    post_test$p.value,
+    yangxin_test$p.value,
+    acupuncture_test$p.value
+  )
+)
+```
+
+## Wilcoxon rank-sum test for baseline PSQI comparison
+
+```{r}
+baseline_test <- wilcox.test(pre_PSQI ~ group, data = data)
+```
+
+## Wilcoxon signed-rank test for within-group comparisons
+
+```{r}
+yangxin_test <- wilcox.test(
+  x = data %>% filter(group == "Yangxin") %>% pull(pre_PSQI),
+  y = data %>% filter(group == "Yangxin") %>% pull(post_PSQI),
+  paired = TRUE
+)
+
+acupuncture_test <- wilcox.test(
+  x = data %>% filter(group == "Acupuncture") %>% pull(pre_PSQI),
+  y = data %>% filter(group == "Acupuncture") %>% pull(post_PSQI),
+  paired = TRUE
+)
+```
+
+## Prepare result summary
+
+```{r}
+results <- tibble(
+  Comparison = c("Baseline (Yangxin vs Acupuncture)",
+                 "Pre vs Post (Yangxin)",
+                 "Pre vs Post (Acupuncture)"),
+  `p-value` = c(baseline_test$p.value,
+                yangxin_test$p.value,
+                acupuncture_test$p.value)
+)
+
+```
+
+## Show results with flextable
+
+```{r}
+results %>% 
+  flextable() %>% 
+  autofit()
+```
+
+## Optional: visualize PSQI changes
+
+```{r}
+data_long <- data %>%
+  pivot_longer(cols = c(pre_PSQI, post_PSQI), 
+               names_to = "time", values_to = "PSQI")
+
+ggplot(data_long, aes(x = time, y = PSQI, fill = group)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) +
+  labs(title = "PSQI Before and After Intervention",
+       x = "Time", y = "PSQI Score") +
+  theme_minimal()
+
+```
+
+# Bàn luận
+
+## Đặc điểm giới tính

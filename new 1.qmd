@@ -1,0 +1,10 @@
+---
+title: "My Report"
+author: "Dr. Liem"
+format: html
+---
+
+# Introduction
+
+```{r}
+summary(cars)

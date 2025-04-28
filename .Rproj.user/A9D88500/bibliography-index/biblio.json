@@ -1,0 +1,24 @@
+{
+    "sources": [
+        {
+            "author": [
+                {
+                    "family": "Do",
+                    "given": "Thanh Liem"
+                }
+            ],
+            "container-title": "Acupuncture",
+            "id": "do2017acupuncture",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "title": "Acupuncture for treatment of pain",
+            "type": "article-journal"
+        }
+    ],
+    "project_biblios": []
+}

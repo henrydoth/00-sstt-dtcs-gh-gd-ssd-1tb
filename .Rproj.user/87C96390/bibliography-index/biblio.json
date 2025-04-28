@@ -1,0 +1,148 @@
+{
+    "sources": [
+        {
+            "author": [
+                {
+                    "literal": "HelpAge International"
+                }
+            ],
+            "id": "helpage2019vietnam",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "note": "Accessed: 2021-12-16",
+            "publisher": "https://ageingasia.org/ageing-population-vietnam/#keyfacts",
+            "title": "Ageing population in vietnam",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "family": "Tong",
+                    "given": "L."
+                }
+            ],
+            "id": "tong2017ageing",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "note": "Accessed: 2021-12-28",
+            "publisher": "https://www.eastasiaforum.org/2017/01/25/vietnam-struggling-with-ageing-population/",
+            "title": "Vietnam struggling with ageing population",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "literal": "Nguyễn Minh Ngọc"
+                }
+            ],
+            "id": "nguyen2021share",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "Accessed: 2021-12-28",
+            "publisher": "https://www.statista.com/statistics/713671/vietnam-forecast-ageing-population/",
+            "title": "Share of ageing population in vietnam 2015",
+            "type": ""
+        },
+        {
+            "DOI": "10.1111/ajag.12755",
+            "ISSN": "1440-6381",
+            "author": [
+                {
+                    "family": "Nguyen",
+                    "given": "T. A."
+                },
+                {
+                    "family": "Thomson",
+                    "given": "L."
+                },
+                {
+                    "family": "Thanh",
+                    "given": "T. N."
+                },
+                {
+                    "family": "Vinh",
+                    "given": "B. Q."
+                },
+                {
+                    "family": "Pham",
+                    "given": "T."
+                },
+                {
+                    "family": "Dang",
+                    "given": "T. H."
+                },
+                {
+                    "family": "Phan",
+                    "given": "T. L."
+                },
+                {
+                    "family": "Vo",
+                    "given": "T. H."
+                },
+                {
+                    "family": "Nguyen",
+                    "given": "T. N."
+                },
+                {
+                    "family": "Cumming",
+                    "given": "R."
+                },
+                {
+                    "family": "Anstey",
+                    "given": "K. J."
+                }
+            ],
+            "container-title": "Australasian Journal on Ageing",
+            "id": "nguyen2020dementia",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        6
+                    ]
+                ]
+            },
+            "note": "PMID: 31814244",
+            "page": "137-141",
+            "title": "Towards the development of vietnam’s national dementia plan—the first step of action",
+            "type": "article-journal",
+            "volume": "39"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Australian Institute of Health and Welfare"
+                }
+            ],
+            "id": "aihw2022dementia",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "note": "Accessed: 2023-01-20",
+            "publisher": "AIHW, Australian Government",
+            "title": "Dementia in australia",
+            "type": ""
+        }
+    ],
+    "project_biblios": []
+}

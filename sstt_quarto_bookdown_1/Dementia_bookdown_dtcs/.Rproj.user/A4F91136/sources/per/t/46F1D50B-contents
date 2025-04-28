@@ -1,0 +1,27 @@
+project:
+  type: book
+
+book:
+  title: "Neurocognitve test battery in Memory and Dementia Clinic 30-4 Hospital"
+  author: "Do Thah Liem. MD"
+  date: "4/5/2025"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+
+format:
+  html:
+    csl: american-medical-association.csl
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
