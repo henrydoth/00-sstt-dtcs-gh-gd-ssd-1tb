@@ -2032,7 +2032,7 @@ plot_scatter
 
 Kết quả nghiên cứu cho cho thấy tuổi là một yếu tố liên quan rõ rệt đến mức độ suy giảm chức năng nhận thức.
 
-Phát hiện này phù hợp với nhiều nghiên cứu trước đây. Theo dữ liệu từ Tổ chức Y tế Thế giới (WHO), tuổi cao là yếu tố nguy cơ lớn nhất dẫn đến sa sút trí tuệ, với tỷ lệ hiện mắc tăng mạnh ở nhóm người trên 65 tuổi. Cụ thể, tỷ lệ sa sút trí tuệ tăng gấp đôi sau mỗi 5 năm tuổi sau mốc 65 tuổi @who2021dementia.
+  Phát hiện này phù hợp với nhiều nghiên cứu trước đây. Theo dữ liệu từ Tổ chức Y tế Thế giới (WHO), tuổi cao là yếu tố nguy cơ lớn nhất dẫn đến sa sút trí tuệ, với tỷ lệ hiện mắc tăng mạnh ở nhóm người trên 65 tuổi. Cụ thể, tỷ lệ sa sút trí tuệ tăng gấp đôi sau mỗi 5 năm tuổi sau mốc 65 tuổi @who2021dementia.
 
 Tương tự, nghiên cứu của Prince và cộng sự (2015) thuộc báo cáo World Alzheimer Report cũng chỉ ra rằng nguy cơ mắc sa sút trí tuệ gia tăng theo tuổi, đặc biệt rõ ràng từ 60 tuổi trở lên. Điều này khẳng định rằng tuổi đóng vai trò trung tâm trong sinh bệnh học của sa sút trí tuệ @prince2015world.
 
@@ -2146,6 +2146,8 @@ my_pres  <- read_pptx("sstt_SLIDE_input.pptx")
 
 myftr <- "Bệnh viện 30-4"
 ```
+
+
 ### Slide tiêu đề
 
 
@@ -2236,7 +2238,7 @@ my_pres <- ph_with(x = my_pres, value = ul,
 
 
 ```
-# Thêm bảng 2 nội dung 🌹
+### Slide về đặc điểm tuổi 🌹
 
 ```{r}
 #| label: slide tuoi flex ggplo 2
@@ -2247,10 +2249,9 @@ my_pres <- ph_with(my_pres, value = "Đặc điểm  tuổi  (Bảng và biểu 
 
 
 # Create and format the flextable
-ft_tuoi <- ft_tuoi %>%
-  set_header_labels(gender = "Giới tính", Count = "n", Percentage = "%")  %>%
-  fontsize(size = 16, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
-  fontsize(size = 16, part = "body") %>%   autofit()
+ft_tuoi <- ft_tuoi  %>%
+  fontsize(size = 18, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 18, part = "body") %>%   autofit()
 
 ft_tuoi <- width(ft_tuoi, width = 3, unit = "cm")
 
@@ -2263,7 +2264,66 @@ my_pres <- ph_with( my_pres,  value = tuoi_gp
 
 my_pres <- ph_with( my_pres,  value = ft_tuoi,   location = ph_location_label(ph_label = "Content Placeholder 2"))
 
+# chen inline
+# Định dạng văn bản với fontsize = 16
+inline_text <- ftext(inline_bieudo_tuoi_ketqua, 
+                     prop = fp_text(font.size = 16))
+
+# Gói trong fpar() để tạo paragraph
+inline_paragraph <- fpar(inline_text)
+
+# Chèn vào PowerPoint (ví dụ placeholder label là "Footer Placeholder 5")
+my_pres <- ph_with(
+  my_pres,
+  value = inline_paragraph,
+  location = ph_location_label(ph_label = "Footer Placeholder 5")
+)
 ```
+
+
+### Slide về đặc điểm giới 🌹
+
+```{r}
+#| label: slide tuoi footnote
+#| echo: true
+
+my_pres <- add_slide(my_pres, layout = "Two Content", master = "Office Theme") #them slides
+my_pres <- ph_with(my_pres, value = "Đặc điểm  giới tính ", location = ph_location_type(type = "title")) #them title
+
+
+# Create and format the flextable
+ft_gender <- ft_gender  %>%
+  fontsize(size = 18, part = "header") %>% bold(bold = TRUE, part = "header") %>% bg( bg = "#D3D3D3", part = "header") %>%
+  fontsize(size = 18, part = "body") %>%   autofit()
+
+ft_gender <- width(ft_gender, width = 3, unit = "cm")
+
+# Dat bieu do ben phai
+my_pres <- ph_with( my_pres,  value = gioitinh_bar_percent
+,   location = ph_location_label(ph_label = "Content Placeholder 3"))
+
+
+# Dat bang ben T
+
+my_pres <- ph_with( my_pres,  value = ft_gender,   location = ph_location_label(ph_label = "Content Placeholder 2"))
+
+# chen inline
+# Định dạng văn bản với fontsize = 16
+inline_text <- ftext(inline_bieudo_gioitinh_ketqua , 
+                     prop = fp_text(font.size = 16))
+
+# Gói trong fpar() để tạo paragraph
+inline_paragraph <- fpar(inline_text)
+
+# Chèn vào PowerPoint (ví dụ placeholder label là "Footer Placeholder 5")
+my_pres <- ph_with(
+  my_pres,
+  value = inline_paragraph,
+  location = ph_location_label(ph_label = "Footer Placeholder 5")
+)
+```
+
+
 
 
 ### xuat sang powerpoint
