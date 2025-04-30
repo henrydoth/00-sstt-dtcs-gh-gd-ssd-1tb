@@ -1,4 +1,0 @@
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(gutenbergr, dplyr, tidytext, stringr, ggplot2, flextable)
-
-  
