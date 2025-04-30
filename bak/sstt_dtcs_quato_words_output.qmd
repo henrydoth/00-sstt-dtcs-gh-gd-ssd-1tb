@@ -9,6 +9,7 @@ format:
     reference-doc: sstt_dtcs_quato_words_input.docx
 bibliography: sstt_reference.bib
 csl: ama.csl
+citation-links: true
 lang: vi
 editor: source
 ---
@@ -91,8 +92,6 @@ text_blue <- function(text) {
 }
 ```
 
-
-
 ```{r}
 #| include: false
 
@@ -112,7 +111,6 @@ nam <- year(current_datetime)
 formatted_datetime <- glue("{gio}, {thu}, NGÀY {ngay} THÁNG {thang} NĂM {nam}")
 
 ```
-
 
 ::: {custom-style="CAN GIUA DAM 14 ONE"}
 LỜI NÓI ĐẦU
@@ -210,9 +208,7 @@ ft
 cat("\n")
 ```
 
-
 TP Hồ Chí Minh: `r formatted_datetime`
-
 
 # MÃ LỆNH
 
@@ -372,6 +368,7 @@ df <- df %>%
 ## Đặc điểm mẫu nghiên cứu
 
 ### Đặc điểm theo tuổi
+
 ```{r}
 # 📦 Làm sạch dữ liệu và gán nhãn nhóm
 df_clean <- df %>%
@@ -469,7 +466,6 @@ inline_tuoi_banluan <- case_when(
 
 #### Bảng đặc điểm tuổi
 
-
 #### Biểu đồ theo tuổi
 
 ```{r}
@@ -504,7 +500,6 @@ tuoi_gp <- ggplot(df, aes(x = phan_loan_roi_loan_nhan_thuc, y = tuoi, fill = pha
 #| paged-print: false
 tuoi_gp
 ```
-
 
 #### Bảng theo nhóm tuổi
 
@@ -590,7 +585,6 @@ inline_nhom_tuoi_banluan <- "Nhóm Sa sút trí tuệ chiếm tỷ lệ cao nh�
 ```
 
 ### Đặc điểm giới tính
-
 
 ```{r}
 #| echo: true
@@ -692,8 +686,6 @@ inline_bang_gioitinh_banluan <- glue(
 
 ### Đặc điểm trình độ học vấn
 
-
-
 ```{r}
 #| echo: true
 
@@ -790,7 +782,8 @@ inline_banluan_hocvan <- ifelse(
   glue("Nhóm Sa sút trí tuệ có trình độ học vấn cao hơn trong nghiên cứu này.")
 )
 ```
-### Phân tích  MMSE 
+
+### Phân tích MMSE
 
 ```{r}
 #| label: khối lệnh MMSE
@@ -907,9 +900,7 @@ ti_le_sstt_nang_theo_mmse <- text_blue(glue(
 ))
 ```
 
-
 ### Đặc điểm các test nhận thức
-
 
 ```{r}
 # 🧠 Biến thần kinh nhận thức và nhãn
@@ -1035,7 +1026,9 @@ inline_banluan_tests <- glue(
 )
 
 ```
+
 ## Phân tích tương quan mmse theo nhóm chẩn đoán
+
 ### Tính tương quan theo nhóm (MCI và sa sút trí tuệ)
 
 ```{r}
@@ -1152,6 +1145,7 @@ mota_theo_nhom <- function(nhom, muc) {
 ```
 
 ### Bảng flextable tương quan theo nhóm
+
 ```{r}
 ft_corr_grouped <- if (nrow(cor_by_group) > 0) {
   ft_corr_grouped <- flextable(cor_by_group) %>%
@@ -1202,6 +1196,7 @@ ft_corr_long <- flextable(cor_long) %>%
   set_caption("Bảng: Tương quan giữa MMSE và các test nhận thức theo nhóm chẩn đoán (dạng long)") %>%
   set_table_properties(width = 1, layout = "autofit")
 ```
+
 ### Biểu đồ ggplot theo nhóm
 
 ```{r}
@@ -1239,7 +1234,8 @@ ft_corr_long
 ```
 
 ### Nhận xét riêng cho bảng và biểu đồ
-- Hàm tạo câu nhận xét theo nhóm và mức độ
+
+-   Hàm tạo câu nhận xét theo nhóm và mức độ
 
 ```{r}
 ota_theo_nhom <- function(nhom, muc) {
@@ -1267,6 +1263,7 @@ ota_theo_nhom <- function(nhom, muc) {
 ```
 
 ### Nhận xét riêng cho bảng flextable
+
 ```{r}
 cau_bang_mci <- glue_collapse(purrr::compact(c(
   mota_theo_nhom("MCI", "Chặt"),
@@ -1283,7 +1280,8 @@ cau_bang_sstt <- glue_collapse(purrr::compact(c(
 )), sep = " ")
 ```
 
-- Nhận xét tổng hợp cho biểu đồ ggplot
+-   Nhận xét tổng hợp cho biểu đồ ggplot
+
 ```{r}
 cor_wide_compare <- cor_by_group %>%
   select(Nhóm, Test.thần.kinh, Hệ.số.tương.quan.r) %>%
@@ -1301,16 +1299,17 @@ if (length(test_tuong_quan_cao_hon_sstt) > 0) {
   cau_inline_so_sanh_sstt_mci <- "Không có test nào có tương quan mạnh hơn rõ rệt giữa hai nhóm."
 }
 ```
+
 ### Inline gọi kết quả trong tài liệu
+
 #### Nhận xét từ bảng tương quan:
 
-- **Nhóm MCI**: `r cau_bang_mci`  
-- **Nhóm Sa sút trí tuệ**: `r cau_bang_sstt`
-
+-   **Nhóm MCI**: `r cau_bang_mci`\
+-   **Nhóm Sa sút trí tuệ**: `r cau_bang_sstt`
 
 #### Nhận xét từ biểu đồ tương quan:
-`r cau_inline_so_sanh_sstt_mci`
 
+`r cau_inline_so_sanh_sstt_mci`
 
 ## Mức độ hoàn thành các test thần kinh nhận thức
 
@@ -1442,20 +1441,21 @@ cau_hoanthanh_ggplot <- glue(
 ft_hoanthanh
 ```
 
-
 ```{r}
 plot_hoanthanh
 ```
 
-
 ### Nhận xét từ bảng:
+
 `r cau_hoanthanh_bang`
 
 ### Nhận xét từ biểu đồ:
+
 `r cau_hoanthanh_ggplot`
 
 ## Đánh giá sự tương đồng giữa phân độ MMSE và phân loại lâm sàng theo tiêu chuẩn lâm sàng
-Tiêu chuẩn lâm sàng (biến lam_sang_group) và tiêu chuẩn phân độ  MMSE (nhóm lam_sang_group)đối với các mức độ "Suy giảm nhận thức nhẹ", "Sa sút trí tuệ nhẹ","Sa sút trí tuệ trung bình","Sa sút trí tuệ nặng"
+
+Tiêu chuẩn lâm sàng (biến lam_sang_group) và tiêu chuẩn phân độ MMSE (nhóm lam_sang_group)đối với các mức độ "Suy giảm nhận thức nhẹ", "Sa sút trí tuệ nhẹ","Sa sút trí tuệ trung bình","Sa sút trí tuệ nặng"
 
 ```{r}
 # 📦 Chuẩn bị dữ liệu và mã hóa thứ bậc
@@ -1563,8 +1563,8 @@ cau_chen_bieu_do_gop_2_loai  <- glue(
 )
 ```
 
+#### gộp 2 biểu đồ
 
-#### gộp 2 biểu đồ 
 ```{r}
 #| label: plot_heat_scatter_ordinal
 #| fig-cap: "Biểu đồ heatmap và scatter ordinal thể hiện mối liên hệ giữa phân độ MMSE và giai đoạn lâm sàng"
@@ -1625,11 +1625,8 @@ plot_scatter <- ggplot(df_ord, aes(x = mmse_num, y = lam_sang_num)) +
 
 ```
 
+#### gộp chung để chèn powerpoint
 
-
-
-
-#### gộp chung để chèn powerpoint  
 ```{r}
 # 🌈 Nhãn rút gọn
 short_labels <- c(
@@ -1659,36 +1656,36 @@ plot_heat <- ggplot(df_heatmap, aes(x = mmse_group, y = lam_sang_group, fill = n
 ```
 
 #### Bảng flextable (chưa cần chèn )
+
 ```{r}
 #| eval: false
 #| include: false
 ft_ord
 ```
 
+#### biểu đồ gộp
 
-#### biểu đồ gộp 
 ```{r}
 plot_heat + plot_scatter + plot_layout(ncol = 2)
 ```
 
 ##### `r cau_chen_bieu_do_gop_2_loai`
 
-#### Biểu đồ heatmap 
+#### Biểu đồ heatmap
+
 ```{r}
 plot_heat
 ```
+
 ##### `r cau_chen_bieu_do_heatmap`
 
+#### Biểu đồ scatter về sự phù hợp
 
-#### Biểu đồ scatter về sự phù hợp 
 ```{r}
 plot_scatter
 ```
 
 ##### `r cau_bieudo_ordinal`
-
-
-
 
 ::: {custom-style="CAN GIUA DAM 14 ONE"}
 ĐẶT VẤN ĐỀ
@@ -1710,9 +1707,11 @@ Từ năm 2019 đến nay, Đơn vị Trí nhớ và Sa sút trí tuệ Bệnh v
 
 # TỔNG QUANG TÀI LIỆU
 
+Sa sút trí tuệ là bệnh thường gặp
+
 ## Đại cương sa sút trí tuệ
 
-Đang ghi
+Đang ghi sa sút trí tuệ @tran2016mmse
 
 # ĐỐI TƯỢNG VÀ PHƯƠNG PHÁP NGHIÊN CỨU
 
@@ -1829,32 +1828,34 @@ Bệnh nhân tới khám tại Đơn vị trí nhớ và sa sút trí tuệ Bệ
 ### Đạo đức trong nghiên cứu
 
 # KẾT QUẢ NGHIÊN CỨU
-Có **`r nrow(df)`** người được tuyển chọn vào mẫu nghiên cứu. Toàn bộ người tham gia nghiên cứu thỏa đầy đủ các tiêu chuẩn chọn mẫu và không có bất cứ tiêu chuẩn loại trừ nào. Đối với trường hợp hồi cứu, chúng tôi truy suất hồ sơ bệnh án. Đối với tiến cứu sau khi được cung cấp thông tin về nghiên cứu và có sự đồng thuận tham gia của người có quyền giám hộ bệnh nhân, người tham gia nghiên cứu chúng tôi ghi nhận thông tin trên hồ sơ bệnh án để tiến hành thu thập dữ liệu.
-Kết quả nghiên cứu trình bày như sau:
-[Đặc điểm mẫu của nghiên cứu, ](#dac-diem-kq)
-[mối tương quan MMSE với các test thần kinh nhận thức khác, ](#tuong-quan-kq)
-[đánh giá hiệu quả ứng dụng trong chẩn đoán và điều trị bộ test thần kinh nhận thức](#ung-dung-kq)
 
+Có **`r nrow(df)`** người được tuyển chọn vào mẫu nghiên cứu. Toàn bộ người tham gia nghiên cứu thỏa đầy đủ các tiêu chuẩn chọn mẫu và không có bất cứ tiêu chuẩn loại trừ nào. Đối với trường hợp hồi cứu, chúng tôi truy suất hồ sơ bệnh án. Đối với tiến cứu sau khi được cung cấp thông tin về nghiên cứu và có sự đồng thuận tham gia của người có quyền giám hộ bệnh nhân, người tham gia nghiên cứu chúng tôi ghi nhận thông tin trên hồ sơ bệnh án để tiến hành thu thập dữ liệu. Kết quả nghiên cứu trình bày như sau: [Đặc điểm mẫu của nghiên cứu,](#dac-diem-kq) [mối tương quan MMSE với các test thần kinh nhận thức khác,](#tuong-quan-kq) [đánh giá hiệu quả ứng dụng trong chẩn đoán và điều trị bộ test thần kinh nhận thức](#ung-dung-kq)
 
 ## Đặc điểm mẫu của nghiên cứu {#dac-diem-kq}
 
-### Đặc điểm theo tuổi nhà nhóm tuôi 
-#### Đặc điểm theo tuổi 
+### Đặc điểm theo tuổi nhà nhóm tuôi
+
+#### Đặc điểm theo tuổi
+
 -   Bảng thống kê tuổi bệnh nhân.
+
 ```{r}
 #| echo: false
 ft_tuoi
 ```
 
 ##### `r inline_bang_tuoi_ketqua`
+
 -   Biểu đồ theo tuổi
+
 ```{r}
 #| echo: false
 tuoi_gp
 ```
+
 ##### `r inline_bieudo_tuoi_ketqua`
 
-#### Đặc điểm  nhóm tuổi
+#### Đặc điểm nhóm tuổi
 
 -   Bảng nhóm tuổi
 
@@ -1864,7 +1865,9 @@ tuoi_gp
 #| paged-print: false
 ft_freq_p
 ```
+
 ##### `r inline_bang_nhom_tuoi_ketqua`
+
 -   Biểu đồ theo nhóm tuổi
 
 ```{r}
@@ -1874,7 +1877,9 @@ ft_freq_p
 #| paged-print: false
 nhom_tuoi_gp
 ```
+
 ##### `r inline_bieudo_nhom_tuoi_ketqua`
+
 ### Giới tính
 
 -   Bảng theo giới tính
@@ -1913,19 +1918,20 @@ ft_edu
 ```{r}
 hocvan_bar_percent
 ```
+
 ##### `r inline_plot_hocvan`
 
-### Đặc điểm MMSE 
-#### Bảng phân loại suy giảm nhận thức và sa sút trí tuệ theo MMSE
+### Đặc điểm MMSE
 
+#### Bảng phân loại suy giảm nhận thức và sa sút trí tuệ theo MMSE
 
 ```{r}
 #| echo: false
 ft_mmse
 
 ```
-##### `r inline_bang_mmse`
 
+##### `r inline_bang_mmse`
 
 #### Biểu đồ phân loại mmse
 
@@ -1935,11 +1941,9 @@ ggplot_mmse
 
 ```
 
-
 ##### `r inline_bieudo_mmse`
 
-
-#### Biểu đồ  phân loại suy giảm nhận thức và sa sút trí tuệ theo MMSE
+#### Biểu đồ phân loại suy giảm nhận thức và sa sút trí tuệ theo MMSE
 
 ```{r}
 #| label: Biểu đồ  phân loại suy giảm nhận thức và sa sút trí tuệ theo MMSE chen kết quả 
@@ -1947,15 +1951,19 @@ ggplot_mmse
 ggplot_mmse
 ```
 
-
 ### Đặc điểm các test thần kinh nhận thức
+
 #### Bảng đặc điểm các test thần kinh nhận thức
+
 ```{r}
 #| echo: false
 ft_nhanthuc_group
 ```
-##### `r inline_bang_tests_group` 
+
+##### `r inline_bang_tests_group`
+
 #### Biểu đồ đặc điểm các test thần kinh nhận thức
+
 ```{r}
 #| echo: false
 plot_nhanthuc_group
@@ -1964,14 +1972,18 @@ plot_nhanthuc_group
 ##### `r inline_bieudo_tests_group`
 
 ## Mối tương quan MMSE với các test thần kinh nhận thức khác {#tuong-quan-kq}
+
 ### Bảng mối tương quan MMSE với các test thần kinh nhận thức khác
+
 ```{r}
 #| echo: false
 ft_corr_long
 ```
 
-##### **Nhóm MCI**: `r cau_bang_mci`  , `r cau_bang_sstt`
+##### **Nhóm MCI**: `r cau_bang_mci` , `r cau_bang_sstt`
+
 ### Biểu đồ mối tương quan MMSE với các test thần kinh nhận thức khác
+
 ```{r}
 #| echo: false
 plot_corr_grouped
@@ -1979,30 +1991,36 @@ plot_corr_grouped
 
 ##### `r cau_inline_so_sanh_sstt_mci`
 
-
-
 ## Đánh giá hiệu quả ứng dụng trong chẩn đoán và điều trị bộ test thần kinh nhận thức {#ung-dung-kq}
+
 ### Đánh giá mức độ hoàn thành bộ test thần kinh nhận thức
+
 #### Bảng mức độ hoàn thành bộ test thần kinh nhận thức
+
 ```{r}
 #| label: B mức độ hoàn thành bộ test thần kinh nhận thức
 #| echo: false
 ft_hoanthanh
 ```
+
 ##### `r cau_hoanthanh_bang`
+
 ```{r}
 #| label: BD hoàn thành bộ test thần kinh nhận thức
 #| echo: false
 plot_hoanthanh
 ```
+
 ##### `r cau_hoanthanh_ggplot`
 
 #### Biểu đồ mức độ hoàn thành bộ test thần kinh nhận thức
 
-Đặc điểm hiệu quả ứng dụng 
+Đặc điểm hiệu quả ứng dụng
 
 ### Đánh giá sự tương đồng giữa phân độ MMSE và phân loại lâm sàng theo tiêu chuẩn lâm sàng
-#### Biểu đồ heatmap 
+
+#### Biểu đồ heatmap
+
 ```{r}
 #| label: Biểu đồ heatmap
 #| message: false
@@ -2010,20 +2028,23 @@ plot_hoanthanh
 #| include: false
 plot_heat
 ```
+
 ##### `r cau_chen_bieu_do_heatmap`
 
 #### Biểu đồ tán xạ đánh giá sự tương đồng giữa phân độ MMSE và phân loại lâm sàng theo tiêu chuẩn lâm sàng
+
 ```{r}
 #| label: Sự tương đồng giữa phân độ MMSE và phân loại lâm sàng theo tiêu chuẩn lâm sàng kết quả
 #| echo: false
 plot_scatter
 ```
-##### `r cau_bieudo_ordinal`
 
+##### `r cau_bieudo_ordinal`
 
 # BÀN LUẬN
 
-## Đặc điểm mẫu của nghiên cứu  
+## Đặc điểm mẫu của nghiên cứu
+
 ### Đặc điểm theo Tuổi
 
 ::: {custom-style="chu_xanh"}
@@ -2032,7 +2053,7 @@ plot_scatter
 
 Kết quả nghiên cứu cho cho thấy tuổi là một yếu tố liên quan rõ rệt đến mức độ suy giảm chức năng nhận thức.
 
-  Phát hiện này phù hợp với nhiều nghiên cứu trước đây. Theo dữ liệu từ Tổ chức Y tế Thế giới (WHO), tuổi cao là yếu tố nguy cơ lớn nhất dẫn đến sa sút trí tuệ, với tỷ lệ hiện mắc tăng mạnh ở nhóm người trên 65 tuổi. Cụ thể, tỷ lệ sa sút trí tuệ tăng gấp đôi sau mỗi 5 năm tuổi sau mốc 65 tuổi @who2021dementia.
+Phát hiện này phù hợp với nhiều nghiên cứu trước đây. Theo dữ liệu từ Tổ chức Y tế Thế giới (WHO), tuổi cao là yếu tố nguy cơ lớn nhất dẫn đến sa sút trí tuệ, với tỷ lệ hiện mắc tăng mạnh ở nhóm người trên 65 tuổi. Cụ thể, tỷ lệ sa sút trí tuệ tăng gấp đôi sau mỗi 5 năm tuổi sau mốc 65 tuổi @who2021dementia.
 
 Tương tự, nghiên cứu của Prince và cộng sự (2015) thuộc báo cáo World Alzheimer Report cũng chỉ ra rằng nguy cơ mắc sa sút trí tuệ gia tăng theo tuổi, đặc biệt rõ ràng từ 60 tuổi trở lên. Điều này khẳng định rằng tuổi đóng vai trò trung tâm trong sinh bệnh học của sa sút trí tuệ @prince2015world.
 
@@ -2048,22 +2069,19 @@ Ngoài ra, Tổ chức Y tế Thế giới (World Health Organization, 2021) nh�
 
 Phát hiện này cho thấy tầm quan trọng của việc sàng lọc nhận thức ở những nhóm tuổi sớm hơn (từ 50 tuổi trở đi), nhằm phát hiện các biểu hiện ban đầu của rối loạn nhận thức và can thiệp kịp thời để làm chậm quá trình tiến triển. Đồng thời, việc tập trung chăm sóc và quản lý bệnh lý sa sút trí tuệ ở người cao tuổi, đặc biệt từ 70 tuổi trở lên, là vô cùng cấp thiết trong bối cảnh dân số già hóa nhanh chóng.
 
-
-### Đặc điểm theo giới tính 
+### Đặc điểm theo giới tính
 
 ::: {custom-style="chu_xanh"}
 `r inline_bang_gioitinh_banluan`
 :::
 
-Kết quả nghiên cứu cho thấy tỷ lệ nữ giới chiếm ưu thế ở cả hai nhóm rối loạn nhận thức. Trong nhóm suy giảm nhận thức nhẹ, nữ giới chiếm 69,4%, trong khi nam giới chỉ chiếm 30,6%. Ở nhóm sa sút trí tuệ, nữ giới chiếm 60,1%, nam là 39,9%.
-## Bàn luận về tuổi tác
+Kết quả nghiên cứu cho thấy tỷ lệ nữ giới chiếm ưu thế ở cả hai nhóm rối loạn nhận thức. Trong nhóm suy giảm nhận thức nhẹ, nữ giới chiếm 69,4%, trong khi nam giới chỉ chiếm 30,6%. Ở nhóm sa sút trí tuệ, nữ giới chiếm 60,1%, nam là 39,9%. \## Bàn luận về tuổi tác
 
 Tuổi tác là một yếu tố nguy cơ không thể thay đổi trong sa sút trí tuệ. Trong nghiên cứu hiện tại, tuổi trung bình của nhóm sa sút trí tuệ cao hơn rõ rệt so với nhóm suy giảm nhận thức nhẹ. Điều này hoàn toàn phù hợp với bằng chứng dịch tễ học trên toàn cầu, khi tỷ lệ sa sút trí tuệ tăng dần theo tuổi, đặc biệt sau 65 tuổi [@livingston2020lancet].
 
 Theo WHO, cứ mỗi 5 năm sau tuổi 65 thì nguy cơ mắc sa sút trí tuệ tăng gần gấp đôi [@who2021dementia]. Một nghiên cứu tại Việt Nam của Lê Văn Tuấn và cộng sự (2019) cũng xác nhận người ≥75 tuổi có nguy cơ cao hơn đáng kể so với nhóm 60–74 tuổi [@le2019travinhsstt].
 
 Những phát hiện này nhấn mạnh vai trò của các chương trình can thiệp sớm, tầm soát định kỳ, và giáo dục cộng đồng tập trung vào lứa tuổi trung niên để giảm thiểu gánh nặng bệnh lý ở giai đoạn cao tuổi.
-
 
 Xu hướng này phù hợp với nhiều nghiên cứu quốc tế và trong nước, cho thấy nữ giới là nhóm có nguy cơ cao hơn mắc các rối loạn nhận thức. Theo Tổ chức Y tế Thế giới, phụ nữ sống thọ hơn nam giới, dẫn đến tỷ lệ mắc sa sút trí tuệ cao hơn ở nữ [@who2021dementia]. Báo cáo toàn cầu về sa sút trí tuệ năm 2015 cũng nhấn mạnh rằng phụ nữ chiếm phần lớn dân số mắc bệnh, đặc biệt ở nhóm tuổi ≥75 [@prince2015world].
 
@@ -2075,8 +2093,7 @@ Những khác biệt này có thể lý giải bởi các yếu tố sinh học 
 
 Từ đó có thể thấy rằng giới tính là một yếu tố quan trọng trong việc đánh giá nguy cơ sa sút trí tuệ và cần được xem xét khi xây dựng chiến lược phòng ngừa. Các chương trình tầm soát và can thiệp cần thiết kế phù hợp với đặc điểm của nữ giới trung niên và cao tuổi, nhằm nâng cao nhận thức, cải thiện chất lượng sống và giảm gánh nặng bệnh tật cho cộng đồng.
 
-
-### Đặc điểm trình độ học vấn 
+### Đặc điểm trình độ học vấn
 
 ::: {custom-style="chu_xanh"}
 `r inline_banluan_hocvan`
@@ -2093,35 +2110,26 @@ Tại Việt Nam, nhiều nghiên cứu cũng cho kết quả tương tự. Lê 
 Những bằng chứng này nhấn mạnh tầm quan trọng của giáo dục trong giai đoạn đầu đời như một biện pháp can thiệp lâu dài nhằm phòng ngừa sa sút trí tuệ ở người cao tuổi.
 
 ### Đặc điểm thang điểm MMSE
-  
+
 `r inline_mmse_banluan`. Tỷ lệ cao nhất thuộc về nhóm sa sút trí tuệ trung bình phản ánh tình trạng nhiều bệnh nhân chỉ được phát hiện khi bệnh đã tiến triển ở mức độ đáng kể. Đây là thực trạng phổ biến trong lâm sàng Việt Nam, được đề cập trong nghiên cứu của **TS Trần Công Thắng và cộng sự (2016)** khi khảo sát trên 500 người ≥60 tuổi tại bệnh viện lão khoa trung ương – ghi nhận tỷ lệ sa sút trí tuệ trung bình và nặng chiếm trên 50%, trong khi tỷ lệ phát hiện MCI còn thấp [@tran2016mmse].
 
 Theo hướng dẫn quốc tế, phát hiện sớm ở giai đoạn MCI là mục tiêu quan trọng vì đây là giai đoạn có thể can thiệp hiệu quả nhằm làm chậm tiến triển hoặc thậm chí phục hồi chức năng nhận thức [@petersen2018mci]. Tuy nhiên, trong nghiên cứu này, `r inline_mci_mota_phantram_banluan` Điều này phản ánh một lỗ hổng trong việc tầm soát định kỳ và nâng cao nhận thức cộng đồng.
 
 Báo cáo của **Ủy ban Lancet (2020)** cũng nhấn mạnh rằng việc phát hiện sớm, đặc biệt ở các nước thu nhập trung bình như Việt Nam, là chìa khóa để giảm thiểu gánh nặng kinh tế và xã hội của sa sút trí tuệ [@livingston2020lancet].
 
-
 Trong nghiên cứu chúng tôi thấy rằng *`r ti_le_sstt_nang_theo_mmse`* điều này cũng đáng chú ý, cho thấy vẫn còn một tỷ lệ không nhỏ người bệnh đến khám khi đã suy giảm chức năng rõ rệt, kèm theo gánh nặng chăm sóc lớn cho gia đình và xã hội.
 
 Tổng thể, phân bố phân độ MMSE trong nghiên cứu phản ánh thực trạng lâm sàng tại Việt Nam: chẩn đoán muộn, phát hiện MCI còn hạn chế. Việc tăng cường truyền thông, đào tạo nhân viên y tế cơ sở và tích hợp tầm soát trí nhớ vào khám sức khỏe định kỳ sẽ là hướng đi cần thiết trong chiến lược quốc gia về sa sút trí tuệ.
 
-
-
 ### Đặc điểm các test thần kinh nhận thức
+
 ::: {custom-style="chu_xanh"}
 inline_banluan_tests
 :::
 
+Bàn luận: Khả năng ghi nhớ và nhận biết trong sa sút trí tuệ Trong nghiên cứu này, chúng tôi quan sát thấy sự suy giảm rõ rệt ở cả ba chức năng ghi nhớ tức thì ("Nhớ lại ngay"), ghi nhớ sau thời gian trì hoãn ("Nhớ lại có trì hoãn") và nhận biết trì hoãn ("Nhận biết có trì hoãn") khi mức độ sa sút trí tuệ tiến triển từ nhẹ đến trung bình và nặng.
 
-Bàn luận: Khả năng ghi nhớ và nhận biết trong sa sút trí tuệ
-Trong nghiên cứu này, chúng tôi quan sát thấy sự suy giảm rõ rệt ở cả ba chức năng ghi nhớ tức thì ("Nhớ lại ngay"), ghi nhớ sau thời gian trì hoãn ("Nhớ lại có trì hoãn") và nhận biết trì hoãn ("Nhận biết có trì hoãn") khi mức độ sa sút trí tuệ tiến triển từ nhẹ đến trung bình và nặng.
-
-Trung bình điểm "Nhớ lại ngay" là `r round(mean(df$nholai_ngay, na.rm=TRUE), 1)`, 
-khi phân tích theo nhóm MMSE, nhóm Suy giảm nhận thức nhẹ đạt trung bình 
-`r round(mean(df$nholai_ngay[df$mmse_group == 'Suy giảm nhận thức nhẹ'], na.rm=TRUE), 1)`, 
-trong khi nhóm Sa sút trí tuệ trung bình chỉ còn 
-`r round(mean(df$nholai_ngay[df$mmse_group == 'Sa sút trí tuệ trung bình'], na.rm=TRUE), 1)`
-Điều này cho thấy sự tổn thương tiến triển của trí nhớ ngắn hạn – vốn phụ thuộc vào hoạt động của thùy thái dương giữa và hồi hải mã.
+Trung bình điểm "Nhớ lại ngay" là `r round(mean(df$nholai_ngay, na.rm=TRUE), 1)`, khi phân tích theo nhóm MMSE, nhóm Suy giảm nhận thức nhẹ đạt trung bình `r round(mean(df$nholai_ngay[df$mmse_group == 'Suy giảm nhận thức nhẹ'], na.rm=TRUE), 1)`, trong khi nhóm Sa sút trí tuệ trung bình chỉ còn `r round(mean(df$nholai_ngay[df$mmse_group == 'Sa sút trí tuệ trung bình'], na.rm=TRUE), 1)` Điều này cho thấy sự tổn thương tiến triển của trí nhớ ngắn hạn – vốn phụ thuộc vào hoạt động của thùy thái dương giữa và hồi hải mã.
 
 Những kết quả này khẳng định tầm quan trọng của việc đánh giá trí nhớ ngắn hạn và trung hạn trong chẩn đoán sớm và phân biệt các mức độ sa sút trí tuệ, từ đó hỗ trợ xây dựng kế hoạch can thiệp phù hợp.
 
@@ -2147,10 +2155,7 @@ my_pres  <- read_pptx("sstt_SLIDE_input.pptx")
 myftr <- "Bệnh viện 30-4"
 ```
 
-
 ### Slide tiêu đề
-
-
 
 ### Slide vai trò test thần kinh nhận thức
 
@@ -2165,6 +2170,7 @@ my_pres <- ph_with(my_pres, value = c("Việc phân tích tốt các thang đi�
 ```
 
 ### Slide nội dung chính
+
 ## Slide nội dung báo cáo
 
 ```{r}
@@ -2202,6 +2208,7 @@ my_pres <- ph_with(x = my_pres, value = ul,
 
 
 ```
+
 ### Slide đặt vấn đê
 
 ```{r}
@@ -2238,6 +2245,7 @@ my_pres <- ph_with(x = my_pres, value = ul,
 
 
 ```
+
 ### Slide về đặc điểm tuổi 🌹
 
 ```{r}
@@ -2279,7 +2287,6 @@ my_pres <- ph_with(
   location = ph_location_label(ph_label = "Footer Placeholder 5")
 )
 ```
-
 
 ### Slide về đặc điểm giới 🌹
 
@@ -2323,18 +2330,11 @@ my_pres <- ph_with(
 )
 ```
 
-
-
-
 ### xuat sang powerpoint
 
 ```{r}
 print(my_pres , "sstt_SLIDE_output.pptx")
 ```
-
-
-
-
 
 ::: {custom-style="CAN GIUA DAM 14 ONE"}
 TÀI LIỆU THAM KHẢO

@@ -1,0 +1,5 @@
+/* Tùy chỉnh font chữ và căn lề cho poster */
+body {
+  font-family: "Times New Roman", serif;
+  padding: 20px;
+}

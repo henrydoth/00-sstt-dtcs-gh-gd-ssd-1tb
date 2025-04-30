@@ -9,6 +9,7 @@ format:
     reference-doc: sstt_dtcs_quato_words_input.docx
 bibliography: sstt_reference.bib
 csl: ama.csl
+citation-links: true
 lang: vi
 editor: source
 ---
@@ -16,11 +17,12 @@ editor: source
 ```{r}
 #| include: false
 # thư viện
+if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
   dplyr, tidyr, forcats, haven,
   ggplot2, lubridate, glue, flextable,
   officer, officedown, jpeg, png, grid,
-  tidyverse,purrr,RColorBrewer, emo,janitor, effectsize,patchwork, scale, stringr
+  tidyverse, purrr, RColorBrewer, emo, janitor, effectsize, patchwork, scale, stringr
 )
 ```
 
@@ -1710,7 +1712,7 @@ Sa sút trí tuệ là bệnh thường gặp
 
 ## Đại cương sa sút trí tuệ
 
-Đang ghi sa sút trí tuệ @tran2016mmse
+Đang ghi sa sút trí tuệ
 
 # ĐỐI TƯỢNG VÀ PHƯƠNG PHÁP NGHIÊN CỨU
 

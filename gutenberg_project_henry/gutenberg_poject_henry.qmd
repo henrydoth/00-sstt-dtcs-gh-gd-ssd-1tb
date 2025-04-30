@@ -1,0 +1,72 @@
+---
+title: "Gutenberg Project - Henry Do"
+author: "Henry Do"
+date: today
+lang: vi
+format:
+  html:
+    toc: true           # Bật mục lục
+    toc-depth: 2        # Mục lục đến cấp độ tiêu đề 2
+    code-fold: true     # Cho phép gập/mở code
+    self-contained: true
+    theme: cosmo        # Giao diện thân thiện, dễ đọc
+    page-layout: full   # Trình bày toàn trang
+bibliography: references.bib
+csl: apa.csl
+---
+
+# Đặt vấn đề
+  Hello
+  
+Tổng quan 
+  Được xem trực tiếp 
+  
+```{r}
+#| label: library
+#| include: false
+# Cài đặt và tải gói cần thiết
+
+# 📦 Cài & nạp các gói cần thiết bằng pacman
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(janeaustenr, gutenbergr, dplyr, tidytext, stringr, ggplot2, flextable)
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| paged-print: false
+austen_books()
+#> # A tibble: 73,422 x 2
+#>   text                    book               
+#> * <chr>                   <fct>              
+#> 1 "SENSE AND SENSIBILITY" Sense & Sensibility
+#> 2 ""                      Sense & Sensibility
+#> 3 "by Jane Austen"        Sense & Sensibility
+#> 4 ""                      Sense & Sensibility
+#> 5 "(1811)"                Sense & Sensibility
+#> 6 ""                      Sense & Sensibility
+#> # ... with 7.342e+04 more rows
+```
+
+# Tao 
+```{r}
+original_books <- austen_books() %>%
+  group_by(book) %>%
+  mutate(linenumber = row_number(),
+         chapter = cumsum(str_detect(text, regex("^chapter [\\divxlc]",
+                                                 ignore_case = TRUE)))) %>%
+  ungroup()
+
+original_books
+#> # A tibble: 73,422 x 4
+#>   text                    book                linenumber chapter
+#>   <chr>                   <fct>                    <int>   <int>
+#> 1 "SENSE AND SENSIBILITY" Sense & Sensibility          1       0
+#> 2 ""                      Sense & Sensibility          2       0
+#> 3 "by Jane Austen"        Sense & Sensibility          3       0
+#> 4 ""                      Sense & Sensibility          4       0
+#> 5 "(1811)"                Sense & Sensibility          5       0
+#> 6 ""                      Sense & Sensibility          6       0
+#> # ... with 7.342e+04 more rows
+```
+

@@ -1,0 +1,43 @@
+title: "TIÊU ĐỀ POSTER CỦA BẠN"
+author: "BS. Họ Tên"
+format: pdf
+fontsize: 24pt
+mainfont: "Times New Roman"
+geometry: a1paper, portrait
+papersize: a1
+classoption: portrait
+output: pdf_document
+---
+
+# Giới thiệu
+
+Tóm tắt vấn đề nghiên cứu và mục tiêu...
+
+# Phương pháp
+
+Mô tả phương pháp nghiên cứu rõ ràng, dễ hiểu.
+
+# Kết quả
+
+Hiển thị biểu đồ 📊
+
+```{r}
+#| echo: false
+library(ggplot2)
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point(color = "steelblue") +
+  theme_minimal()
+```
+
+# Thảo luận
+
+Giải thích ý nghĩa kết quả, liên hệ nghiên cứu trước.
+
+# Kết luận
+
+Kết luận chính và khuyến nghị.
+
+# Tài liệu tham khảo
+
+- Nguyễn Văn A (2020)...
+- WHO (2023)...
