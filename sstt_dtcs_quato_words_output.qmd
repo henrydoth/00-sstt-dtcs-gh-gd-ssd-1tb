@@ -1,16 +1,24 @@
 ---
-title: "ĐỀ TÀI CƠ SỞ SA SÚT TRÍ TUỆ"
-subtitle: "Neurocognitive tests"
-author: "BS.CK2. ĐỖ THANH LIÊM"
+title: "Đề tài cơ sở"
+subtitle: "SSTT"
+author: "Đỗ thanh Liêm"
+date: today
 format:
-  docx:
-    toc: true
-    number-sections: false
-    reference-doc: sstt_dtcs_quato_words_input.docx
+    docx:
+      toc: false
+      number-sections: false
+      fig-dpi: 300          # optional for PNG fallback
+      dev: dml              # chèn ggplot dạng vector
+      reference-doc: sstt_dtcs_quato_words_input.docx
+      fig-align: center
+      
+
 bibliography: sstt_reference.bib
-csl: ama.csl
-citation-links: true
+csl: ama-brackets
 lang: vi
+language:
+  labels:
+    fig: Hình
 editor: source
 ---
 
@@ -81,6 +89,8 @@ ft_vn <- function(df) {
 ```
 
 ```{r}
+#| label: to màu canh cho văn bản
+#| include: false
 # Hàm tô màu xanh cho văn bản inline Word
 text_blue <- function(text) {
   ftext(

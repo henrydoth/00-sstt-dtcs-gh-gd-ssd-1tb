@@ -1,43 +1,91 @@
-title: "TIÊU ĐỀ POSTER CỦA BẠN"
-author: "BS. Họ Tên"
-format: pdf
-fontsize: 24pt
-mainfont: "Times New Roman"
-geometry: a1paper, portrait
-papersize: a1
-classoption: portrait
-output: pdf_document
+---
+title: "Đề tài cơ sở"
+subtitle: "Suy giảm nhận thức & Sa sút trí tuệ"
+author: "BS.CK2 Đỗ Thanh Liêm – Khoa Y học cổ truyền"
+institute: "Bệnh viện Đại học Y Dược TP.HCM"
+
+
+format:
+  pdf:
+    page-size: A0
+    orientation: portrait
+    toc: false
+    number-sections: false
+
+editor: visual
 ---
 
-# Giới thiệu
-
-Tóm tắt vấn đề nghiên cứu và mục tiêu...
-
-# Phương pháp
-
-Mô tả phương pháp nghiên cứu rõ ràng, dễ hiểu.
-
-# Kết quả
-
-Hiển thị biểu đồ 📊
-
 ```{r}
-#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+#| paged-print: false
+library(tidyverse)
 library(ggplot2)
-ggplot(mtcars, aes(mpg, wt)) +
-  geom_point(color = "steelblue") +
-  theme_minimal()
+library(flextable)
 ```
 
-# Thảo luận
+```{r}
+#| include: false
+df <- data.frame(
+  Name = c("Nguyễn Văn A", "Trần Thị B", "Lê Văn C", "Nguyễn Thị D"),
+  Age = c(65, 70, 75, 80),
+  Education = c("Cấp 1", "Cấp 2", "Cấp 3", "Đại học"),
+  MMSE = c(20, 18, 15, 12)
+) %>%
+  mutate(Education = factor(Education, levels = c("Cấp 1", "Cấp 2", "Cấp 3", "Đại học")))
+```
 
-Giải thích ý nghĩa kết quả, liên hệ nghiên cứu trước.
+:::::: columns
+::: column
+## Mục tiêu
 
-# Kết luận
+-   Mô tả đặc điểm nhận thức ở người bệnh SSTT
+-   Phân nhóm theo MMSE
 
-Kết luận chính và khuyến nghị.
+## Phương pháp
 
-# Tài liệu tham khảo
+-   Thiết kế: mô tả cắt ngang
+-   Sử dụng MMSE và test nhận thức
+-   Phân tích với R (ggplot2, flextable)
+:::
 
-- Nguyễn Văn A (2020)...
-- WHO (2023)...
+::: column
+## Kết quả
+
+```{r}
+# Lưu biểu đồ vào thư mục img để chèn vào poster
+mmse_plot <- ggplot(df, aes(x = Education, y = MMSE, fill = Education)) +
+  geom_col(show.legend = FALSE) +
+  labs(title = "Điểm MMSE theo trình độ học vấn", x = "Trình độ học vấn", y = "MMSE") +
+  theme_minimal(base_size = 16)
+
+ggsave("img/mmse_plot.png", mmse_plot, width = 8, height = 5, dpi = 300)
+```
+
+![](img/mmse_plot.png){width="100%"}
+
+-   Điểm MMSE giảm theo tuổi 📉
+-   Nhóm học vấn thấp có điểm MMSE thấp hơn 🧠
+
+## Bảng
+
+```{r}
+flextable::flextable(df) %>%
+  flextable::set_caption("🧠 Bảng điểm MMSE theo từng đối tượng") %>%
+  flextable::autofit()
+```
+:::
+
+::: column
+## Kết luận
+
+-   Cần tầm soát sớm SSTT trong cộng đồng
+-   MMSE có thể là công cụ sàng lọc hiệu quả ban đầu
+
+## Tài liệu tham khảo
+
+1.  Petersen et al. (2014). *NEJM*
+2.  Do TL. (2017). *Acupuncture Journal*
+:::
+::::::

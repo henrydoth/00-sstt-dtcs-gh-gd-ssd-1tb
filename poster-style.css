@@ -1,0 +1,25 @@
+body {
+    width: 841mm;
+    height: 1189mm;
+    margin: 0 auto;
+    padding: 20mm;
+    font-family: "Times New Roman", serif;
+    background-color: white;
+  }
+  
+  .columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20mm;
+  }
+  
+  .column {
+    flex: 1;
+    padding: 10mm;
+  }
+  
+  h1, h2, h3 {
+    color: #003366;
+    text-transform: uppercase;
+  }

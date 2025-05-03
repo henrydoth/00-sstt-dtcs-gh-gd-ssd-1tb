@@ -1,0 +1,26 @@
+@page {
+  size: A0 portrait;
+  margin: 1cm;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  font-size: 20px;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.section {
+  margin-bottom: 2cm;
+}
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2cm;
+}
+
+.column {
+  flex: 1;
+}

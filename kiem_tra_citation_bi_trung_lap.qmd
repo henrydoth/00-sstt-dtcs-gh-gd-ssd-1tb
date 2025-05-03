@@ -1,0 +1,254 @@
+---
+title: "Cách quản lý citation và kiểm tra citation bị trùng lắp"
+author: "Henry Do"
+date: today
+format:
+  html:
+    toc: true
+    toc-location: right
+    code-fold: true       # bật nút ẩn/hiện mã R
+    code-summary: "Hiển thị/Rút gọn mã R"  # nhãn nút (có thể tùy chỉnh)
+editor: source
+---
+
+
+
+# Nạp thư viện phân tích citation
+
+```{r}
+
+if (!require("pacman")) install.packages("pacman") 
+pacman::p_load(bib2df, tidyverse, flextable, officer, glue, scales, rvg, forcats, citr)
+
+```
+
+# Đọc bib file vào dataframe
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| paged-print: false
+tltk <- bib2df("sstt_reference.bib")
+```
+
+# Mô tả citation
+## Mô tả danh sách citation từ file BibTeX
+```{r}
+# Mô tả các mục trích dẫn từ file BibTeX
+citation_summary <- tltk %>%
+  mutate(
+    AUTHOR = map_chr(AUTHOR, ~ str_c(.x, collapse = ", ")),     # Ghép tên tác giả thành chuỗi
+    AUTHOR = str_trunc(AUTHOR, 50),                             # Rút gọn nếu quá dài
+    TITLE = str_trunc(TITLE, 80),                               # Rút gọn tiêu đề dài
+    YEAR = as.character(YEAR)
+  ) %>%
+  select(BIBTEXKEY, AUTHOR, TITLE, YEAR, CATEGORY, JOURNAL, PUBLISHER)
+
+# Thông báo số lượng citation
+glue("📌 Có tổng cộng {nrow(citation_summary)} mục trích dẫn trong file BibTeX.")
+
+# Hiển thị bảng bằng flextable
+flextable::flextable(citation_summary) %>%
+  flextable::set_caption("📚 Bảng mô tả các mục trích dẫn từ file BibTeX") %>%
+  flextable::autofit()
+```
+
+## Biểu đồ số lượng citation theo năm (YEAR)
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| paged-print: false
+# Chuẩn bị dữ liệu
+year_summary <- tltk %>%
+  filter(!is.na(YEAR)) %>%
+  count(YEAR) %>%
+  mutate(percent = n / sum(n) * 100)
+
+# Vẽ biểu đồ với màu riêng cho từng năm
+ggplot(year_summary, aes(x = factor(YEAR), y = n, fill = factor(YEAR))) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = glue("{n} ({round(percent,1)}%)")), vjust = -0.5, size = 3.5) +
+  labs(
+    title = "Số lượng citation theo năm xuất bản",
+    x = "Năm xuất bản",
+    y = "Số citation"
+  ) +
+  theme_minimal()
+
+```
+  ## Biểu đồ số lượng citation theo loại tài liệu (CATEGORY)
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| paged-print: false
+
+category_summary <- tltk %>%
+  filter(!is.na(CATEGORY)) %>%
+  count(CATEGORY) %>%
+  mutate(percent = n / sum(n) * 100)
+
+# Vẽ biểu đồ
+ggplot(category_summary, aes(x = fct_reorder(CATEGORY, n), y = n, fill = CATEGORY)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = glue("{n} ({round(percent,1)}%)")), hjust = -0.1, size = 3.5) +
+  coord_flip() +
+  labs(
+    title = "Số lượng citation theo loại tài liệu",
+    x = "Loại tài liệu (BibTeX)",
+    y = "Số lượng"
+  ) +
+  theme_minimal()
+```
+
+
+
+# Kiểm tra các citation bị trùng dựa trên trường "TITLE" (tiêu đề)
+```{r}
+
+# Chuẩn hóa tiêu đề (viết thường + loại bỏ khoảng trắng thừa)
+tltk <- tltk %>%
+  mutate(title_clean = str_squish(str_to_lower(TITLE)))
+
+# Lọc các mục trùng tiêu đề (sau chuẩn hóa)
+duplicated_entries <- tltk %>%
+  filter(duplicated(title_clean))
+
+# Diễn giải số mục bị trùng tiêu đề
+glue("🔍 Phát hiện {nrow(duplicated_entries)} mục trích dẫn có tiêu đề bị trùng sau khi chuẩn hóa (bỏ khoảng trắng và viết thường). 
+Điều này có thể phản ánh việc thêm lặp lại cùng một tài liệu trong file BibTeX dưới các BIBTEXKEY khác nhau.")
+
+# Hiển thị bảng: sắp xếp cột theo yêu cầu
+duplicated_entries %>%
+  select(BIBTEXKEY, title_clean, YEAR, JOURNAL, DOI, PAGES, everything()) %>%
+  flextable::flextable() %>%
+  flextable::set_caption("📄 Các mục trích dẫn bị trùng tiêu đề (đã chuẩn hóa)") %>%
+  flextable::autofit()
+```
+
+## Hiển thị ggplot2 trùng lặp
+
+```{r}
+# Biểu đồ các tiêu đề trích dẫn bị trùng (top 10)
+
+#| echo: true
+title_count <- tltk %>%
+  count(title_clean, sort = TRUE) %>%
+  filter(n > 1)
+
+# Vẽ biểu đồ top 10 trùng lặp
+ggplot(title_count %>% slice_max(n, n = 10), 
+       aes(x = reorder(title_clean, n), y = n)) +
+  geom_col(fill = "tomato") +
+  geom_text(aes(label = n), hjust = -0.2, size = 3.5) +
+  coord_flip() +
+  labs(
+    title = "🔁 Các tiêu đề trích dẫn bị trùng (Top 10)",
+    x = "Tiêu đề (đã chuẩn hoá)",
+    y = "Số lần xuất hiện"
+  ) +
+  theme_minimal()
+```
+## Hiển thị heatmap trùng lặp
+```{r}
+#| echo: true
+# Đếm số lần mỗi tiêu đề (đã chuẩn hoá) xuất hiện theo năm
+heat_data <- tltk %>%
+  count(title_clean, YEAR) %>%
+  filter(n > 1)  # chỉ giữ các cặp bị trùng
+
+# Vẽ heatmap
+ggplot(heat_data, aes(x = factor(YEAR), y = fct_reorder(title_clean, n), fill = n)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = n), color = "black", size = 3) +
+  scale_fill_gradient(low = "lightyellow", high = "red") +
+  labs(
+    title = "🔥 Heatmap các tiêu đề trích dẫn bị trùng theo năm",
+    x = "Năm xuất bản",
+    y = "Tiêu đề (đã chuẩn hoá)",
+    fill = "Số lần trùng"
+  ) +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 8))
+```
+
+
+
+
+## Báo cáo
+```{r}
+glue("🔍 Có {nrow(duplicated_entries)} mục trùng tiêu đề (đã chuẩn hóa)")
+
+```
+
+
+
+# Kiểm tra các mục có cùng tiêu đề và năm xuất bản
+```{r}
+#| echo: true
+duplicated_title_year <- tltk %>%
+  group_by(TITLE, YEAR) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+```
+##  Hiển thị bảng trùng lặp có cùng tiêu đề và năm xuất bản
+
+```{r}
+#| echo: true
+flextable::flextable(duplicated_title_year)
+```
+
+## Báo cáo trùng lắp
+
+```{r}
+glue("🔍 Có {nrow(duplicated_title_year)} mục trùng tiêu đề và năm xuất bản")
+
+```
+
+
+# Kiểm tra trùng lặp theo BIBTEXKEY (mã citation)
+```{r}
+#| echo: true
+# Kiểm tra các bibkey bị trùng
+duplicated_keys <- tltk %>%
+  filter(duplicated(BIBTEXKEY) | duplicated(BIBTEXKEY, fromLast = TRUE))
+
+```
+
+## Hiển thị bảng trùng lặp theo BIBTEXKEY
+```{r}
+#| echo: true
+flextable::flextable(duplicated_keys)
+```
+## Báo cáo trùng lặp
+```{r}
+# Hiển thị số lượng mục trùng BIBTEXKEY
+glue("⚠️ Có {nrow(duplicated_keys)} mục có BIBTEXKEY trùng nhau!")
+
+```
+
+
+# Loại bỏ trùng lặp
+## Loại bỏ trùng lặp theo tiêu đề, giữ mục đầu tiên
+```{r}
+tltk_unique <- tltk %>% 
+  distinct(TITLE, .keep_all = TRUE)
+```
+
+## Loại bỏ trùng lặp theo tiêu đề và năm xuất bản, giữ mục đầu tiên
+
+```{r}
+tltk_unique2 <- tltk %>%
+  distinct(TITLE, YEAR, .keep_all = TRUE)
+```
+
+# Xuất ra file bib mới (đã làm sạch)
+```{r}
+#| echo: false
+df2bib(tltk_unique, file = "cleaned_references.bib")
+```
+
+

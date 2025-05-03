@@ -1,0 +1,135 @@
+---
+title: "ĐỀ TÀI NGHIÊN CỨU"
+author: "BS.CK2 ĐỖ THANH LIÊM"
+format:
+  html:
+    self-contained: true
+    page-layout: full
+    css: poster-style.css
+    toc: false
+    theme: none
+    number-sections: false
+    fig-width: 10
+    fig-height: 8
+    fig-format: svg
+execute:
+  echo: false
+  warning: false
+  message: false
+bibliography: sstt_reference.bib
+fontsize: 28pt
+lang: vi
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| include: false
+#| paged-print: false
+library(tidyverse)
+library(ggplot2)
+library(flextable)
+```
+::: {.columns}
+::: {.column width="33%"}
+### MỞ ĐẦU
+
+```{r}
+#| message: false
+#| warning: false
+#| include: false
+#| paged-print: false
+library(tidyverse)
+library(ggplot2)
+library(flextable)
+```
+
+```{r}
+#| include: false
+df <- data.frame(
+  Name = c("Nguyễn Văn A", "Trần Thị B", "Lê Văn C", "Nguyễn Thị D"),
+  Age = c(65, 70, 75, 80),
+  Education = c("Cấp 1", "Cấp 2", "Cấp 3", "Đại học"),
+  MMSE = c(20, 18, 15, 12)
+) %>%
+  mutate(Education = factor(Education, levels = c("Cấp 1", "Cấp 2", "Cấp 3", "Đại học")))
+```
+
+:::::: columns
+::: column
+## Mục tiêu
+
+-   Mô tả đặc điểm nhận thức ở người bệnh SSTT
+-   Phân nhóm theo MMSE
+
+## Phương pháp
+
+-   Thiết kế: mô tả cắt ngang
+-   Sử dụng MMSE và test nhận thức
+-   Phân tích với R (ggplot2, flextable)
+:::
+
+::: column
+## Kết quả
+
+```{r}
+# Lưu biểu đồ vào thư mục img để chèn vào poster
+mmse_plot <- ggplot(df, aes(x = Education, y = MMSE, fill = Education)) +
+  geom_col(show.legend = FALSE) +
+  labs(title = "Điểm MMSE theo trình độ học vấn", x = "Trình độ học vấn", y = "MMSE") +
+  theme_minimal(base_size = 16)
+
+ggsave("img/mmse_plot.png", mmse_plot, width = 8, height = 5, dpi = 300)
+```
+
+![](img/mmse_plot.png){width="100%"}
+
+-   Điểm MMSE giảm theo tuổi 📉
+-   Nhóm học vấn thấp có điểm MMSE thấp hơn 🧠
+
+## Bảng
+
+```{r}
+flextable::flextable(df) %>%
+  flextable::set_caption("🧠 Bảng điểm MMSE theo từng đối tượng") %>%
+  flextable::autofit()
+```
+:::
+
+::: column
+## Kết luận
+
+-   Cần tầm soát sớm SSTT trong cộng đồng
+-   MMSE có thể là công cụ sàng lọc hiệu quả ban đầu
+
+## Tài liệu tham khảo
+
+1.  Petersen et al. (2014). *NEJM*
+2.  Do TL. (2017). *Acupuncture Journal*
+:::
+::::::
+
+:::
+
+::: {.column width="33%"}
+### PHƯƠNG PHÁP
+Mẫu nghiên cứu, thiết kế...
+
+### KẾT QUẢ
+- Bảng biểu
+- Hình ảnh (ggplot)
+
+:::
+
+::: {.column width="33%"}
+### BÀN LUẬN
+So sánh, lý giải...
+
+### KẾT LUẬN
+Ngắn gọn và rõ ràng...
+
+### TÀI LIỆU THAM KHẢO
+[@tran2020vinhlonghocvan]
+
+:::
+:::
