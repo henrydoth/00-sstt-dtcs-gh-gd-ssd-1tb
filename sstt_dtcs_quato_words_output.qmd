@@ -13,7 +13,8 @@ format:
       fig-align: center
       
 
-bibliography: sstt_reference.bib
+#bibliography: sstt_reference.bib
+bibliography: cleaned_references.bib
 csl: ama-brackets
 lang: vi
 language:
