@@ -1,0 +1,159 @@
+---
+title: "📖 Danh mục tài liệu tham khảo theo AMA11"
+author: "Henry Do"
+date: today
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc-location: right
+    bibliography: cleaned_references_final.bib
+    csl: ama.csl
+    number-sections: true
+    citation-location: margin
+    code-fold: true
+    code-summary: "Hiển thị/Rút gọn mã R"
+editor: source
+---
+
+## 📆 Nạp thư viện phân tích citation
+```{r}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(bib2df, tidyverse, flextable, officer, glue, scales, rvg, forcats, citr)
+```
+
+## 📂 Đọc bib file vào dataframe
+```{r}
+if (!file.exists("sstt_reference.bib")) stop("⚠️ File 'sstt_reference.bib' không tồn tại!")
+
+bib_lines <- readLines("sstt_reference.bib")
+bib_line_index <- which(str_detect(bib_lines, "^@"))
+
+bib_raw <- bib2df("sstt_reference.bib")
+stopifnot(length(bib_line_index) == nrow(bib_raw))
+
+tltk <- bib_raw %>% mutate(Line = bib_line_index)
+
+glue("📎 Gắn thành công số dòng từ file .bib vào {nrow(tltk)} mục.")
+```
+
+## 🔖 Bảng danh mục tài liệu định dạng AMA đơn giản + dòng + loại @entry
+```{r}
+ref_table <- tltk %>%
+  mutate(
+    AUTHOR = map_chr(AUTHOR, ~ if (is.null(.x)) NA_character_ else str_c(.x, collapse = ", ")),
+    TITLE = str_trim(TITLE),
+    JOURNAL = coalesce(JOURNAL, PUBLISHER),
+    YEAR = as.character(YEAR),
+    ENTRYTYPE = CATEGORY,
+    REF_TEXT = glue("{AUTHOR}. {TITLE}. {JOURNAL}. {YEAR}.")
+  ) %>%
+  mutate(STT = row_number()) %>%
+  select(STT, Line, ENTRYTYPE, BIBTEXKEY, REF_TEXT)
+
+flextable(ref_table) %>%
+  set_caption("📖 Danh mục tài liệu tham khảo theo AMA11 (có số dòng)") %>%
+  colformat_int(j = "Line", prefix = "📄 Dòng ") %>%
+  autofit()
+```
+
+### 📋 Hiển thị nội dung BibTeX ban đầu (chưa xử lý) với nút copy
+```{r, results='asis'}
+raw_text <- readLines("sstt_reference.bib")
+cat("<button onclick=\"navigator.clipboard.writeText(document.getElementById('rawbib').innerText)\">📋 Copy BibTeX</button>")
+cat("<pre id='rawbib' style='white-space: pre-wrap; background:#f1f1f1; padding:1em; border:1px solid #ddd;'>")
+cat(paste(raw_text, collapse = "\n"))
+cat("</pre>")
+```
+
+### 🧹 Xử lý loại bỏ và giữ lại citation
+```{r}
+duplicated_entries <- tltk %>%
+  filter(duplicated(str_squish(str_to_lower(TITLE))))
+
+recommend_keep <- duplicated_entries %>%
+  group_by(TITLE) %>%
+  arrange(desc(!is.na(DOI)), desc(!is.na(JOURNAL)), desc(YEAR)) %>%
+  slice(1) %>%
+  ungroup()
+
+recommend_drop <- duplicated_entries %>%
+  filter(!BIBTEXKEY %in% recommend_keep$BIBTEXKEY)
+```
+
+### 🧾 Báo cáo tóm tắt các citation bị trùng
+```{r}
+dup_summary <- duplicated_entries %>%
+  mutate(AUTHOR = map_chr(AUTHOR, ~ if (is.null(.x)) NA_character_ else str_c(.x, collapse = ", ")),
+         ENTRYTYPE = CATEGORY) %>%
+  group_by(TITLE) %>%
+  mutate(so_lan = n()) %>%
+  ungroup() %>%
+  filter(!is.na(TITLE)) %>%
+  mutate(STT = row_number()) %>%
+  select(STT, Line, ENTRYTYPE, BIBTEXKEY, TITLE, YEAR, JOURNAL, so_lan)
+
+flextable(dup_summary) %>%
+  set_caption("🧾 Báo cáo tóm tắt các citation bị trùng (đầy đủ thông tin)") %>%
+  autofit()
+```
+
+### ✅ Báo cáo các citation nên giữ lại (ưu tiên tốt nhất)
+```{r}
+flextable(recommend_keep %>% mutate(STT = row_number()) %>% 
+  select(STT, Line, BIBTEXKEY, TITLE, YEAR, JOURNAL, DOI)) %>%
+  set_caption("✅ Danh sách các citation nên giữ lại (ưu tiên tốt nhất)") %>%
+  autofit()
+```
+
+### 💾 Xuất file cleaned_references_final.bib không có dòng LINE
+```{r}
+allowed_cols <- c("CATEGORY", "BIBTEXKEY", "AUTHOR", "TITLE", "JOURNAL", "YEAR", "VOLUME", "NUMBER", "PAGES", "DOI", "PUBLISHER", "BOOKTITLE", "EDITOR", "URL", "NOTE")
+
+# Làm sạch và giữ cột hợp lệ
+tltk_cleaned <- tltk %>% 
+  filter(!BIBTEXKEY %in% recommend_drop$BIBTEXKEY) %>% 
+  select(any_of(allowed_cols)) %>%
+  mutate(across(where(is.character), ~ str_replace_all(.x, "\\}+", "")))
+
+df2bib(tltk_cleaned, file = "cleaned_references_final.bib")
+glue("✅ Đã xuất file cleaned_references_final.bib không chứa dòng 'LINE' và cột không hợp lệ")
+```
+
+### 📁 Xuất thêm file sắp xếp citation theo độ ưu tiên (không loại bỏ)
+```{r}
+sorted_bib <- tltk %>%
+  group_by(TITLE) %>%
+  arrange(desc(!is.na(DOI)), desc(!is.na(JOURNAL)), desc(YEAR)) %>%
+  ungroup() %>%
+  select(any_of(allowed_cols)) %>%
+  mutate(across(where(is.character), ~ str_replace_all(.x, "\\}+", "")))
+
+df2bib(sorted_bib, file = "sstt_reference_xap_xep.bib")
+glue("📦 Đã tạo file sắp xếp citation theo độ ưu tiên: 'sstt_reference_xap_xep.bib'")
+```
+
+### 📋 Hiển thị nội dung BibTeX đã sắp xếp theo ưu tiên (dạng text dễ copy)
+```{r, results='asis'}
+bib_text_sorted <- capture.output(df2bib(sorted_bib))
+cat("<button onclick=\"navigator.clipboard.writeText(document.getElementById('bibtext_sorted').innerText)\">📋 Copy BibTeX</button>")
+cat("<pre id='bibtext_sorted' style='white-space: pre-wrap; background:#f9f9f9; padding:1em; border:1px solid #ddd;'>")
+cat(paste(bib_text_sorted, collapse = "\n"))
+cat("</pre>")
+```
+
+### 📋 Hiển thị nội dung cleaned_references_final.bib (đã loại trùng, có thể copy)
+```{r, results='asis'}
+bib_text_cleaned <- readLines("cleaned_references_final.bib")
+cat("<button onclick=\"navigator.clipboard.writeText(document.getElementById('bibtext_cleaned').innerText)\">📋 Copy BibTeX</button>")
+cat("<pre id='bibtext_cleaned' style='white-space: pre-wrap; background:#f1fff1; padding:1em; border:1px solid #ccc;'>")
+cat(paste(bib_text_cleaned, collapse = "\n"))
+cat("</pre>")
+```
+
+## 📚 Tự động chèn danh mục tham khảo
+
+Bắt đầu danh mục tham khảo tại đây:
+
+::: {.references}
+:::

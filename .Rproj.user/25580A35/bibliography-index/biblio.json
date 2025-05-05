@@ -1,4 +1,970 @@
 {
-    "sources": [],
+    "sources": [
+        {
+            "DOI": "10.1111/ajag.12755",
+            "author": [
+                {
+                    "literal": "Nguyễn Thị Anh"
+                },
+                {
+                    "literal": "L. Thomson"
+                },
+                {
+                    "literal": "Thanh Thị Ngọc"
+                },
+                {
+                    "literal": "Vĩnh Bá Quốc"
+                },
+                {
+                    "literal": "Phạm Thảo"
+                },
+                {
+                    "literal": "Đặng Thị Hương"
+                },
+                {
+                    "literal": "Phan Thị Lan"
+                },
+                {
+                    "literal": "Võ Thị Hằng"
+                },
+                {
+                    "literal": "Nguyễn Thị Nga"
+                },
+                {
+                    "literal": "R. Cumming"
+                },
+                {
+                    "literal": "K.J. Anstey"
+                }
+            ],
+            "container-title": "Australasian Journal on Ageing",
+            "id": "nguyen2020dementia",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "note": "PMID: 31814244",
+            "page": "137-141",
+            "title": "Towards the development of vietnam’s national dementia plan—the first step of action",
+            "type": "article-journal",
+            "volume": "39"
+        },
+        {
+            "DOI": "10.1016/S0140-6736(20)30367-6",
+            "author": [
+                {
+                    "family": "Livingston",
+                    "given": "Gill"
+                },
+                {
+                    "family": "Huntley",
+                    "given": "Jonathan"
+                },
+                {
+                    "family": "Sommerlad",
+                    "given": "Andrew"
+                },
+                {
+                    "family": "Ames",
+                    "given": "David"
+                },
+                {
+                    "family": "Ballard",
+                    "given": "Clive"
+                },
+                {
+                    "family": "Banerjee",
+                    "given": "Sube"
+                },
+                {
+                    "family": "Burns",
+                    "given": "Alistair"
+                },
+                {
+                    "family": "Bateman",
+                    "given": "J. Marc"
+                },
+                {
+                    "family": "Brayne",
+                    "given": "Carol"
+                },
+                {
+                    "family": "Pascual-Leone",
+                    "given": "Alvaro"
+                },
+                {
+                    "family": "Gauthier",
+                    "given": "Serge"
+                },
+                {
+                    "family": "Rockwood",
+                    "given": "Kenneth"
+                },
+                {
+                    "family": "Schneider",
+                    "given": "Lon S."
+                },
+                {
+                    "family": "Mukadam",
+                    "given": "Naaheed"
+                }
+            ],
+            "container-title": "The Lancet",
+            "id": "livingston2020lancet",
+            "issue": "10248",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "413-446",
+            "title": "Dementia prevention, intervention, and care: 2020 report of the lancet commission",
+            "title-short": "Dementia prevention, intervention, and care",
+            "type": "article-journal",
+            "volume": "396"
+        },
+        {
+            "DOI": "10.1016/S0140-6736(20)30367-6",
+            "author": [
+                {
+                    "family": "Livingston",
+                    "given": "Gill"
+                },
+                {
+                    "family": "Huntley",
+                    "given": "Jonathan"
+                },
+                {
+                    "family": "Sommerlad",
+                    "given": "Andrew"
+                },
+                {
+                    "dropping-particle": "et",
+                    "family": "al."
+                }
+            ],
+            "container-title": "The Lancet",
+            "id": "livingston2020lancet",
+            "issue": "10248",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "413-446",
+            "title": "Dementia prevention, intervention, and care: 2020 report of the lancet commission",
+            "title-short": "Dementia prevention, intervention, and care",
+            "type": "article-journal",
+            "volume": "396"
+        },
+        {
+            "DOI": "10.1212/WNL.0000000000004826",
+            "author": [
+                {
+                    "family": "Petersen",
+                    "given": "Ronald C."
+                },
+                {
+                    "family": "Lopez",
+                    "given": "Oscar"
+                },
+                {
+                    "family": "Armstrong",
+                    "given": "Melissa J."
+                },
+                {
+                    "family": "Boeve",
+                    "given": "Bradley F."
+                },
+                {
+                    "family": "DeKosky",
+                    "given": "Glen"
+                },
+                {
+                    "family": "Knopman",
+                    "given": "David"
+                },
+                {
+                    "family": "Mendez",
+                    "given": "Joseph J."
+                },
+                {
+                    "family": "O’Bryant",
+                    "given": "Sid"
+                },
+                {
+                    "family": "Schneider",
+                    "given": "Lon S."
+                },
+                {
+                    "family": "Relkin",
+                    "given": "Norman"
+                },
+                {
+                    "family": "Sano",
+                    "given": "Mary"
+                },
+                {
+                    "family": "Trobe",
+                    "given": "Thomas"
+                }
+            ],
+            "container-title": "Neurology",
+            "id": "petersen2018mci",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "page": "126-135",
+            "title": "Practice guideline update summary: Mild cognitive impairment",
+            "title-short": "Practice guideline update summary",
+            "type": "article-journal",
+            "volume": "90"
+        },
+        {
+            "DOI": "10.1212/WNL.0000000000004826",
+            "author": [
+                {
+                    "family": "Petersen",
+                    "given": "Ronald C."
+                },
+                {
+                    "family": "Lopez",
+                    "given": "Oscar"
+                },
+                {
+                    "family": "Armstrong",
+                    "given": "Melissa J."
+                },
+                {
+                    "family": "Boeve",
+                    "given": "Bradley F."
+                },
+                {
+                    "family": "DeKosky",
+                    "given": "Glen"
+                },
+                {
+                    "family": "Knopman",
+                    "given": "David"
+                },
+                {
+                    "family": "Mendez",
+                    "given": "Joseph J."
+                },
+                {
+                    "family": "O’Bryant",
+                    "given": "Sid E."
+                },
+                {
+                    "family": "Schneider",
+                    "given": "Lon S."
+                },
+                {
+                    "family": "Relkin",
+                    "given": "Norman L."
+                },
+                {
+                    "family": "Sano",
+                    "given": "Mary"
+                },
+                {
+                    "family": "Trobe",
+                    "given": "Thomas R."
+                }
+            ],
+            "container-title": "Neurology",
+            "id": "petersen2018mci",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "page": "126-135",
+            "title": "Practice guideline update summary: Mild cognitive impairment",
+            "title-short": "Practice guideline update summary",
+            "type": "article-journal",
+            "volume": "90"
+        },
+        {
+            "DOI": "10.1212/WNL.0000000000004826",
+            "author": [
+                {
+                    "family": "Petersen",
+                    "given": "Ronald C."
+                },
+                {
+                    "family": "Lopez",
+                    "given": "Oscar"
+                },
+                {
+                    "family": "Armstrong",
+                    "given": "Melissa J."
+                },
+                {
+                    "dropping-particle": "et",
+                    "family": "al."
+                }
+            ],
+            "container-title": "Neurology",
+            "id": "petersen2018mci",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "page": "126-135",
+            "title": "Practice guideline update summary: Mild cognitive impairment",
+            "title-short": "Practice guideline update summary",
+            "type": "article-journal",
+            "volume": "90"
+        },
+        {
+            "DOI": "10.1212/WNL.0000000000004826",
+            "author": [
+                {
+                    "family": "Petersen",
+                    "given": "Ronald C."
+                },
+                {
+                    "family": "Lopez",
+                    "given": "Oscar"
+                },
+                {
+                    "family": "Armstrong",
+                    "given": "Melissa J."
+                },
+                {
+                    "dropping-particle": "et",
+                    "family": "al."
+                }
+            ],
+            "container-title": "Neurology",
+            "id": "petersen2018mci",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "page": "126-135",
+            "title": "Practice guideline update summary: Mild cognitive impairment",
+            "title-short": "Practice guideline update summary",
+            "type": "article-journal",
+            "volume": "90"
+        },
+        {
+            "DOI": "10.1016/j.jalz.2018.02.018",
+            "author": [
+                {
+                    "family": "Jack",
+                    "given": "Clifford R."
+                },
+                {
+                    "family": "Bennett",
+                    "given": "David A."
+                },
+                {
+                    "family": "Blennow",
+                    "given": "Kaj"
+                },
+                {
+                    "family": "Carrillo",
+                    "given": "Maria C."
+                },
+                {
+                    "family": "Dunn",
+                    "given": "Barry"
+                },
+                {
+                    "family": "Haeberlein",
+                    "given": "Susan B."
+                },
+                {
+                    "family": "Holtzman",
+                    "given": "David M."
+                },
+                {
+                    "family": "Jagust",
+                    "given": "William"
+                },
+                {
+                    "family": "Jessen",
+                    "given": "Frank"
+                },
+                {
+                    "family": "Karlawish",
+                    "given": "Jason"
+                },
+                {
+                    "family": "Liu",
+                    "given": "Eugene"
+                },
+                {
+                    "family": "Molinuevo",
+                    "given": "José Luis"
+                },
+                {
+                    "family": "Montine",
+                    "given": "Thomas"
+                },
+                {
+                    "family": "Phelps",
+                    "given": "Creighton"
+                },
+                {
+                    "family": "Rankin",
+                    "given": "Kathy"
+                },
+                {
+                    "family": "Rowe",
+                    "given": "Christopher C."
+                },
+                {
+                    "family": "Scheltens",
+                    "given": "Philip"
+                },
+                {
+                    "family": "Siemers",
+                    "given": "Eric"
+                },
+                {
+                    "family": "Snyder",
+                    "given": "Heather M."
+                },
+                {
+                    "family": "Sperling",
+                    "given": "Reisa"
+                }
+            ],
+            "container-title": "Alzheimer’s & Dementia",
+            "id": "jack2018nia",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "page": "535-562",
+            "title": "NIA-AA research framework: Toward a biological definition of alzheimer’s disease",
+            "title-short": "NIA-AA research framework",
+            "type": "article-journal",
+            "volume": "14"
+        },
+        {
+            "DOI": "10.1016/S1474-4422(12)70191-6",
+            "author": [
+                {
+                    "family": "Stern",
+                    "given": "Yaakov"
+                }
+            ],
+            "container-title": "The Lancet Neurology",
+            "id": "stern2012cognitive",
+            "issue": "11",
+            "issued": {
+                "date-parts": [
+                    [
+                        2012
+                    ]
+                ]
+            },
+            "page": "1006-1012",
+            "title": "Cognitive reserve in ageing and alzheimer’s disease",
+            "type": "article-journal",
+            "volume": "11"
+        },
+        {
+            "DOI": "10.1097/WAD.0b013e318185e43e",
+            "author": [
+                {
+                    "family": "Fillenbaum",
+                    "given": "G. G."
+                },
+                {
+                    "dropping-particle": "van",
+                    "family": "Belle",
+                    "given": "G."
+                },
+                {
+                    "family": "Morris",
+                    "given": "J. C."
+                },
+                {
+                    "family": "Mohs",
+                    "given": "R. C."
+                },
+                {
+                    "family": "Mirra",
+                    "given": "S. S."
+                },
+                {
+                    "family": "Davis",
+                    "given": "P. C."
+                },
+                {
+                    "family": "Tariot",
+                    "given": "P. N."
+                },
+                {
+                    "family": "Pfeiffer",
+                    "given": "E."
+                }
+            ],
+            "container-title": "Alzheimer Disease & Associated Disorders",
+            "id": "fillenbaum2008cerad",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2008
+                    ]
+                ]
+            },
+            "page": "S46-S49",
+            "title": "Consortium to establish a registry for alzheimer’s disease (CERAD): The first twenty years of the CERAD neuropsychological battery",
+            "title-short": "Consortium to establish a registry for alzheimer’s disease (CERAD)",
+            "type": "article-journal",
+            "volume": "22"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Trần Văn Hảo"
+                }
+            ],
+            "container-title": "Tạp chí Y học Cộng đồng",
+            "id": "hao2020",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "45-50",
+            "title": "Khảo sát tình trạng suy giảm nhận thức ở người cao tuổi tại một phường nội thành TP. Hồ chí minh",
+            "type": "article-journal",
+            "volume": "60"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Trần Văn Hảo"
+                },
+                {
+                    "literal": "Nguyễn Thị Tố Nga"
+                }
+            ],
+            "container-title": "Tạp chí Y học Thực hành",
+            "id": "tran2020vinhlonghocvan",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "110-118",
+            "title": "Ảnh hưởng của trình độ học vấn đến sa sút trí tuệ ở người cao tuổi tại vĩnh long",
+            "type": "article-journal",
+            "volume": "1080"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Trần Văn Hảo"
+                },
+                {
+                    "literal": "Nguyễn Thị Tố Nga"
+                }
+            ],
+            "container-title": "Tạp chí Y học Thực hành",
+            "id": "tran2020vinhlonghocvan",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "110-118",
+            "title": "Ảnh hưởng của trình độ học vấn đến sa sút trí tuệ ở người cao tuổi tại vĩnh long",
+            "type": "article-journal",
+            "volume": "1080"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Trần Văn Hảo"
+                },
+                {
+                    "literal": "Lê Thị Minh Nguyệt"
+                }
+            ],
+            "container-title": "Tạp chí Y học Cộng đồng",
+            "id": "hao2020",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "45-50",
+            "title": "Khảo sát tình trạng suy giảm nhận thức ở người cao tuổi tại một phường nội thành TP. Hồ chí minh",
+            "type": "article-journal",
+            "volume": "60"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Lê Văn Tuấn"
+                },
+                {
+                    "literal": "Trần Thị Hồng"
+                },
+                {
+                    "literal": "Nguyễn Minh Phúc"
+                }
+            ],
+            "container-title": "Tạp chí Y học Dự phòng",
+            "id": "le2019travinhsstt",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "page": "111-118",
+            "title": "Khảo sát tỷ lệ sa sút trí tuệ ở người cao tuổi tại tỉnh trà vinh và một số yếu tố liên quan",
+            "type": "article-journal",
+            "volume": "29"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Trần Công Thắng"
+                },
+                {
+                    "literal": "Nguyễn Thị Hồng Nhung"
+                },
+                {
+                    "literal": "Phạm Minh Tuấn"
+                }
+            ],
+            "container-title": "Tạp chí Y học Việt Nam",
+            "id": "tran2016mmse",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "page": "23-29",
+            "title": "Đánh giá phân độ sa sút trí tuệ bằng thang MMSE và mối liên quan với tuổi, học vấn, giới tính ở người cao tuổi",
+            "type": "article-journal",
+            "volume": "436"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Trần Công Thắng"
+                },
+                {
+                    "literal": "Nguyễn Thị Hồng Nhung"
+                },
+                {
+                    "literal": "Phạm Minh Tuấn"
+                }
+            ],
+            "container-title": "Tạp chí Y học Việt Nam",
+            "id": "tran2016mmse",
+            "issued": {
+                "date-parts": [
+                    [
+                        2016
+                    ]
+                ]
+            },
+            "page": "23-29",
+            "title": "Đánh giá phân độ sa sút trí tuệ bằng thang MMSE và mối liên quan với tuổi, học vấn, giới tính ở người cao tuổi",
+            "type": "article-journal",
+            "volume": "436"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Nguyễn Thị Nhung"
+                },
+                {
+                    "literal": "Phạm Văn Tâm"
+                }
+            ],
+            "container-title": "Tạp chí Y học Thực hành",
+            "id": "nhung2014",
+            "issued": {
+                "date-parts": [
+                    [
+                        2014
+                    ]
+                ]
+            },
+            "page": "58-62",
+            "title": "Tỷ lệ và một số yếu tố liên quan đến sa sút trí tuệ ở người cao tuổi tại hà nội",
+            "type": "article-journal",
+            "volume": "940"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Australian Institute of Health and Welfare"
+                }
+            ],
+            "id": "aihw2022dementia",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022
+                    ]
+                ]
+            },
+            "note": "Accessed: 2023-01-20",
+            "publisher": "AIHW, Australian Government",
+            "title": "Dementia in australia",
+            "type": ""
+        },
+        {
+            "URL": "https://www.who.int/news-room/fact-sheets/detail/dementia",
+            "author": [
+                {
+                    "literal": "World Health Organization"
+                }
+            ],
+            "id": "who2021dementia",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "note": "Accessed: 2025-04-22",
+            "title": "Dementia",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "literal": "HelpAge International"
+                }
+            ],
+            "id": "helpage2019vietnam",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "note": "Accessed: 2021-12-16",
+            "title": "Ageing population in vietnam",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "literal": "World Health Organization"
+                }
+            ],
+            "id": "who2019risk",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "note": "Accessed: 2025-04-26",
+            "title": "Risk reduction of cognitive decline and dementia: WHO guidelines",
+            "title-short": "Risk reduction of cognitive decline and dementia",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "literal": "World Health Organization"
+                }
+            ],
+            "id": "who2019risk",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "note": "Accessed: 2025-04-23",
+            "title": "Risk reduction of cognitive decline and dementia: WHO guidelines",
+            "title-short": "Risk reduction of cognitive decline and dementia",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "literal": "Tống Linh"
+                }
+            ],
+            "id": "tong2017ageing",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "note": "Truy cập: 2021-12-28",
+            "title": "Vietnam struggling with ageing population",
+            "type": ""
+        },
+        {
+            "author": [
+                {
+                    "family": "Prince",
+                    "given": "Martin"
+                },
+                {
+                    "family": "Wimo",
+                    "given": "Anders"
+                },
+                {
+                    "family": "Guerchet",
+                    "given": "Maëlenn"
+                },
+                {
+                    "family": "Ali",
+                    "given": "Gemma-Claire"
+                },
+                {
+                    "family": "Wu",
+                    "given": "Yu-Tzu"
+                },
+                {
+                    "family": "Prina",
+                    "given": "Matthew"
+                }
+            ],
+            "id": "prince2015world",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "title": "World alzheimer report 2015: The global impact of dementia",
+            "title-short": "World alzheimer report 2015",
+            "type": "report"
+        },
+        {
+            "author": [
+                {
+                    "family": "Prince",
+                    "given": "Martin"
+                },
+                {
+                    "family": "Wimo",
+                    "given": "Anders"
+                },
+                {
+                    "family": "Guerchet",
+                    "given": "Maëlenn"
+                },
+                {
+                    "family": "Ali",
+                    "given": "Gemma-Claire"
+                },
+                {
+                    "family": "Wu",
+                    "given": "Yu-Tzu"
+                },
+                {
+                    "family": "Prina",
+                    "given": "Matthew"
+                }
+            ],
+            "id": "prince2015world",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "title": "World alzheimer report 2015: The global impact of dementia",
+            "title-short": "World alzheimer report 2015",
+            "type": "article-journal"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Martin Prince"
+                },
+                {
+                    "literal": "Anders Wimo"
+                },
+                {
+                    "literal": "Maëlenn Guerchet"
+                },
+                {
+                    "literal": "Gemma-Claire Ali"
+                },
+                {
+                    "literal": "Yu-Tzu Wu"
+                },
+                {
+                    "literal": "Matthew Prina"
+                }
+            ],
+            "id": "prince2015world",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "title": "World alzheimer report 2015: The global impact of dementia",
+            "title-short": "World alzheimer report 2015",
+            "type": "report"
+        }
+    ],
     "project_biblios": []
 }

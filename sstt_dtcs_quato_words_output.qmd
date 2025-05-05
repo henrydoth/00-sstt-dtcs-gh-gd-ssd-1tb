@@ -14,7 +14,7 @@ format:
       
 
 #bibliography: sstt_reference.bib
-bibliography: cleaned_references.bib
+bibliography: sstt_reference.bib
 csl: ama-brackets
 lang: vi
 language:
@@ -1719,11 +1719,174 @@ Từ năm 2019 đến nay, Đơn vị Trí nhớ và Sa sút trí tuệ Bệnh v
 
 # TỔNG QUANG TÀI LIỆU
 
-Sa sút trí tuệ là bệnh thường gặp
+## Tổng quan về suy giảm nhận thức nhẹ và sa sút trí tuệ
 
-## Đại cương sa sút trí tuệ
+Suy giảm nhận thức nhẹ (Mild Cognitive Impairment – MCI) và sa sút trí tuệ (dementia) là hai tình trạng phổ biến ở người cao tuổi, biểu hiện qua sự suy giảm chức năng nhận thức ở các mức độ khác nhau. MCI được xem là giai đoạn chuyển tiếp giữa quá trình lão hóa bình thường và sa sút trí tuệ, đặc trưng bởi sự suy giảm một hoặc nhiều lĩnh vực nhận thức nhưng chưa ảnh hưởng rõ rệt đến hoạt động sống hàng ngày. Ngược lại, sa sút trí tuệ là hội chứng tiến triển mạn tính, trong đó sự suy giảm nhận thức đủ mức độ để ảnh hưởng nghiêm trọng đến khả năng tự chăm sóc, nghề nghiệp và chức năng xã hội của người bệnh @Petersen2014.
 
-Đang ghi sa sút trí tuệ
+### Dịch tễ học
+
+Theo Tổ chức Y tế Thế giới (WHO), tính đến năm 2023, có khoảng 55 triệu người đang sống chung với sa sút trí tuệ trên toàn cầu, với khoảng 10 triệu ca mắc mới mỗi năm. Con số này được dự báo sẽ tăng lên 139 triệu người vào năm 2050 do tốc độ già hóa dân số @WHO2023. Sa sút trí tuệ hiện là nguyên nhân đứng thứ 7 gây tử vong toàn cầu và là nguyên nhân hàng đầu gây phụ thuộc ở người cao tuổi.
+
+Tại Việt Nam, các nghiên cứu cho thấy tỷ lệ sa sút trí tuệ ở người ≥60 tuổi dao động từ 4% đến 8%, trong khi MCI chiếm khoảng 10–20% ở nhóm người cao tuổi @Nguyen2020. Việt Nam hiện có hơn 12 triệu người từ 60 tuổi trở lên, con số này dự kiến sẽ vượt 20 triệu vào năm 2039, làm gia tăng gánh nặng về các bệnh lý nhận thức. Tình trạng này đặc biệt đáng quan ngại ở các vùng nông thôn và miền núi, nơi thiếu hụt nguồn lực y tế và đội ngũ chuyên ngành lão khoa.
+
+### Cơ chế bệnh sinh
+
+Cơ chế bệnh sinh của MCI và sa sút trí tuệ rất phức tạp, liên quan đến nhiều yếu tố thần kinh, mạch máu, chuyển hóa và di truyền. Ở bệnh Alzheimer – nguyên nhân phổ biến nhất – sự tích tụ của mảng β-amyloid và đám rối sợi tau trong não gây tổn thương synap và chết tế bào thần kinh @Selkoe2012. Các thay đổi này bắt đầu âm thầm từ nhiều năm trước khi biểu hiện lâm sàng xuất hiện, thường khởi phát từ vùng hải mã (hippocampus) – trung tâm ghi nhớ của não – và lan dần ra vỏ não.
+
+Ngoài ra, tổn thương vi mạch não và thiếu máu não mạn tính cũng đóng vai trò quan trọng trong bệnh sinh của sa sút trí tuệ mạch máu. Các yếu tố nguy cơ như tăng huyết áp, đái tháo đường, rối loạn lipid máu và hút thuốc lá làm suy giảm tính toàn vẹn của hàng rào máu–não, dẫn đến vi nhồi máu não nhiều ổ nhỏ (lacunar infarcts) và tổn thương chất trắng. Yếu tố viêm thần kinh, stress oxy hóa, rối loạn chuyển hóa glucose ở não, mất cân bằng chất dẫn truyền thần kinh (đặc biệt là acetylcholine và glutamate), cũng góp phần vào tiến trình thoái hóa thần kinh @Cummings2019.
+
+Về mặt di truyền, sự mang gen APOE ε4 là yếu tố nguy cơ cao đối với bệnh Alzheimer khởi phát muộn. Tuy nhiên, không phải tất cả những người mang gen này đều phát triển bệnh, cho thấy vai trò của môi trường sống, lối sống và khả năng dự trữ nhận thức trong việc điều hòa nguy cơ.
+
+### Các thể lâm sàng của sa sút trí tuệ
+
+Sa sút trí tuệ bao gồm nhiều thể bệnh khác nhau, với đặc điểm bệnh sinh và lâm sàng riêng biệt:
+
+-   **Sa sút trí tuệ do Alzheimer (Alzheimer's disease dementia)**: là thể phổ biến nhất, chiếm khoảng 60–70% tổng số ca. Đặc trưng bởi suy giảm trí nhớ gần là triệu chứng khởi phát, sau đó lan sang các chức năng nhận thức khác như ngôn ngữ, điều hành và định hướng. Bệnh tiến triển chậm nhưng liên tục qua các giai đoạn từ nhẹ đến nặng.
+
+-   **Sa sút trí tuệ mạch máu (vascular dementia)**: chiếm khoảng 15–20% và thường gặp ở người có tiền sử đột quỵ hoặc yếu tố nguy cơ tim mạch. Bệnh có thể khởi phát đột ngột sau một biến cố mạch máu não, hoặc tiến triển theo kiểu bậc thang. Triệu chứng điển hình gồm rối loạn chú ý, chậm chạp tâm thần vận động, rối loạn chức năng điều hành và cảm xúc không ổn định.
+
+-   **Sa sút trí tuệ thể Lewy (Dementia with Lewy bodies)**: đặc trưng bởi dao động nhận thức theo ngày, ảo giác thị giác sống động, rối loạn giấc ngủ REM và dấu hiệu ngoại tháp giống Parkinson. Nhạy cảm với thuốc chống loạn thần là dấu hiệu quan trọng giúp gợi ý chẩn đoán.
+
+-   **Sa sút trí tuệ do Parkinson (Parkinson’s disease dementia)**: thường xuất hiện ở giai đoạn muộn của bệnh Parkinson, khi triệu chứng vận động đã tồn tại ít nhất 1 năm. Bệnh nhân thường biểu hiện chậm tư duy, suy giảm chức năng điều hành, khó khăn trong chuyển đổi chú ý và giảm trí nhớ làm việc.
+
+### Triệu chứng lâm sàng
+
+Ở giai đoạn MCI, bệnh nhân có thể biểu hiện suy giảm trí nhớ gần, khó ghi nhớ các cuộc hẹn hoặc thông tin vừa học. Ngoài ra, có thể có biểu hiện giảm khả năng tập trung, giảm hiệu quả trong các hoạt động đòi hỏi xử lý thông tin như quản lý tài chính hoặc lập kế hoạch. Tuy nhiên, khả năng tự chăm sóc vẫn còn nguyên vẹn hoặc chỉ suy giảm rất nhẹ.
+
+Ngược lại, sa sút trí tuệ biểu hiện bằng suy giảm rõ rệt ở nhiều lĩnh vực nhận thức như trí nhớ, chú ý, ngôn ngữ, chức năng điều hành và nhận thức thị giác – không gian. Triệu chứng bao gồm: hay lặp câu, quên tên người quen, mất định hướng thời gian – không gian, khó khăn trong sử dụng từ ngữ hoặc theo dõi câu chuyện, lạc đường ngay cả ở nơi quen thuộc, thay đổi tính cách, và rối loạn hành vi như lo âu, kích động hoặc trầm cảm. Ở giai đoạn nặng, bệnh nhân mất hoàn toàn khả năng tự chăm sóc và phụ thuộc hoàn toàn vào người thân.
+
+### Chẩn đoán phân biệt
+
+Việc chẩn đoán cần phân biệt với các tình trạng như:
+
+-   **Trầm cảm nặng**: có thể gây ra "sa sút trí tuệ giả" với biểu hiện than phiền trí nhớ kém, nhưng thường hồi phục khi điều trị trầm cảm.
+
+-   **Thiếu hụt vitamin B12, suy giáp, rối loạn điện giải**: có thể gây ra triệu chứng tương tự nhưng cải thiện sau khi điều trị nguyên nhân.
+
+-   **Sảng (delirium)**: thường khởi phát cấp tính, dao động về mức độ tỉnh táo, thường có yếu tố khởi phát rõ (nhiễm trùng, thuốc).
+
+-   **Rối loạn tâm thần phân liệt, rối loạn lo âu mạn tính**: có thể ảnh hưởng đến nhận thức nhưng không có tiến triển mạn tính như sa sút trí tuệ.
+
+Chẩn đoán chính xác cần dựa vào khai thác bệnh sử, thăm khám thần kinh, các công cụ sàng lọc như MMSE, cùng với hình ảnh học thần kinh (CT, MRI) và xét nghiệm sinh hóa.
+
+### Diễn tiến lâm sàng
+
+MCI có diễn tiến đa dạng: một số trường hợp có thể ổn định nhiều năm, một số có thể phục hồi nếu nguyên nhân là thứ phát (như stress, thiếu B12), nhưng một tỉ lệ lớn sẽ tiến triển thành sa sút trí tuệ. Các nghiên cứu cho thấy khoảng 10–15% người MCI chuyển sang sa sút trí tuệ mỗi năm @Petersen2014.
+
+Sa sút trí tuệ là tình trạng không hồi phục và tiến triển dần theo thời gian. Bệnh thường trải qua 3 giai đoạn:
+
+-   **Giai đoạn nhẹ**: quên gần, giảm chú ý, rối loạn định hướng nhẹ
+
+-   **Giai đoạn trung bình**: giảm khả năng tự chăm sóc, lặp từ, mất khả năng giải quyết vấn đề, lạc đường
+
+-   **Giai đoạn nặng**: mất khả năng ngôn ngữ, liệt giường, phụ thuộc hoàn toàn, biến chứng nhiễm trùng, suy kiệt
+
+Thời gian sống trung bình từ lúc chẩn đoán đến tử vong dao động 6–10 năm, phụ thuộc thể bệnh, tuổi khởi phát, bệnh kèm và chăm sóc xã hội.
+
+### Điều trị và chăm sóc hỗ trợ
+
+Việc điều trị sa sút trí tuệ hiện nay chủ yếu mang tính chất triệu chứng và hỗ trợ, vì hầu hết các thể bệnh đều không có phương pháp chữa khỏi hoàn toàn. Mục tiêu điều trị bao gồm làm chậm tiến triển bệnh, kiểm soát triệu chứng hành vi, cải thiện chất lượng sống và hỗ trợ người chăm sóc.
+
+#### 1. Điều trị bằng thuốc
+
+-   **Chất ức chế cholinesterase** (donepezil, rivastigmine, galantamine): thường được sử dụng trong sa sút trí tuệ do Alzheimer hoặc thể Lewy. Các thuốc này giúp cải thiện triệu chứng nhận thức và hành vi ở mức độ nhẹ đến trung bình.
+
+-   **Memantine**: chất đối kháng NMDA, có thể dùng đơn độc hoặc phối hợp với thuốc cholinesterase trong giai đoạn trung bình đến nặng.
+
+-   **Thuốc kiểm soát hành vi**: bao gồm thuốc chống loạn thần (risperidone, quetiapine), thuốc chống trầm cảm (SSRIs), thuốc an thần nhẹ, nhưng cần sử dụng thận trọng vì nguy cơ tác dụng phụ ở người cao tuổi.
+
+#### 2. Điều trị không dùng thuốc
+
+-   **Trị liệu nhận thức** (cognitive stimulation therapy): gồm các hoạt động như luyện trí nhớ, trò chuyện nhóm, bài tập tư duy logic.
+
+-   **Can thiệp hoạt động chức năng**: hỗ trợ bệnh nhân giữ được khả năng tự chăm sóc càng lâu càng tốt thông qua phục hồi chức năng, hướng dẫn kỹ năng sinh hoạt.
+
+-   **Giáo dục và hỗ trợ người chăm sóc**: giúp giảm gánh nặng tâm lý và nâng cao hiệu quả chăm sóc dài hạn.
+
+#### 3. Chăm sóc dài hạn
+
+-   **Thiết kế môi trường an toàn**: tránh nguy cơ té ngã, lạc đường; tạo không gian quen thuộc, yên tĩnh, dễ định hướng.
+
+-   **Hỗ trợ dinh dưỡng và vận động**: duy trì thể trạng, tránh suy kiệt và biến chứng do nằm lâu.
+
+-   **Hỗ trợ giai đoạn cuối**: chăm sóc giảm nhẹ, điều trị triệu chứng, chuẩn bị tâm lý cho người thân.
+
+Mỗi thể lâm sàng có thể đáp ứng điều trị khác nhau. Ví dụ, bệnh nhân thể Lewy rất nhạy cảm với thuốc chống loạn thần, cần tránh dùng haloperidol. Trong khi đó, sa sút trí tuệ mạch máu cần kiểm soát chặt các yếu tố nguy cơ tim mạch để làm chậm tiến triển bệnh.
+
+### Tiêu chuẩn chẩn đoán theo DSM-5
+
+Theo DSM-5 @DSM5, rối loạn nhận thức được chia thành:
+
+-   **Rối loạn nhận thức nhẹ (Mild Neurocognitive Disorder)**: có bằng chứng về suy giảm nhẹ một hoặc nhiều lĩnh vực nhận thức (qua người thân hoặc test chuẩn hóa); không ảnh hưởng rõ rệt đến sinh hoạt hàng ngày; người bệnh có thể cần nỗ lực bù trừ.
+
+-   **Rối loạn nhận thức nặng (Major Neurocognitive Disorder)**: suy giảm rõ rệt, ảnh hưởng đến sinh hoạt độc lập, cần hỗ trợ trong hoạt động hàng ngày.
+
+Chẩn đoán cần loại trừ nguyên nhân khác như sảng, trầm cảm nặng, và cần xác định nguyên nhân nền nếu có thể (Alzheimer, mạch máu, thể hỗn hợp...).
+
+## Giới thiệu về bộ trắc nghiệm thần kinh nhận thức
+```{r}
+#| label: Bảng các trắc nghiệm
+#| message: false
+#| warning: false
+#| include: false
+#| paged-print: false
+# Dữ liệu bảng trắc nghiệm đã chuẩn hóa
+bo_test_vnca <- tibble::tibble(
+  STT = c(1, 2, 3, 3, 4, 4, 5, 5, 6, 7),
+  Linh_vuc = c(
+    "Sàng lọc chung sa sút trí tuệ (Global Dementia Screening)",
+    "Nhớ từ (Verbal Memory)",
+    rep("Tốc độ vận động thị giác (Visuomotor Speed)", 2),
+    rep("Nhớ từ (Verbal Memory)", 2),
+    rep("Sự chú ý (Attention)", 2),
+    "Ngôn ngữ (Language)",
+    "Xây dựng hình ảnh qua thị giác (Visuoconstruction)"
+  ),
+  Trac_nghiem = c(
+    "MMSE – Đánh giá trạng thái tâm thần tối thiểu",
+    "Nhớ danh sách từ (Word List Recall)",
+    "Trail Making Test A (TMT-A)",
+    "Trail Making Test B (TMT-B)",
+    "Nhớ lại có trì hoãn (Delayed Recall)",
+    "Nhận biết có trì hoãn (Delayed Recognition)",
+    "Đọc xuôi dãy số (Digit Span Forward)",
+    "Đọc ngược dãy số (Digit Span Backward)",
+    "Nói lưu loát từ về các con vật",
+    "Vẽ đồng hồ (Clock Drawing Test)"
+  ),
+  Diem_BT = c(
+    "≥ 26/30", "≥ 12/30",
+    "≤ 180 giây", "≤ 300 giây",
+    "≥ 4/10", "≥ 6/10",
+    "≥ 6/12", "≥ 4/12",
+    "≥ 9", "Từ 1 đến 6"
+  )
+)
+
+```
+
+```{r}
+#| echo: false
+# Tạo flextable đẹp, có gộp dòng và fit khổ Word
+flextable(bo_test_vnca) %>%
+  set_caption("Bảng trắc nghiệm thần kinh nhận thức trong bộ VNCA") %>%
+  merge_v(j = c("STT", "Linh_vuc")) %>%
+  align(align = "center", part = "all") %>%
+  valign(j = c("STT", "Linh_vuc"), valign = "top") %>%
+  set_header_labels(
+    STT = "STT",
+    Linh_vuc = "Lĩnh vực",
+    Trac_nghiem = "Trắc nghiệm",
+    Diem_BT = "Điểm BT"
+  ) %>%
+  set_table_properties(width = 1, layout = "autofit")
+```
+
+
+
+
+
+
 
 # ĐỐI TƯỢNG VÀ PHƯƠNG PHÁP NGHIÊN CỨU
 

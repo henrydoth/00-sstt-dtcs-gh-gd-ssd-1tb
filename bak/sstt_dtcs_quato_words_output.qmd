@@ -1,7 +1,8 @@
 ---
-title: ""
-subtitle: ""
-author: ""
+title: "Đề tài cơ sở"
+subtitle: "SSTT"
+author: "Đỗ thanh Liêm"
+date: today
 format:
     docx:
       toc: false
@@ -12,6 +13,7 @@ format:
       fig-align: center
       
 
+#bibliography: sstt_reference.bib
 bibliography: sstt_reference.bib
 csl: ama-brackets
 lang: vi
@@ -88,6 +90,8 @@ ft_vn <- function(df) {
 ```
 
 ```{r}
+#| label: to màu canh cho văn bản
+#| include: false
 # Hàm tô màu xanh cho văn bản inline Word
 text_blue <- function(text) {
   ftext(
