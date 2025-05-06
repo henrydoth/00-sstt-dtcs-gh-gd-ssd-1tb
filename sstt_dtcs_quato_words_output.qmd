@@ -15,7 +15,7 @@ format:
 
 #bibliography: sstt_reference.bib
 bibliography: sstt_reference.bib
-csl: ieee.csl
+csl: ama-brackets-note.csl
 lang: vi
 language:
   labels:
