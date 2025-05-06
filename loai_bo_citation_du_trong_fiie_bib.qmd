@@ -71,7 +71,7 @@ summary_text <- glue(
 )
 cat(summary_text)
 ```
-
+# Tạo bảng thống kê
 # Tạo bảng đẹp bằng flextable
 ```{r}
 bib_labeled %>%
