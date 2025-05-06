@@ -1,0 +1,65 @@
+---
+title: "AI phân loại Alzheimer theo thể YHCT"
+author: "Huong"
+format:
+  html:
+    self-contained: true
+editor: visual
+---
+
+```{r}
+library(ggplot2)
+# 📦 Thư viện cần thiết
+library(dplyr)
+library(caret)
+library(tibble)
+library(glue)
+library(randomForest)
+library(flextable)
+
+df <- read.csv( "alzheimer_data.csv") 
+
+# 👨‍🔬 2. Train/Test & Mô hình
+splitIndex <- createDataPartition(df$the_benh, p = 0.7, list = FALSE)
+train <- df[splitIndex, ] %>%
+  mutate(the_benh = factor(the_benh))
+
+test <- df[-splitIndex, ] %>%
+  mutate(the_benh = factor(the_benh, levels = levels(train$the_benh)))
+
+model_rf <- train(the_benh ~ ., data = train,
+                  method = "rf",
+                  trControl = trainControl(method = "cv", number = 5))
+
+# 📊 3. Dự đoán & đánh giá (dùng %>% và sửa lỗi levels)
+conf <- predict(model_rf, test) %>% 
+  factor(levels = levels(test$the_benh)) %>% 
+  confusionMatrix(reference = test$the_benh)
+
+print(conf)
+
+# 📈 3b. Biểu đồ phân bố thể bệnh (test set)
+test %>% 
+  mutate(du_doan = predict(model_rf, newdata = test)) %>% 
+  ggplot(aes(x = du_doan, fill = the_benh)) + 
+  geom_bar(position = "dodge") + 
+  labs(title = "So sánh thể bệnh thực tế và dự đoán",
+       x = "Thể bệnh dự đoán", y = "Số lượng") +
+  theme_minimal()
+
+# 🧘‍♀️ 4. Gợi ý bài tập dưỡng sinh
+tibble(the_benh = predict(model_rf, newdata = test[1, ])) %>% 
+  left_join(
+    tribble(
+      ~the_benh, ~bai_tap_goi_y,
+      "Tâm thận hư", "Dịch cân kinh, thở 4 thời, khí công tĩnh",
+      "Can khí uất", "Thái cực quyền, vỗ trán – thư giãn",
+      "Đàm trọc trở khiếu", "Vỗ lưng, xoay hông, khí công động"
+    ),
+    by = "the_benh"
+  ) %>% 
+  {
+    cat(glue("🔎 Thể bệnh dự đoán: {.$the_benh}\n🧘 Gợi ý bài tập: {.$bai_tap_goi_y}"))
+    flextable(.)
+  }
+```

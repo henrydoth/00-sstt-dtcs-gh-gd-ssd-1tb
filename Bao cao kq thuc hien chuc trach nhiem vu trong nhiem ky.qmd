@@ -1,0 +1,66 @@
+---
+title: "Bao cao kq thuc hien chuc trach nhiem vu trong nhiem ky"
+format:
+  html:
+    self-contained: true
+execute:
+  echo: true
+---
+
+```{r}
+library(officer)
+library(magrittr)
+library(here)
+
+# Đọc mẫu đơn Word gốc từ thư mục here
+input_path <- here("here_officeverse_henry", "Bao cao kq thuc hien chuc trach nhiem vu trong nhiem ky.docx")
+doc <- read_docx(input_path)
+
+doc <- doc %>%
+  body_add_par("BỆNH VIỆN 30-4", style = "Normal") %>%
+  body_add_par("CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM", style = "Normal") %>%
+  body_add_par("Khoa YHCT", style = "Normal") %>%
+  body_add_par("Độc lập - Tự do - Hạnh phúc", style = "Normal") %>%
+  body_add_par("Thành phố Hồ Chí Minh, ngày 05 tháng 5 năm 2025", style = "Normal") %>%
+  body_add_par("BÁO CÁO", style = "Normal") %>%
+  body_add_par("Kết quả thực hiện chức trách, nhiệm vụ trong nhiệm kỳ", style = "Normal") %>%
+  body_add_par("(hoặc trong thời gian đảm nhiệm chức vụ đối với trường hợp điều động)", style = "Normal") %>%
+  body_add_par("Họ và tên: Đỗ Thanh Liêm", style = "Normal") %>%
+  body_add_par("Sinh ngày: 19 tháng 8 năm 1975 ; Giới tính: Nam giới", style = "Normal") %>%
+  body_add_par("Quê quán: Xã Hải Quang, Huyện Hải Hậu, Tỉnh Nam Định", style = "Normal") %>%
+  body_add_par("Nơi đăng ký thường trú: 22/6 Huỳnh Đình Hai, P24, Q Bình Thạnh, TP Hồ Chí Minh", style = "Normal") %>%
+  body_add_par("Nơi ở hiện nay: 22/6 Huỳnh Đình Hai, P24, Q Bình Thạnh, TP Hồ Chí Minh", style = "Normal") %>%
+  body_add_par("Cấp bậc hàm: Trung tá", style = "Normal") %>%
+  body_add_par("Hệ số lương:", style = "Normal") %>%
+  body_add_par("Chức vụ: Bí thư chi bộ, trưởng khoa YHCT Bệnh viện 30-4", style = "Normal") %>%
+  body_add_par("Đơn vị công tác: Khoa YHCT Bệnh viện 30-4 Bộ Công an", style = "Normal") %>%
+  body_add_par("1. Phẩm chất chính trị:", style = "Normal") %>%
+  body_add_par("Trong suốt quá trình công tác, tôi luôn giữ vững bản lĩnh chính trị...", style = "Normal") %>%
+  body_add_par("2. Phẩm chất đạo đức, lối sống...", style = "Normal") %>%
+  body_add_par("Tôi luôn giữ gìn phẩm chất đạo đức cách mạng...", style = "Normal") %>%
+  body_add_par("3. Kết quả thực hiện chức trách, nhiệm vụ trong quá trình công tác", style = "Normal") %>%
+  body_add_par("3.1. Tóm tắt kết quả thực hiện...", style = "Normal") %>%
+  body_add_par("Trong quá trình công tác, tôi luôn tận tâm, nhiệt tình...", style = "Normal") %>%
+  body_add_par("3.2. Năng lực, kinh nghiệm sở trường công tác...", style = "Normal") %>%
+  body_add_par("Tôi có trình độ chuyên môn vững vàng...", style = "Normal") %>%
+  body_add_par("4. Xếp loại cán bộ, đảng viên và danh hiệu thi đua:", style = "Normal") %>%
+  body_add_par("- Xếp loại cán bộ: Hoàn thành tốt nhiệm vụ", style = "Normal") %>%
+  body_add_par("- Xếp loại đảng viên: Hoàn thành tốt nhiệm vụ", style = "Normal") %>%
+  body_add_par("- Danh hiệu thi đua:", style = "Normal") %>%
+  body_add_par("TP Hồ Chí Minh, ngày 05 tháng 5 năm 2025", style = "Normal") %>%
+  body_add_par("NGƯỜI BÁO CÁO", style = "Normal") %>%
+  body_add_par("Đỗ Thanh Liêm", style = "Normal")
+
+# Đường dẫn xuất file Word
+output_path <- here("here_officeverse_henry", "Bao cao_hoan_chinh kq thuc hien chuc trach nhiem vu trong nhiem ky.docx")
+
+# Ghi file Word
+print(doc, target = output_path)
+
+# Kiểm tra kết quả
+if (file.exists(output_path)) {
+  message("✅ File đã xuất thành công tại: ", output_path)
+} else {
+  stop("❌ File KHÔNG được tạo. Kiểm tra lại đường dẫn hoặc code.")
+}
+```

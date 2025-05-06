@@ -1,0 +1,41 @@
+---
+title: "Tạo đơn xin nghỉ phép"
+format: html
+execute:
+  echo: true
+---
+
+```{r}
+library(officer)
+library(magrittr)
+library(here)
+
+# Đọc mẫu đơn Word gốc
+doc <- read_docx("don-xin-nghi-phep-2025.docx")
+
+# Thay thế nội dung cụ thể trong mẫu đơn
+doc <- doc %>%
+  body_replace_all_text("Tên tôi là:.*", "Tên tôi là: Nguyễn Văn A") %>%
+  body_replace_all_text("Chức vụ hiện tại:.*", "Chức vụ hiện tại: Nhân viên kỹ thuật") %>%
+  body_replace_all_text("Điện thoại liên hệ khi cần:.*", "Điện thoại liên hệ khi cần: 0909123456") %>%
+  body_replace_all_text("nghỉ phép .* ngày", "nghỉ phép 03 ngày") %>%
+  body_replace_all_text("kể từ ngày .* tháng .* năm.*", "kể từ ngày 06 tháng 05 năm 2025") %>%
+  body_replace_all_text("đến ngày.* tháng .* năm .*", "đến ngày 08 tháng 05 năm 2025") %>%
+  body_replace_all_text("Lí do:.*", "Lí do: Về quê có việc gia đình") %>%
+  body_replace_all_text("ông \\(bà\\):\\s+.*", "bà: Trần Thị B – Phòng IT") %>%
+  body_replace_all_text("Ông \\(bà\\) .*","Bà Trần Thị B") %>%
+  body_replace_all_text("…….. ngày … tháng …. năm ……", "TP.HCM, ngày 05 tháng 05 năm 2025") %>%
+  body_replace_all_text("NGƯỜI LÀM ĐƠN", "NGƯỜI LÀM ĐƠN\n\nNguyễn Văn A")
+
+# Đường dẫn xuất file Word
+output_path <- here("here_officeverse_henry", "don_nghi_phep_hoan_chinh.docx")
+
+# Ghi file Word
+print(doc, target = output_path)
+
+# Kiểm tra kết quả
+if (file.exists(output_path)) {
+  message("✅ File đã xuất thành công tại: ", output_path)
+} else {
+  stop("❌ File KHÔNG được tạo. Kiểm tra lại đường dẫn hoặc code.")
+}

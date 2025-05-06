@@ -1,0 +1,86 @@
+---
+title: "Loai_bo_citation_du_trong_fiie_bib"
+author: "Henry Do"
+date: today
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc-location: right
+    bibliography: cleaned_references_final.bib
+    csl: ama.csl
+    number-sections: true
+    citation-location: margin
+    code-fold: false
+    code-summary: "Hiển thị/Rút gọn mã R"
+editor: source
+---
+# --- Cài đặt và nạp thư viện cần thiết ---
+```{r}
+
+if (!requireNamespace("bib2df", quietly = TRUE))
+  install.packages("bib2df")
+if (!requireNamespace("DT", quietly = TRUE))
+  install.packages("DT")
+
+library(bib2df)
+library(stringr)
+library(dplyr)
+library(flextable)
+library(glue)
+```
+
+
+```{r}
+# Thiết lập tên file
+qmd_file <- "sstt_dtcs_quato_words_output.qmd"
+bib_file <- "sstt_reference.bib"
+
+# Đọc file Quarto để trích xuất citation key
+cit_keys <- readLines(qmd_file, encoding = "UTF-8") %>%
+  str_extract_all("@[a-zA-Z0-9_\\-]+") %>%
+  unlist() %>%
+  str_remove("^@") %>%
+  unique()
+
+# Đọc dữ liệu bib
+bib_all <- bib2df(bib_file)
+
+# Gắn nhãn "Đã dùng" hoặc "Bị loại"
+bib_labeled <- bib_all %>%
+  mutate(STATUS = if_else(BIBTEXKEY %in% cit_keys, "Đã dùng", "Bị loại"))
+
+# Tính toán thống kê
+summary_stat <- bib_labeled %>%
+  summarise(
+    tong = n(),
+    dung = sum(STATUS == "Đã dùng"),
+    loai = sum(STATUS == "Bị loại"),
+    tile = round(loai / tong * 100, 1)
+  ) %>%
+  as.list()
+
+# In thông tin thống kê ra HTML
+summary_text <- glue(
+  "### \U0001F4CA BÁO CÁO TÌNH HÌNH SỬ DỤNG CITATION\n\n",
+  "- Tổng số mục trong file BibTeX gốc: **{summary_stat$tong}**\n",
+  "- Số citation được sử dụng trong tài liệu: **{summary_stat$dung}**\n",
+  "- Số citation KHÔNG được sử dụng (bị loại): **{summary_stat$loai}**\n",
+  "- Tỷ lệ bị loại bỏ: **{summary_stat$tile}%**"
+)
+cat(summary_text)
+
+# Tạo bảng đẹp bằng flextable
+bib_labeled %>%
+  select(BIBTEXKEY, AUTHOR, TITLE, YEAR, JOURNAL, STATUS) %>%
+  mutate(
+    AUTHOR = sapply(AUTHOR, function(x) paste(x, collapse = ", ")),
+    AUTHOR = stringr::str_trunc(AUTHOR, 50),
+    TITLE = stringr::str_trunc(TITLE, 60)
+  ) %>%
+  flextable() %>%
+  set_caption("👶 Danh sách citation và trạng thái sử dụng") %>%
+  autofit()
+
+```
+
