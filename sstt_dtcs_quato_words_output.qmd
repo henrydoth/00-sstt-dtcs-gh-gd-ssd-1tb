@@ -15,7 +15,7 @@ format:
 
 #bibliography: sstt_reference.bib
 bibliography: sstt_reference.bib
-csl: ama-brackets
+csl: ieee.csl
 lang: vi
 language:
   labels:
@@ -1703,7 +1703,7 @@ plot_scatter
 ĐẶT VẤN ĐỀ
 :::
 
-Việt Nam là một trong các quốc gia có tốc độ già hóa dân số nhanh nhất thế giới. Người ta ước tính rằng hơn 10% dân số Việt Nam bao gồm những người từ 60 tuổi trở lên [@tong2017ageing], từ năm 2015 đến năm 2020, tỷ lệ dân số trên 65 tuổi ở Việt Nam tăng từ 6,7% lên 7,9% và sẽ tiếp tục cho thấy xu hướng tăng đến năm 2050 [@nguyen2021share]. Tỷ lệ dân số từ 60 tuổi trở lên dự kiến sẽ chiếm 20,4% tổng dân số Việt Nam vào năm 20383. Dựa trên các xu hướng nhân khẩu học này, dự kiến đến năm 2050, sẽ có 29 triệu người trên 60 tuổi, chiếm một phần ba dân số cả nước, trong đó những người trên 80 tuổi dự kiến sẽ chiếm ít nhất 6% toàn bộ dân số [@helpage2019vietnam].
+Việt Nam là một trong các quốc gia có tốc độ già hóa dân số nhanh nhất thế giới. Người ta ước tính rằng hơn 10% dân số Việt Nam bao gồm những người từ 60 tuổi trở lên, từ năm 2015 đến năm 2020[@nguyen2024nhan_thuc], tỷ lệ dân số trên 65 tuổi ở Việt Nam tăng từ 6,7% lên 7,9% và sẽ tiếp tục cho thấy xu hướng tăng đến năm 2050 [@nguyen2021share]. Tỷ lệ dân số từ 60 tuổi trở lên dự kiến sẽ chiếm 20,4% tổng dân số Việt Nam vào năm 20383. Dựa trên các xu hướng nhân khẩu học này, dự kiến đến năm 2050, sẽ có 29 triệu người trên 60 tuổi, chiếm một phần ba dân số cả nước, trong đó những người trên 80 tuổi dự kiến sẽ chiếm ít nhất 6% toàn bộ dân số [@helpage2019vietnam].
 
 Cùng với việc già hóa dân số, tỉ lệ người sa sút trí tuệ cũng tăng lên, số người mắc chứng sa sút trí tuệ ước tính tăng gấp đôi sau mỗi 20 năm, từ 660.000 vào năm 2015 lên 1,2 triệu vào năm 2030 và 2,4 triệu vào năm 2050[@nguyen2020dementia]. Sa sút trí tuệ (SSTT) là một bệnh lý của não bộ, gây ra suy giảm chức năng nhận thức, hành vi và hoạt động sống của bệnh nhân. Sa sút trí tuệ là thuật ngữ rộng dùng để mô tả tình trạng mất trí nhớ, nhận thức, lý trí, kỹ năng xã hội và thể chất.
 
@@ -1824,6 +1824,7 @@ Theo DSM-5 @DSM5, rối loạn nhận thức được chia thành:
 Chẩn đoán cần loại trừ nguyên nhân khác như sảng, trầm cảm nặng, và cần xác định nguyên nhân nền nếu có thể (Alzheimer, mạch máu, thể hỗn hợp...).
 
 ## Giới thiệu về bộ trắc nghiệm thần kinh nhận thức
+
 ```{r}
 #| label: Bảng các trắc nghiệm
 #| message: false
@@ -1866,6 +1867,7 @@ bo_test_vnca <- tibble::tibble(
 ```
 
 ### Bảng các trắc nghiệm thần kinh nhận thức trong bộ VNCA
+
 ```{r}
 #| echo: false
 # Tạo flextable đẹp, có gộp dòng và fit khổ Word
@@ -1882,42 +1884,34 @@ flextable(bo_test_vnca) %>%
   ) %>%
   set_table_properties(width = 1, layout = "autofit")
 ```
-### Mô tả  các trắc nghiệm thần kinh nhận thức trong bộ VNCA
 
-- **Sàng lọc chứng sa sút trí tuệ** sử dụng *Mini-Mental State Examination (MMSE)* là một trong những test được dùng thường xuyên nhất trong tầm soát SSTT. Nó bao gồm các nội dung về định hướng, chú ý, trí nhớ, ngôn ngữ và kĩ năng thị giác không gian. Tổng điểm đạt được từ 0 đến 30, với điểm càng thấp cho thấy càng suy giảm chức năng nhận thức nặng nề.
+### Mô tả các trắc nghiệm thần kinh nhận thức trong bộ VNCA
 
-- **Nhớ từ** bao gồm danh sách 10 từ sẽ được lặp lại cho đối tượng 3 lần với tổng điểm là 30. Ba lần này nhằm khảo sát lần lượt là nhớ từ lại ngay, nhớ lại có trì hoãn, nhận biết có trì hoãn.
+-   **Sàng lọc chứng sa sút trí tuệ** sử dụng *Mini-Mental State Examination (MMSE)* là một trong những test được dùng thường xuyên nhất trong tầm soát SSTT. Nó bao gồm các nội dung về định hướng, chú ý, trí nhớ, ngôn ngữ và kĩ năng thị giác không gian. Tổng điểm đạt được từ 0 đến 30, với điểm càng thấp cho thấy càng suy giảm chức năng nhận thức nặng nề.
 
-- **Tập trung chú ý** bao gồm *Digit span* (Nói lập lại dãy số), nói lại xuôi dãy số, nhằm khảo sát sự chú ý và trí nhớ gần (điểm từ 0 đến 14) và nói lại ngược dãy số, nhằm khảo sát sự chú ý và trí nhớ làm việc (điểm từ 0 đến 12). Người khảo sát sẽ đọc dãy số (1 số/giây) và yêu cầu đối tượng tham gia nói lại.
+-   **Nhớ từ** bao gồm danh sách 10 từ sẽ được lặp lại cho đối tượng 3 lần với tổng điểm là 30. Ba lần này nhằm khảo sát lần lượt là nhớ từ lại ngay, nhớ lại có trì hoãn, nhận biết có trì hoãn.
 
-- **Vận động thị giác**: Bao gồm *Trail Making Tests A & B (TMT-A, TMT-B)* đánh giá sự tìm kiếm thị giác, dò tìm, tốc độ xử lý, sự linh hoạt thần kinh và chức năng điều hành.  
-**TMT-A** yêu cầu đối tượng vẽ đường thẳng nối 25 con số trong vòng tròn theo thứ tự trên giấy.  
-**TMT-B** có yêu cầu tương tự nhưng người làm phải thay đổi giữa chữ và số.
-Điểm được cho theo thời gian hoàn thành test, với giới hạn bình thường dưới 150 giây cho test TMT-A và 300 giây cho test TMT-B.
+-   **Tập trung chú ý** bao gồm *Digit span* (Nói lập lại dãy số), nói lại xuôi dãy số, nhằm khảo sát sự chú ý và trí nhớ gần (điểm từ 0 đến 14) và nói lại ngược dãy số, nhằm khảo sát sự chú ý và trí nhớ làm việc (điểm từ 0 đến 12). Người khảo sát sẽ đọc dãy số (1 số/giây) và yêu cầu đối tượng tham gia nói lại.
 
-- **Ngôn ngữ**: *Nói lưu loát từ về con vật* khảo sát sự lưu loát ngôn ngữ, cụ thể là đưa ra lời nói, trí nhớ ngữ nghĩa và ngôn ngữ. Đối tượng phải nói ra nhiều tên con vật khác nhau nhất có thể trong 60 giây. Điểm được cho theo mỗi con vật nêu ra, điểm càng cao cho thấy chức năng ngôn ngữ càng tốt.
+-   **Vận động thị giác**: Bao gồm *Trail Making Tests A & B (TMT-A, TMT-B)* đánh giá sự tìm kiếm thị giác, dò tìm, tốc độ xử lý, sự linh hoạt thần kinh và chức năng điều hành.\
+    **TMT-A** yêu cầu đối tượng vẽ đường thẳng nối 25 con số trong vòng tròn theo thứ tự trên giấy.\
+    **TMT-B** có yêu cầu tương tự nhưng người làm phải thay đổi giữa chữ và số. Điểm được cho theo thời gian hoàn thành test, với giới hạn bình thường dưới 150 giây cho test TMT-A và 300 giây cho test TMT-B.
 
-- **Thị giác không gian**: *Trắc nghiệm vẽ đồng hồ* được dùng để khảo sát khả năng xây dựng hình ảnh qua thị giác. Người làm được cung cấp một tờ giấy trắng và yêu cầu vẽ trên đó một đồng hồ, có đầy đủ các số giờ và vẽ kim đồng hồ chỉ 11 giờ 10 phút. Kết quả được đánh giá từ 1 đến 6 điểm theo thang **Shulman**.  
-  Trắc nghiệm vẽ đồng hồ gián tiếp đánh giá sự chú ý phức tạp, chức năng điều hành, học tập và trí nhớ, chức năng ngôn ngữ, giác quan vận động và nhận thức xã hội — vốn là những lĩnh vực nhận thức giúp đánh giá tổng thể.
+-   **Ngôn ngữ**: *Nói lưu loát từ về con vật* khảo sát sự lưu loát ngôn ngữ, cụ thể là đưa ra lời nói, trí nhớ ngữ nghĩa và ngôn ngữ. Đối tượng phải nói ra nhiều tên con vật khác nhau nhất có thể trong 60 giây. Điểm được cho theo mỗi con vật nêu ra, điểm càng cao cho thấy chức năng ngôn ngữ càng tốt.
 
-### Các nghiên cứu trong và ngoài nước 
+-   **Thị giác không gian**: *Trắc nghiệm vẽ đồng hồ* được dùng để khảo sát khả năng xây dựng hình ảnh qua thị giác. Người làm được cung cấp một tờ giấy trắng và yêu cầu vẽ trên đó một đồng hồ, có đầy đủ các số giờ và vẽ kim đồng hồ chỉ 11 giờ 10 phút. Kết quả được đánh giá từ 1 đến 6 điểm theo thang **Shulman**.\
+    Trắc nghiệm vẽ đồng hồ gián tiếp đánh giá sự chú ý phức tạp, chức năng điều hành, học tập và trí nhớ, chức năng ngôn ngữ, giác quan vận động và nhận thức xã hội — vốn là những lĩnh vực nhận thức giúp đánh giá tổng thể.
+
+### Các nghiên cứu trong và ngoài nước
+
 ### Mối tương quan giữa MMSE và bài Nhớ từ (Words List Recall)
 
 Bài **nhớ từ** (gồm nhớ lại ngay, trì hoãn và nhận biết có trì hoãn) phản ánh trí nhớ gần và trí nhớ dài hạn – các lĩnh vực bị ảnh hưởng sớm trong sa sút trí tuệ.
 
-Tại Việt Nam, Nguyễn Thị Hạnh và cộng sự cho thấy MMSE có tương quan trung bình với **nhớ từ trì hoãn** (r = 0,59) và yếu hơn với **nhớ lại ngay** (r = 0,42) @nguyen2020mmse.  
-Trần Hồng Quân và đồng nghiệp cũng ghi nhận rằng người có MMSE thấp thường chỉ nhớ được dưới 5 từ sau 10 phút trì hoãn, phản ánh suy giảm trí nhớ dài hạn rõ rệt @tran2021tri_nho.
-Nhiều nghiên cứu quốc tế cũng khẳng định mối liên hệ này:
-- Nghiên cứu của Ivnik và cộng sự (1990) ghi nhận MMSE tương quan cao với **delayed recall** (r ≈ 0,60) trong bộ AVLT @ivnik1990avlt.
-- Welsh et al. (1994) cho thấy bài **CERAD word list recall** có thể dự đoán tốt mức độ suy giảm MMSE ở bệnh nhân Alzheimer nhẹ (r ≈ 0,68) @welsh1994cerad.
-- Sarazin và cộng sự (2007) nhận thấy rằng giảm điểm word list recall là chỉ dấu sớm của Alzheimer và có mối tương quan mạnh với MMSE trong suốt quá trình tiến triển bệnh @sarazin2007amnestic.
+Tại Việt Nam, Nguyễn Thị Hạnh và cộng sự cho thấy MMSE có tương quan trung bình với **nhớ từ trì hoãn** (r = 0,59) và yếu hơn với **nhớ lại ngay** (r = 0,42) @nguyen2020mmse.\
+Trần Hồng Quân và đồng nghiệp cũng ghi nhận rằng người có MMSE thấp thường chỉ nhớ được dưới 5 từ sau 10 phút trì hoãn, phản ánh suy giảm trí nhớ dài hạn rõ rệt @tran2021tri_nho. Nhiều nghiên cứu quốc tế cũng khẳng định mối liên hệ này: - Nghiên cứu của Ivnik và cộng sự (1990) ghi nhận MMSE tương quan cao với **delayed recall** (r ≈ 0,60) trong bộ AVLT @ivnik1990avlt. - Welsh et al. (1994) cho thấy bài **CERAD word list recall** có thể dự đoán tốt mức độ suy giảm MMSE ở bệnh nhân Alzheimer nhẹ (r ≈ 0,68) @welsh1994cerad. - Sarazin và cộng sự (2007) nhận thấy rằng giảm điểm word list recall là chỉ dấu sớm của Alzheimer và có mối tương quan mạnh với MMSE trong suốt quá trình tiến triển bệnh @sarazin2007amnestic.
 
 Những kết quả này củng cố giá trị của bài **nhớ từ trì hoãn** như một chỉ báo nhận thức nhạy trong sàng lọc sa sút trí tuệ và cho thấy sự đồng thuận giữa MMSE với các bài kiểm tra trí nhớ chuyên sâu.
-
-
-
-
-
 
 # ĐỐI TƯỢNG VÀ PHƯƠNG PHÁP NGHIÊN CỨU
 

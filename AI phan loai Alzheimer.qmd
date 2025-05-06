@@ -18,6 +18,8 @@ library(randomForest)
 library(flextable)
 
 df <- read.csv( "alzheimer_data.csv") 
+df <- df %>% mutate(mmse = round(mmse,0))
+write.csv(df, "alzheimer_data_1.csv")
 
 # 👨‍🔬 2. Train/Test & Mô hình
 splitIndex <- createDataPartition(df$the_benh, p = 0.7, list = FALSE)

@@ -15,9 +15,9 @@ format:
     code-summary: "Hiển thị/Rút gọn mã R"
 editor: source
 ---
+
 # --- Cài đặt và nạp thư viện cần thiết ---
 ```{r}
-
 if (!requireNamespace("bib2df", quietly = TRUE))
   install.packages("bib2df")
 if (!requireNamespace("DT", quietly = TRUE))
@@ -28,29 +28,28 @@ library(stringr)
 library(dplyr)
 library(flextable)
 library(glue)
+library(htmltools)  # dùng để escape HTML
 ```
 
-
-```{r}
 # Thiết lập tên file
+```{r}
+#| echo: true
 qmd_file <- "sstt_dtcs_quato_words_output.qmd"
 bib_file <- "sstt_reference.bib"
+```
 
-# Đọc file Quarto để trích xuất citation key
+```{r}
 cit_keys <- readLines(qmd_file, encoding = "UTF-8") %>%
   str_extract_all("@[a-zA-Z0-9_\\-]+") %>%
   unlist() %>%
   str_remove("^@") %>%
   unique()
 
-# Đọc dữ liệu bib
 bib_all <- bib2df(bib_file)
 
-# Gắn nhãn "Đã dùng" hoặc "Bị loại"
 bib_labeled <- bib_all %>%
   mutate(STATUS = if_else(BIBTEXKEY %in% cit_keys, "Đã dùng", "Bị loại"))
 
-# Tính toán thống kê
 summary_stat <- bib_labeled %>%
   summarise(
     tong = n(),
@@ -59,8 +58,10 @@ summary_stat <- bib_labeled %>%
     tile = round(loai / tong * 100, 1)
   ) %>%
   as.list()
+```
 
 # In thông tin thống kê ra HTML
+```{r}
 summary_text <- glue(
   "### \U0001F4CA BÁO CÁO TÌNH HÌNH SỬ DỤNG CITATION\n\n",
   "- Tổng số mục trong file BibTeX gốc: **{summary_stat$tong}**\n",
@@ -69,8 +70,10 @@ summary_text <- glue(
   "- Tỷ lệ bị loại bỏ: **{summary_stat$tile}%**"
 )
 cat(summary_text)
+```
 
 # Tạo bảng đẹp bằng flextable
+```{r}
 bib_labeled %>%
   select(BIBTEXKEY, AUTHOR, TITLE, YEAR, JOURNAL, STATUS) %>%
   mutate(
@@ -81,6 +84,66 @@ bib_labeled %>%
   flextable() %>%
   set_caption("👶 Danh sách citation và trạng thái sử dụng") %>%
   autofit()
-
 ```
 
+### 📎 Nội dung gốc file BibTeX
+```{r}
+#| results: asis
+#| echo: false
+bib_raw <- readLines(bib_file, encoding = "UTF-8")
+cat("```bibtex\n")
+cat(bib_raw, sep = "\n")
+cat("\n```")
+```
+
+### 📎 Nội dung BibTeX "Đã dùng"
+```{r}
+#| results: asis
+#| echo: false
+bib_used_keys <- bib_labeled %>% filter(STATUS == "Đã dùng") %>% pull(BIBTEXKEY)
+bib_lines <- readLines(bib_file, encoding = "UTF-8")
+entry_starts <- grep("^@", bib_lines)
+entry_ends <- c(entry_starts[-1] - 1, length(bib_lines))
+entries <- mapply(function(start, end) paste(bib_lines[start:end], collapse = "\n"), entry_starts, entry_ends, SIMPLIFY = FALSE)
+used_entries <- Filter(function(entry) any(str_detect(entry, paste0("@.+\\{(", paste(bib_used_keys, collapse = "|"), "),"))), entries)
+cat("```bibtex\n")
+cat(paste(used_entries, collapse = "\n\n"))
+cat("\n```")
+```
+
+### 📎 Nội dung BibTeX "Bị loại"
+```{r}
+#| results: asis
+#| echo: false
+bib_loai_keys <- bib_labeled %>% filter(STATUS == "Bị loại") %>% pull(BIBTEXKEY)
+loai_entries <- Filter(function(entry) any(str_detect(entry, paste0("@.+\\{(", paste(bib_loai_keys, collapse = "|"), "),"))), entries)
+cat("```bibtex\n")
+cat(paste(loai_entries, collapse = "\n\n"))
+cat("\n```")
+```
+
+### 📎 Nội dung toàn bộ BibTeX (đã sắp xếp theo TITLE & cảnh báo trùng key)
+```{r}
+#| results: asis
+#| echo: false
+bib_lines <- readLines(bib_file, encoding = "UTF-8")
+entry_starts <- grep("^@", bib_lines)
+entry_ends <- c(entry_starts[-1] - 1, length(bib_lines))
+entries <- mapply(function(start, end) paste(bib_lines[start:end], collapse = "\n"), entry_starts, entry_ends, SIMPLIFY = FALSE)
+
+keys <- sapply(entries, function(entry) str_match(entry, "@\\w+\\{([^,]+),")[[2]])
+titles <- sapply(entries, function(entry) str_match(entry, "(?i)title\\s*=\\s*[{\"]([^\"}]+)[\"}]")[[2]])
+
+duplicated_keys <- keys[duplicated(keys)]
+if (length(duplicated_keys) > 0) {
+  warning_text <- glue("### ⚠️ Cảnh báo: Có {length(duplicated_keys)} key bị trùng lặp!\n\n",
+                       "- Các key trùng: `{paste(unique(duplicated_keys), collapse = '`, `')}`\n")
+  cat(warning_text)
+}
+
+entries_sorted <- entries[order(tolower(titles))]
+cat("### 📚 TẤT CẢ CÁC MỤC TRONG FILE `.bib` (sắp theo tiêu đề - TITLE)\n\n")
+cat("```bibtex\n")
+cat(paste(entries_sorted, collapse = "\n\n"))
+cat("\n```")
+```

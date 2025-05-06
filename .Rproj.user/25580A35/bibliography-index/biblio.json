@@ -3,6 +3,256 @@
         {
             "author": [
                 {
+                    "literal": "Nguyễn Thanh Bình"
+                },
+                {
+                    "literal": "Lê Thị Ngọc"
+                },
+                {
+                    "literal": "Nguyễn Ngọc Ánh"
+                },
+                {
+                    "literal": "Nguyễn Thị Ánh Nguyệt"
+                },
+                {
+                    "literal": "Nguyễn Quý Phong"
+                },
+                {
+                    "literal": "Nguyễn Thị Phương Anh"
+                },
+                {
+                    "literal": "Nguyễn Lê Hương"
+                },
+                {
+                    "literal": "Lê Minh Hiền"
+                },
+                {
+                    "literal": "Lương Hải Yến"
+                },
+                {
+                    "literal": "Nguyễn Trung Anh"
+                },
+                {
+                    "literal": "Hoàng Mai Phương"
+                }
+            ],
+            "container-title": "Tạp chí Y học Việt Nam",
+            "id": "nguyen2024nhan_thuc",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024,
+                        6
+                    ]
+                ]
+            },
+            "note": "Tệp PDF: tltk_Nguyen%20Thanh%20Binh%20dac%20diem%20nhan%20thuc%20nguoi%20cao%20tuoi.pdf",
+            "title": "Đặc điểm nhận thức của người cao tuổi tại bệnh viện lão khoa trung ương",
+            "type": "article-journal",
+            "volume": "539"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Nguyễn Thị Hạnh"
+                },
+                {
+                    "literal": "Phạm Lan Hương"
+                },
+                {
+                    "literal": "Trần Minh Hòa"
+                }
+            ],
+            "container-title": "Tạp chí Y học Lão khoa Việt Nam",
+            "id": "nguyen2020mmse",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "45-52",
+            "title": "Mối liên hệ giữa MMSE và các test nhận thức trong sàng lọc sa sút trí tuệ ở người cao tuổi tại việt nam",
+            "type": "article-journal",
+            "volume": "6"
+        },
+        {
+            "author": [
+                {
+                    "literal": "Trần Hồng Quân"
+                },
+                {
+                    "literal": "Nguyễn Thị Minh Hương"
+                },
+                {
+                    "literal": "Lê Thị Hạnh"
+                }
+            ],
+            "container-title": "Y học Việt Nam",
+            "id": "tran2021tri_nho",
+            "issue": "2",
+            "issued": {
+                "date-parts": [
+                    [
+                        2021
+                    ]
+                ]
+            },
+            "page": "58-63",
+            "title": "Đánh giá trí nhớ trì hoãn và điểm MMSE ở người cao tuổi có rối loạn nhận thức nhẹ",
+            "type": "article-journal",
+            "volume": "509"
+        },
+        {
+            "DOI": "10.1080/13854049008401594",
+            "author": [
+                {
+                    "family": "RJ",
+                    "given": "Ivnik"
+                },
+                {
+                    "family": "JF",
+                    "given": "Malec"
+                },
+                {
+                    "family": "GE",
+                    "given": "Smith"
+                },
+                {
+                    "family": "EG",
+                    "given": "Tangalos"
+                },
+                {
+                    "family": "RC",
+                    "given": "Peterson"
+                }
+            ],
+            "container-title": "Clin Neuropsychol",
+            "id": "ivnik1990avlt",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        1990
+                    ]
+                ]
+            },
+            "page": "29-41",
+            "title": "Testing normal older adults: Mayo’s older americans normative studies",
+            "title-short": "Testing normal older adults",
+            "type": "article-journal",
+            "volume": "4"
+        },
+        {
+            "DOI": "10.1001/archneur.1994.00540150080013",
+            "author": [
+                {
+                    "family": "KA",
+                    "given": "Welsh"
+                },
+                {
+                    "family": "N",
+                    "given": "Butters"
+                },
+                {
+                    "family": "JP",
+                    "given": "Hughes"
+                },
+                {
+                    "family": "RC",
+                    "given": "Mohs"
+                },
+                {
+                    "family": "A",
+                    "given": "Heyman"
+                }
+            ],
+            "container-title": "Arch Neurol",
+            "id": "welsh1994cerad",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        1994
+                    ]
+                ]
+            },
+            "page": "288-292",
+            "title": "Detection and staging of dementia in alzheimer’s disease: Use of the CERAD neuropsychological battery",
+            "title-short": "Detection and staging of dementia in alzheimer’s disease",
+            "type": "article-journal",
+            "volume": "51"
+        },
+        {
+            "DOI": "10.1212/01.wnl.0000279336.36610.f7",
+            "author": [
+                {
+                    "family": "M",
+                    "given": "Sarazin"
+                },
+                {
+                    "family": "C",
+                    "given": "Berr"
+                },
+                {
+                    "family": "J",
+                    "given": "De Rotrou"
+                },
+                {
+                    "family": "C",
+                    "given": "Fabrigoule"
+                },
+                {
+                    "family": "F",
+                    "given": "Pasquier"
+                },
+                {
+                    "family": "S",
+                    "given": "Legrain"
+                },
+                {
+                    "family": "B",
+                    "given": "Michel"
+                },
+                {
+                    "family": "JP",
+                    "given": "Gonzalez"
+                },
+                {
+                    "family": "M",
+                    "given": "Ceccaldi"
+                },
+                {
+                    "family": "M",
+                    "given": "Puel"
+                },
+                {
+                    "family": "J",
+                    "given": "Touchon"
+                }
+            ],
+            "container-title": "Neurology",
+            "id": "sarazin2007amnestic",
+            "issue": "19",
+            "issued": {
+                "date-parts": [
+                    [
+                        2007
+                    ]
+                ]
+            },
+            "page": "1859-1867",
+            "title": "Amnestic syndrome of the medial temporal type identifies prodromal AD: A longitudinal study",
+            "title-short": "Amnestic syndrome of the medial temporal type identifies prodromal AD",
+            "type": "article-journal",
+            "volume": "69"
+        },
+        {
+            "author": [
+                {
                     "family": "Petersen",
                     "given": "Ronald C."
                 }
@@ -129,6 +379,7 @@
                 ]
             },
             "publisher": "American Psychiatric Publishing",
+            "publisher-place": "Washington, DC",
             "title": "Diagnostic and statistical manual of mental disorders, fifth edition (DSM-5)",
             "type": "book"
         },

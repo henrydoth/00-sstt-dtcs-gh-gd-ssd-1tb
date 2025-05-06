@@ -6,7 +6,7 @@ format:
   html:
     toc: true
     toc-location: right
-    code-fold: true       # bật nút ẩn/hiện mã R
+    code-fold: false       # bật nút ẩn/hiện mã R
     code-summary: "Hiển thị/Rút gọn mã R"  # nhãn nút (có thể tùy chỉnh)
 editor: source
 ---
